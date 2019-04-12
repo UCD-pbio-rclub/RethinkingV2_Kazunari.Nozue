@@ -15,6 +15,8 @@ knitr::opts_chunk$set(echo = TRUE)
 #install_github("rmcelreath/rethinking",ref="Experimental")
 ```
 # Chapter 2
+* J's comment: "Give the data, what is the probablity of our model?" is the right question.
+* data: 6 W out of 9 trials. model: biomial
 ## 2.3. Components of the model
 ```{r}
 ## R code 2.2
@@ -86,7 +88,7 @@ dens( p , xlim=c(0,1) )
 curve( dbeta( x , W+1 , L+1 ) , lty=2 , add=TRUE )
 ```
 # 2.6. Practice
-## 2E1. (2)
+## 2E1. (2) & (4) (= Bayes'? )
 ## 2E2. (3)
 ## 2E3. (1)
 ## 2M1
@@ -179,7 +181,7 @@ mtext( "20 points, observation was LWWLWWW, prior <- ifelse( p_grid < 0.5 , 0 , 
 ```{r 2M3}
 # The Earth globe is 70% covered in water. The Mars globe is 100% land.
 # Show posterior probability that the globe was the Earth Pr(Earth|land)=0.23
-dbinom( 1 , size=2 , prob=0.3*0.5) # size: Earth plus Mars, observation is Earth
+dbinom( 1 , size=2 , prob=0.3*0.5) # size: Earth plus Mars, observation is Earth # this looks wrong.
 ```
 # 2M4
 ```{r 2M4}
@@ -193,3 +195,5 @@ table2<-data.frame(case=1:2^3,card=rep(1:4, each=2),face=c("B1","B2","B","W","W1
 table2
 print("IF heads are B (case1,2,3,7,8), four cases have black in tails, so P(B in tails|B in heads)=4/5")
 ```
+
+# (My own option)
