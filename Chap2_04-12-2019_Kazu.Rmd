@@ -17,6 +17,8 @@ knitr::opts_chunk$set(echo = TRUE)
 # Chapter 2
 * J's comment: "Give the data, what is the probablity of our model?" is the right question.
 * data: 6 W out of 9 trials. model: biomial
+* (MO) Needs to translate 2M5 and 6 into Bayesian way
+
 ## 2.3. Components of the model
 ```{r}
 ## R code 2.2
@@ -200,3 +202,8 @@ print("IF heads are B (case1,2,3,7,8), four cases have black in tails, so P(B in
 ```
 
 # (My own option)
+```{r}
+
+
+
+```

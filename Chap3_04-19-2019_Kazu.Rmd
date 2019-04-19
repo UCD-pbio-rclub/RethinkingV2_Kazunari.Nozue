@@ -1,0 +1,239 @@
+---
+title: "Chap3_04-19-2019_Kazu"
+author: "Kazu"
+date: "4/19/2019"
+output: 
+  html_document: 
+    keep_md: yes
+editor_options: 
+  chunk_output_type: console
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#install.packages(c("devtools","mvtnorm","loo","coda"),dependencies=TRUE)
+#library(devtools)
+#install_github("rmcelreath/rethinking",ref="Experimental")
+```
+# Chapter 3 Sampling the Imaginary
+```{r Rcode 3.1}
+Pr_Positive_Vampire <- 0.95
+Pr_Positive_Mortal <- 0.01
+Pr_Vampire <- 0.001
+Pr_Positive <- Pr_Positive_Vampire * Pr_Vampire +
+               Pr_Positive_Mortal * ( 1 - Pr_Vampire )
+( Pr_Vampire_Positive <- Pr_Positive_Vampire*Pr_Vampire / Pr_Positive )
+```
+# 3.1. Sampling from a grid-approximate posterior
+```{r R code 3.2}
+p_grid <- seq( from=0 , to=1 , length.out=1000 )
+prob_p <- rep( 1 , 1000 )
+prob_data <- dbinom( 6 , size=9 , prob=p_grid )
+posterior <- prob_data * prob_p
+posterior <- posterior / sum(posterior)
+```
+```{r R code 3.3}
+samples <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE )
+```
+```{r R code 3.4}
+plot( samples )
+```
+
+```{r R code 3.5}
+library(rethinking)
+dens( samples )
+```
+# 3.2. Sampling to summarize
+```{r R code 3.6}
+ # add up posterior probability where p < 0.5
+sum( posterior[ p_grid < 0.5 ] )
+```
+
+```{r R code 3.7}
+sum( samples < 0.5 ) / 1e4
+```
+
+```{r R code 3.8}
+sum( samples > 0.5 & samples < 0.75 ) / 1e4
+```
+
+```{r R code 3.9}
+quantile( samples , 0.8 )
+```
+
+```{r R code 3.10}
+quantile( samples , c( 0.1 , 0.9 ) )
+```
+
+```{r R code 3.11}
+p_grid <- seq( from=0 , to=1 , length.out=1000 )
+prior <- rep(1,1000)
+likelihood <- dbinom( 3 , size=3 , prob=p_grid )
+posterior <- likelihood * prior
+posterior <- posterior / sum(posterior)
+samples <- sample( p_grid , size=1e4 , replace=TRUE , prob=posterior )
+```
+
+```{r R code 3.12}
+ PI( samples , prob=0.5 )
+```
+
+```{r R code 3.13}
+HPDI( samples , prob=0.5 )
+```
+# point estimates
+```{r R code 3.14}
+ p_grid[ which.max(posterior) ]
+```
+```{r R code 3.15}
+ chainmode( samples , adj=0.01 )
+```
+
+```{r R code 3.16}
+mean( samples )
+median( samples )
+```
+
+```{r R code 3.17}
+sum( posterior*abs( 0.5 - p_grid ) )
+```
+```{r R code 3.18}
+ loss <- sapply( p_grid , function(d) sum( posterior*abs( d - p_grid ) ) )
+```
+
+```{r R code 3.19}
+ p_grid[ which.min(loss) ]
+```
+
+# 3.3. Samplingtosimulateprediction
+```{r R code 3.20}
+ dbinom( 0:2 , size=2 , prob=0.7 )
+```
+
+```{r R code 3.21}
+rbinom( 1 , size=2 , prob=0.7 )
+```
+
+```{r R code 3.22}
+ rbinom( 10 , size=2 , prob=0.7 )
+```
+
+```{r R code 3.23}
+dummy_w <- rbinom( 1e5 , size=2 , prob=0.7 )
+table(dummy_w)/1e5
+```
+
+```{r R code 3.24}
+dummy_w <- rbinom( 1e5 , size=9 , prob=0.7 )
+simplehist( dummy_w , xlab="dummy water count" )
+```
+
+```{r R code 3.25}
+ w <- rbinom( 1e4 , size=9 , prob=0.6 )
+```
+
+```{r R code 3.26}
+ w <- rbinom( 1e4 , size=9 , prob=samples )
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+
+
+# 3.4. Summary
+
+# 3.5 Practice
+Easy. Theseproblemsusethesamplesfromtheposteriordistributionfortheglobetossingexample. 
+```{r}
+p_grid <- seq( from=0 , to=1 , length.out=1000 )
+prior <- rep( 1 , 1000 )
+likelihood <- dbinom( 6 , size=9 , prob=p_grid )
+posterior <- likelihood * prior
+posterior <- posterior / sum(posterior)
+set.seed(100)
+samples <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE )
+```
+This code will give you a specific set of samples, so that you can check your answers exactly.
+Use the values in samples to answer the questions that follow.
+3E1. How much posterior probability lies below p = 0.2?
+```{r}
+library(rethinking)
+sample( p_grid , prob=posterior , size=10 , replace=TRUE ) # what is size?
+dens(samples)
+sum(samples[samples<0.2])/1e4 # divide the resulting count by the total number of samples (pg 54)
+```
+3E2. How much posterior probability lies above p = 0.8?
+```{r}
+sum(samples[samples>0.8])/1e4 # divide the resulting count by the total number of samples
+```
+3E3. How much posterior probability lies between p = 0.2 and p = 0.8? 3E4. 20% of the posterior probability lies below which value of p?
+```{r}
+sum(samples[samples>0.2 & samples<0.8])/1e4
+```
+
+3E5. 20% of the posterior probability lies above which value of p?
+```{r}
+quantile(samples,0.8)
+```
+3E6. Which values of p contain the narrowest interval equal to 66% of the posterior probability?
+```{r}
+ HPDI( samples , prob=0.66 )
+```
+3E7. Which values of p contain 66% of the posterior probability, assuming equal posterior probability both below and above the interval?
+```{r}
+PI(samples,prob=0.66)
+```
+
+3M1 Suppose the globe tossing data had turned out to be 8 water in 15 tosses. Construct the posterior distribution, using grid approximation. Use the same flat prior as before.
+```{r}
+p_grid <- seq( from=0 , to=1 , length.out=1000 )
+prior <- rep( 1 , 1000 )
+likelihood <- dbinom( 8 , size=15 , prob=p_grid ) # change this
+posterior <- likelihood * prior
+posterior <- posterior / sum(posterior)
+set.seed(100)
+samples <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE )
+dens(samples)
+```
+
+3M2 Draw 10,000 samples from the grid approximation from above. Then use the samples to calculate the 90% HPDI for p.
+```{r}
+samples <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE )
+dens(samples)
+HPDI(samples,0.9)
+```
+
+3M3 Construct a posterior predictive check for this model and data. This means simulate the distribution of samples, averaging over the posterior uncertainty in p. What is the probability of observing 8 water in 15 tosses?
+```{r}
+# learning rbinom funciton
+rbinom( 10 , size=15 , prob=0.6 )
+# 1e4 trials as did in R code 3.25
+ w <- rbinom( 1e4 , size=15 , prob=0.6 ) # why prob=0.6?
+# use 
+ w2 <- rbinom( 1e4 , size=15 , prob=samples ) # length of "n" shoudl be same as one of prob?
+ rbinom( 1e3 , size=15 , prob=samples ) # no
+ table(w2)/1e4 # 0.1486
+ simplehist(w2)
+```
+3M4 Using the posterior distribution constructed from the new (8/15) data, now calculate the probability of observing 6 water in 9 tosses.
+```{r error=TRUE}
+p_grid.3M4 <- seq( from=0 , to=1 , length.out=10000)
+likelihood <- dbinom(6 , size=9 , prob=samples) # 
+posterior <- likelihood * prior
+posterior <- posterior / sum(posterior)
+set.seed(100)
+samples.3M4 <- sample( p_grid.3M4, prob=posterior , size=1e4 , replace=TRUE )
+dens(samples.3M4)
+
+table.3M4<-table(rbinom(1e4,size=9,samples.3M4))
+table.3M4/1e4
+# 0.0996 for 6 water in 9 toss
+ simplehist(table.3M4)
+```
+
+
