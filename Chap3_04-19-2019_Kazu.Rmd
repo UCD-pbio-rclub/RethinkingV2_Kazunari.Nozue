@@ -34,6 +34,16 @@ posterior <- posterior / sum(posterior)
 ```{r R code 3.3}
 samples <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE )
 ```
+# Kazu's note on sample() at Rclub
+```{r}
+# normal sampling scirpt (equal probability)
+sample(10,10)
+# probability of each number is different (J's cript)
+sample(10,10,replace=TRUE,prob=c(10,rep(1,9)))
+# Youd do not need to sample numbers, but alphabet letters.
+sample(c("A","B","C","D","E","F","G","H","I","J"),10,replace=TRUE,prob=c(10,rep(1,9)))
+```
+
 ```{r R code 3.4}
 plot( samples )
 ```
@@ -143,8 +153,6 @@ simplehist( dummy_w , xlab="dummy water count" )
 
 ```
 
-
-
 # 3.4. Summary
 
 # 3.5 Practice
@@ -196,9 +204,7 @@ prior <- rep( 1 , 1000 )
 likelihood <- dbinom( 8 , size=15 , prob=p_grid ) # change this
 posterior <- likelihood * prior
 posterior <- posterior / sum(posterior)
-set.seed(100)
-samples <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE )
-dens(samples)
+plot(posterior)
 ```
 
 3M2 Draw 10,000 samples from the grid approximation from above. Then use the samples to calculate the 90% HPDI for p.
@@ -207,7 +213,6 @@ samples <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE )
 dens(samples)
 HPDI(samples,0.9)
 ```
-
 3M3 Construct a posterior predictive check for this model and data. This means simulate the distribution of samples, averaging over the posterior uncertainty in p. What is the probability of observing 8 water in 15 tosses?
 ```{r}
 # learning rbinom funciton
@@ -236,4 +241,72 @@ table.3M4/1e4
  simplehist(table.3M4)
 ```
 
+3H1
+```{r}
+## R code 3.28
+# data: gender (male=1, female=0)
+birth1 <- c(1,0,0,0,1,1,0,1,0,1,0,0,1,1,0,1,1,0,0,0,1,0,0,0,1,0,
+0,0,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1,0,1,0,0,1,1,0,1,0,0,0,0,0,0,0,
+1,1,0,1,0,0,1,0,0,0,1,0,0,1,1,1,1,0,1,0,1,1,1,1,1,0,0,1,0,1,1,0,
+1,0,1,1,1,0,1,1,1,1) # first born from 100 two-child familes
+birth2 <- c(0,1,0,1,0,1,1,1,0,0,1,1,1,1,1,0,0,1,1,1,0,0,1,1,1,0,
+1,1,1,0,1,1,1,0,1,0,0,1,1,1,1,0,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,0,1,1,0,1,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,1,0,0,1,1,
+0,0,0,1,1,1,0,0,0,0) # sedonc born from 100 two-child familes
+library(rethinking)
+data(homeworkch3)
+sum(birth1) + sum(birth2) # total number of boy
+```
+## 3H1. Using grid approximation, compute the posterior distribution for the probability of a birth being a boy. Assume a uniform prior probability. Which parameter value maximizes the posterior probability?
+```{r}
+p_grid<-seq(from=0,to=1,length.out=1000) # 1000 grid points
+prior <- rep(1,1000 ) # flat prior
+boy<-sum(birth1)+sum(birth2)
+likelihood3H1 <- dbinom(boy, size=200 , prob=p_grid ) # total is 200 children
+posterior3H1 <- likelihood3H1 * prior 
+posterior3H1 <- posterior3H1 / sum(posterior3H1)
+plot(posterior3H1)
+p_grid[which.max(posterior3H1)] # 0.5545546
+```
+## 3H2. Using the sample funciton, draw 10,000 random parameter values from the posterior distribution you calculated above. Use these samples to estimate the 50%, 89%, and 97% highest posterior density intervals.
+```{r}
+samples3H1 <- sample( p_grid , prob=posterior3H1 , size=1e4 , replace=TRUE ) 
+hist(samples3H1);dens(samples3H1)
+HPDI(samples3H1,prob=0.5) # 0.5275275 0.5735736
+HPDI(samples3H1,prob=0.89) # 0.4974975 0.6076076
+HPDI(samples3H1,prob=0.97) # 0.4974975 0.6076076
+```
+## 3H3. Use rbinom to simulate 10,000 replicates of 200 births. You should end up with 10,000 numbers, each one a count of boys out of 200 births. Compare the distribution of predicted numbers of boys to the actual count in the data (111 boys out of 200 births). There are many good ways to visualize the simulations, but the dens command is probably the easiest way in this case. Does it look like the model fits the data well? That is, does the distribution of predictions include the actual observation as a central, likely outcome?
+```{r}
+dummy_boy<-rbinom(10000,size=200,prob=samples3H1)
+dens(dummy_boy,main="dummy_boy",xlim=c(0,200))
+abline(v=111);text(x=150,y=0.03,"111 boys");text(x=150,y=0.025,"out of 200 borns")
+```
+# 
+## 3H4. Now compare 10,000 counts of boys from 100 simulated first borns only ot hte number of boys in the first birth, birth1. How does the model look in this light?
+```{r}
+dummy_boy<rbinom(10000,size=100,prob=samples3H1)
+
+dens(dummy_boy,main="dummy_boy",xlim=c(0,200))
+abline(v=sum(birth1)*2,col="blue");text(x=60,y=0.03,paste(sum(birth1),"boys"),col="blue");text(x=60,y=0.025, "out of first 100 borns",col="blue") # birth1 is off centered
+```
+## 3H5. The model assumes that sex of first and second births are independent. To check this assumption, focus now on second births that followed female first borns. Compare 10,000 simulated counts of boys to only those second births that followed girls. To do this correctly, you need to count the number of first borns who were girls and simulate the many births, 10,000 times. Compare the counts of boys in your simulations to the actual observed count of boys following girls. How does the model look in this light? Any guesses what is going on in these data?
+```{r}
+##### I think something is wrong #######
+birth1F.birth2<-birth2[!birth1==0] # something is wrong. This has to have length 100.
+
+p_grid<-seq(from=0,to=1,length.out=1000)
+prior <- rep(1,1000 ) # flat prior
+#boy<-sum(birth1)+sum(birth2)
+likelihood3H5 <- dbinom(sum(birth1F.birth2), size=length(birth1F.birth2) , prob=p_grid )
+posterior3H5 <- likelihood3H5 * prior
+posterior3H5 <- posterior3H5 / sum(posterior3H5)
+plot(posterior3H5)
+p_grid[which.max(posterior3H5)] # 0.4114114
+samples3H5 <- sample( p_grid , prob=posterior3H5 , size=1e5 , replace=TRUE ) 
+dummy_boy.3H5<-rbinom(10000,size=200,prob=samples3H5)
+# draw density plots
+dens(dummy_boy,xlim=c(0,200),lty=1)
+dens(dummy_boy.3H5,main="dummy_boy.3H5",lty=2,add=T) 
+```
 
