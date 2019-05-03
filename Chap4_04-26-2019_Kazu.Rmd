@@ -661,7 +661,7 @@ data.4H1<-data.frame(weight=c(46.95,43.72,64.78,32.59,54.63))
 # data.4H1$height<-1.5*data.4H1$weight + 30 # assumption (prior)
 
 library(rethinking)
-data(Howell1)
+data(Howell1) # 
 d <- Howell1
 
 
@@ -671,7 +671,7 @@ xbar<-mean(d$weight)
 list.4H1 <- alist(
     height ~ dnorm( mu , sigma ),
     mu<- a + b*(weight-xbar),
-        a ~ dnorm( 100 , 20 ) ,
+        a ~ dnorm( 178 , 20 ) ,
         b ~ dlnorm( 0 , 1 ) ,
     sigma ~ dunif( 0 , 30 )
 )
