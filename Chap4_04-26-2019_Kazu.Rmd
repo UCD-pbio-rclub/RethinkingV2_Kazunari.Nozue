@@ -585,13 +585,35 @@ list.4M2 <- alist(
     mu ~ dnorm(0 , 10 ),
     sigma ~ dunif(0, 10)
 )
-m.4M2 <- quap(list.4M2 , data=data.frame(yi=prior_y),start=list(mu=0,sigma=5))
+m.4M2 <- quap(list.4M2 , data=data.frame(yi=prior_y))
+
+m.4M2 <- quap(list.4M2 , data=data.frame(yi=prior_y),start=list(mu=0,sigma=0.1))
+yi<-d2$height
+m.4M2 <- quap(list.4M2 , data=data.frame(yi))
+# 
+d3<-data.frame(yi=prior_y)
+m.4M2 <- quap(list.4M2 , data=d3,start=list(mu=0,sigma=0.1))
+# 
+d4<-data.frame(yi=prior_y+abs(min(prior_y)))
+d4
+m.4M2 <- quap(list.4M2 , data=d4)
+
 # errors! 
 precis( m.4M2 )
 
+# 
+list.4M2.b <- alist(
+    yi ~ dnorm(mu , sigma) ,
+    mu ~ dnorm(0 , 10 ),
+    sigma ~ dunif(0, 15)
+) # simulated data prior_y has larger sigma than 10, so giving zero in sigma in thi prior. Change sigma to duni(0,15) should work
+m.4M2.b <- quap(list.4M2.b , data=data.frame(yi=prior_y)) #?
+precis( prior_y )
+precis(m.4M2.b)
+
 ```
 # 4M3
-Translate the quap model formula below into a mathematical model definition.
+Translate the quap model formula below into a mathematical model definition. ## see Juli's code for mathematical equation in Rmarkdown
 ```{r}
 flist <- alist(
     y ~ dnorm( mu , sigma ),
@@ -613,6 +635,27 @@ beta ~ Uniform(0,10)
 
 sigma ~ Uniform(0,50)
 
+# 4M4 A sample of students is measured for height each year for 3 years.After the third year,you want to fit a linear regression predicting height using year as a predictor. Write down the mathematical model definition for this regression, using any variable names and priors you choose. Be prepared to defend your choice of priors.
+```{r}
+Hight.i~Normal(mu.i,sigma)
+mu.i ~ alpha + beta*(year.i-year.first)
+alpha ~ Normal(Hight.prior,alpha.prior) # Hight.prior, 1st year average height calculated from prior;alpha.prior is calculated from three year data
+beta ~Normal(beta.prior,1)
+sigma~Uniform(0,50) # OK?
+```
+# 4M5. Now suppose I tell you that the average height in the first year was 120 cm and that every student got taller each year. Does this information lead you to change your choice of priors? How?
+```{r}
+# Hight.prior = 120 cm
+# beta >0
 
+```
+# 4M6. Now suppose I tell you that the variance among heights for students of the same age is never more than 64cm. How does this lead you to revise your priors?
+```{r}
 
+```
+
+# 4H1. The weights listed be low were recorded in the !Kung census,but heights were not recorded for these individuals. Provide predicted heights and 89% intervals (either HPDI or PI) for each of these individuals. That is, fill in the table below, using model-based predictions.
+```{r}
+
+```
 
