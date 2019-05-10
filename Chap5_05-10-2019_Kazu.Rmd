@@ -616,8 +616,8 @@ shade( mu_PI , xseq2 )
 ```
 
 5H2 Now fit a multiple linear regression with weight as the outcome and both area and group size as predictor variables. Plot the predictions of the model for each predictor, holding the other predictor constant at its mean. What does this model say about the importance of each variable? Why do you get different results than you got in the exercise just above?
-```{r}
-practice.5H1.2 <- quap(
+```{r error=TRUE}
+practice.5H2 <- quap(
     alist(
         weight ~ dnorm( mu , sigma ) ,
         mu <- a + bG*groupsize + bA*area,
@@ -627,6 +627,16 @@ practice.5H1.2 <- quap(
         sigma ~ dexp( 1 )
     ) , data=foxes )
 precis(practice.5H2)
+##### under construction #### 
+## plot for groupsize (see R code 5.27)
+xseq2 <- seq( from=min(foxes$groupsize)-0.15 , to=max(foxes$groupsize)+0.15 , length.out=30 )
+
+mu <- link( practice.5H2 , data=list(groupsize=xseq2) ) # how to use?
+mu_mean <- apply(mu,2,mean)
+mu_PI <- apply(mu,2,function(x) PI(x,prob=0.95))
+plot( weight ~ groupsize , data=foxes ,main="weight~groupsize") # line does not fit... something is wrong
+lines( xseq2 , mu_mean , lwd=2 )
+shade( mu_PI , xseq2 )
 
 ```
 
