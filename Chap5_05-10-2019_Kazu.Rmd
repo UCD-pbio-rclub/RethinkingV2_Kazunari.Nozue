@@ -1,0 +1,593 @@
+---
+title: "Chap5_05_10_Kazu"
+author: "Kazu"
+date: "5/7/2019"
+output: 
+  html_document: 
+    keep_md: yes
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=TRUE)
+#install.packages(c("devtools","mvtnorm","loo","coda"),dependencies=TRUE)
+#library(devtools)
+#install_github("rmcelreath/rethinking",ref="Experimental")
+library(rethinking)
+library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
+```
+
+# R code 5.1
+```{r}
+# load data and copy
+library(rethinking)
+data(WaffleDivorce)
+d <- WaffleDivorce
+# standardize variables
+d$A <- scale( d$MedianAgeMarriage )
+d$D <- scale( d$Divorce )
+```
+
+# R code 5.2
+```{r}
+ sd( d$MedianAgeMarriage )
+```
+
+# R code 5.3
+```{r}
+m5.1 <- quap(
+    alist(
+        D ~ dnorm( mu , sigma ) ,
+        mu <- a + bA * A ,
+        a ~ dnorm( 0 , 0.2 ) ,
+        bA ~ dnorm( 0 , 0.5 ) ,
+        sigma ~ dexp( 1 )
+) , data = d )
+```
+
+# R code 5.4
+```{r}
+set.seed(10)
+prior <- extract.prior( m5.1 )
+mu <- link( m5.1 , post=prior , data=list( A=c(-2,2) ) )
+plot( NULL , xlim=c(-2,2) , ylim=c(-2,2) )
+for ( i in 1:50 ) lines( c(-2,2) , mu[i,] , col=col.alpha("black",0.4) )
+```
+
+# R code 5.5
+```{r}
+# compute percentile interval of mean
+A_seq <- seq( from=-3 , to=3.2 , length.out=30 )
+mu <- link( m5.1 , data=list(A=A_seq) )
+mu.mean <- apply( mu , 2, mean )
+mu.PI <- apply( mu , 2 , PI )
+# plot it all
+plot( D ~ A , data=d , col=rangi2 )
+lines( A_seq , mu.mean , lwd=2 )
+shade( mu.PI , A_seq )
+```
+
+# R code 5.6
+```{r}
+d$M <- scale( d$Marriage )
+m5.2 <- quap(
+    alist(
+        D ~ dnorm( mu , sigma ) ,
+        mu <- a + bM * M ,
+        a ~ dnorm( 0 , 0.2 ) ,
+        bM ~ dnorm( 0 , 0.5 ) ,
+        sigma ~ dexp( 1 )
+) , data = d )
+```
+
+5.1.1. Think before you regress. 
+*DAG: Directed acyclic graph*
+# R code 5.7
+```{r}
+install.packages('dagitty')
+library(dagitty)
+dag5.1 <- dagitty( "dag {
+    A -> D
+    A -> M
+    M -> D
+}")
+coordinates(dag5.1) <- list( x=c(A=0,D=1,M=2) , y=c(A=0,D=1,M=0) )
+plot( dag5.1 )
+```
+
+5.1.2. Multiple regression notation. 
+5.1.3. Approximating the posterior.
+# R code 5.8
+```{r}
+m5.3 <- quap(
+    alist(
+        D ~ dnorm( mu , sigma ) ,
+        mu <- a + bM*M + bA*A ,
+        a ~ dnorm( 0 , 0.2 ) ,
+        bM ~ dnorm( 0 , 0.5 ) ,
+        bA ~ dnorm( 0 , 0.5 ) ,
+        sigma ~ dexp( 1 )
+    ) , data = d )
+precis( m5.3 )
+
+```
+# R code 5.9
+```{r}
+plot( coeftab(m5.1,m5.2,m5.3), par=c("bA","bM") )
+```
+# R code 5.10
+```{r}
+N <- 50 # number of simulated States 
+age <- rnorm( N ) # sim A 
+mar<-rnorm(N,age) #simA->M 
+div<-rnorm(N,age) #simA->D
+```
+# 5.1.4. Plotting multi variate posteriors. 
+# 5.1.4.1. Predictor residual plots.
+# R code 5.11
+```{r}
+m5.4 <- quap(
+    alist(
+        M ~ dnorm( mu , sigma ) ,
+        mu <- a + bAM * A ,
+        a ~ dnorm( 0 , 0.2 ) ,
+        bAM ~ dnorm( 0 , 0.5 ) ,
+        sigma ~ dexp( 1 )
+) , data = d )
+```
+# R code 5.12
+```{r}
+mu <- link(m5.4)
+mu_mean <- apply( mu , 2 , mean )
+mu_resid <- d$M - mu_mean
+```
+5.1.4.2. Counterfactual plots.
+# R code 5.13
+```{r}
+# prepare new counterfactual data
+M_seq <- seq( from=-2 , to=3 , length.out=30 )
+pred_data <- data.frame( M = M_seq , A = 0 )
+# compute counterfactual mean divorce (mu)
+mu <- link( m5.3 , data=pred_data )
+mu_mean <- apply( mu , 2 , mean )
+mu_PI <- apply( mu , 2 , PI )
+# simulate counterfactual divorce outcomes
+D_sim <- sim( m5.3 , data=pred_data , n=1e4 )
+D_PI <- apply( D_sim , 2 , PI )
+# display predictions, hiding raw data with type="n"
+plot( D ~ M , data=d , type="n" )
+mtext( "Median age marriage (std) = 0" )
+lines( M_seq , mu_mean )
+shade( mu_PI , M_seq )
+shade( D_PI , M_seq )
+```
+
+5.1.4.3. Posterior prediction plots.
+# R code 5.14
+```{r}
+# call link without specifying new data
+# so it uses original data
+mu <- link( m5.3 )
+# summarize samples across cases
+mu_mean <- apply( mu , 2 , mean )
+mu_PI <- apply( mu , 2 , PI )
+# simulate observations
+# again no new data, so uses original data
+D_sim <- sim( m5.3 , n=1e4 )
+D_PI <- apply( D_sim , 2 , PI )
+```
+# R code 5.15
+```{r}
+plot( mu_mean ~ d$D , col=rangi2 , ylim=range(mu_PI) ,
+    xlab="Observed divorce" , ylab="Predicted divorce" )
+abline( a=0 , b=1 , lty=2 )
+for ( i in 1:nrow(d) ) lines( rep(d$D[i],2) , mu_PI[,i] , col=rangi2 )
+```
+
+# R code 5.16 (for interactive labeling of the plot!)
+```{r}
+ identify( x=d$D , y=mu_mean , labels=d$Loc )
+```
+
+Overthinking: Simulating spurious association.
+# R code 5.17
+```{r}
+N <- 100                         # Number of cases
+x_real <- rnorm( N )             # x_real as Gaussian with mean 0 and stddev 1
+x_spur <- rnorm( N , x_real )    # x_spur as Gaussian with mean=x_real
+y <- rnorm( N , x_real )         # y as Gaussian with mean=x_real
+d <- data.frame(y,x_real,x_spur) # bind all together in data frame
+```
+
+5.2. Masked relationship
+Larger brain vs energetic milk
+# R code 5.18
+```{r}
+library(rethinking)
+data(milk)
+d <- milk
+str(d)
+# kcal.per.g : Kilocalories of energy per gram of milk.
+# mass : Average female body mass, in kilograms.
+# neocortex.perc : The percent of total brain mass that is neocortex mass.
+```
+# R code 5.19
+```{r}
+d$K <- scale( d$kcal.per.g )
+d$N <- scale( d$neocortex.perc )
+d$M <- scale( log(d$mass) )
+```
+# R code 5.20
+```{r error =TRUE}
+m5.5_draft <- quap(
+    alist(
+        K ~ dnorm( mu , sigma ) ,
+        mu <- a + bN*N ,
+        a ~ dnorm( 0 , 1 ) ,
+        bN ~ dnorm( 0 , 1 ) ,
+        sigma ~ dexp( 1 )
+) , data=d )
+```
+* What has gone wrong here? This particular error message means that the model didn’t return a valid probability for even the starting parameter values. In this case, the culprit is the missing values in the N variable. Take a look inside the original variable and see for yourself:
+# R code 5.21
+```{r}
+d$neocortex.perc
+```
+Each NA in the output is a missing value. If you pass a vector like this to a likelihood func- tion like dnorm, it doesn’t know what to do. After all, what’s the probability of a missing value? Whatever the answer, it isn’t a number, and so dnorm returns a NaN. Unable to even get started, quap (or rather optim, which does the real work) gives up and barks about some weird thing called vmmin not being finite. This kind of opaque error message is unfortunately the norm in R. The additional part of the message suggesting NA values might be responsible is just quap taking a guess.
+This is easy to fix. What you need to do here is manually drop all the cases with missing values. More automated black-box commands, like lm and glm, will drop such cases for you. But this isn’t always a good thing, if you aren’t aware of it. In a later chapter (Chapter ??), you’ll see one reason why. Please indulge me for now. It’s worth learning how to do this yourself. To make a new data frame with only complete cases in it, just use:
+# R code 5.22
+```{r}
+ dcc <- d[ complete.cases(d$K,d$N,d$M) , ]
+```
+This makes a new data frame, dcc, that consists of the 17 rows from d that have values in all columns. Now let’s work with the new data frame. All that is new in the code is using dcc instead of d:
+# R code 5.23
+```{r}
+m5.5_draft <- quap(
+    alist(
+        K ~ dnorm( mu , sigma ) ,
+        mu <- a + bN*N ,
+        a ~ dnorm( 0 , 1 ) ,
+        bN ~ dnorm( 0 , 1 ) ,
+        sigma ~ dexp( 1 )
+) , data=dcc )
+```
+let’s consider those priors
+# R code 5.24
+```{r}
+prior <- extract.prior( m5.5_draft )
+xseq <- c(-2,2)
+mu <- link( m5.5_draft , post=prior , data=list(N=xseq) )
+plot( NULL , xlim=xseq , ylim=xseq )
+for ( i in 1:50 ) lines( xseq , mu[i,] , col=col.alpha("black",0.3) )
+```
+As in previous examples, we can do better by both tightening the α prior so that it sticks closer to zero. With two standardized variables, when predictor is zero, the expected value of the outcome should also be zero. And the slope βN needs to be a bit tighter as well, so that it doesn’t regularly produce impossibly strong relationships. Here’s an attempt:
+# R code 5.25
+```{r}
+m5.5 <- quap(
+    alist(
+        K ~ dnorm( mu , sigma ) ,
+        mu <- a + bN*N ,
+        a ~ dnorm( 0 , 0.2 ) ,
+        bN ~ dnorm( 0 , 0.5 ) ,
+        sigma ~ dexp( 1 )
+) , data=dcc )
+```
+Look at the posterior:
+# R code 5.26
+```{r}
+ precis( m5.5 )
+?precis # Displays concise parameter estimate information for an existing model fit. (see R code 4.10, R code 4.29)
+```
+# R code 5.27
+```{r}
+xseq <- seq( from=min(dcc$N)-0.15 , to=max(dcc$N)+0.15 , length.out=30 )
+mu <- link( m5.5 , data=list(N=xseq) ) # look "link()"
+mu_mean <- apply(mu,2,mean)
+mu_PI <- apply(mu,2,PI)
+plot( K ~ N , data=dcc )
+lines( xseq , mu_mean , lwd=2 )
+shade( mu_PI , xseq )
+```
+Now consider another predictor variable, adult female body mass
+# R code 5.28
+```{r}
+m5.6 <- quap(
+    alist(
+        K ~ dnorm( mu , sigma ) ,
+        mu <- a + bM*M ,
+        a ~ dnorm( 0 , 0.2 ) ,
+        bM ~ dnorm( 0 , 0.5 ) ,
+        sigma ~ dexp( 1 )
+    ) , data=dcc )
+precis(m5.6)
+```
+both predictor variables at the same time
+# R code 5.29
+```{r}
+m5.7 <- quap(
+    alist(
+        K ~ dnorm( mu , sigma ) ,
+        mu <- a + bN*N + bM*M ,
+        a ~ dnorm( 0 , 0.2 ) ,
+        bN ~ dnorm( 0 , 0.5 ) ,
+        bM ~ dnorm( 0 , 0.5 ) ,
+        sigma ~ dexp( 1 )
+    ) , data=dcc )
+precis(m5.7)
+```
+
+Visually comparing this posterior to those of the previous two models helps:
+# R code 5.30
+```{r}
+plot( coeftab( m5.5 , m5.6 , m5.7 ) , pars=c("bM","bN") )
+pairs(~K+M+N,dcc)
+```
+counterfactual plots
+# R code 5.31
+```{r}
+xseq <- seq( from=min(dcc$M)-0.15 , to=max(dcc$M)+0.15 , length.out=30 )
+mu <- link( m5.7 , data=data.frame( M=xseq , N=0 ) )
+mu_mean <- apply(mu,2,mean)
+mu_PI <- apply(mu,2,PI)
+plot( NULL , xlim=range(dcc$M) , ylim=range(dcc$K) )
+lines( xseq , mu_mean , lwd=2 )
+shade( mu_PI , xseq )
+```
+Overthinking: Simulating a masking relationship.
+# R code 5.32
+Just as with understanding spurious association (page 140), it may help to simulate data in which two meaningful predictors act to mask one another. In the previous section, I showed three DAGs consistent with this. To simulate data consistent with the first DAG:
+```{r}
+# M -> K <- N
+# M -> N
+n <- 100
+M <- rnorm( n )
+N <- rnorm( n , M )
+K <- rnorm( n , N - M )
+d_sim <- data.frame(K=K,N=N,M=M)
+```
+You can quickly see the masking pattern of inferences by replacing dcc with d_sim in models m5.5, m5.6, and m5.7. Look at the precis summaries and you’ll see the same masking pattern where the slopes become more extreme in m5.7. 
+# KN's code 5.32plus1
+```{r}
+m5.5.d_sim <- quap(
+    alist(
+        K ~ dnorm( mu , sigma ) ,
+        mu <- a + bN*N ,
+        a ~ dnorm( 0 , 0.2 ) ,
+        bN ~ dnorm( 0 , 0.5 ) ,
+        sigma ~ dexp( 1 )
+) , data=d_sim )
+precis(m5.5.d_sim)
+# compare m5.5 and m5.5.s_sim
+plot( coeftab( m5.5 , m5.5.d_sim ) , pars="bN" )
+```
+
+
+
+
+The other two DAGs can be simulated like this:
+# R code 5.33
+```{r}
+# M -> K <- N
+# N -> M
+n <- 100
+N <- rnorm( n )
+M <- rnorm( n , N )
+K <- rnorm( n , N - M )
+d_sim2 <- data.frame(K=K,N=N,M=M)
+# M -> K <- N
+# M <- U -> N
+n <- 100
+U <- rnorm( n )
+N <- rnorm( n , U )
+M <- rnorm( n , U )
+K <- rnorm( n , N - M )
+d_sim3 <- data.frame(K=K,N=N,M=M)
+```
+
+5.3. Categoricalvariables
+5.3.1. Binary categories.
+# R code 5.34
+```{r}
+data(Howell1)
+d <- Howell1
+str(d)
+```
+
+# R code 5.35: dummy variable
+```{r}
+mu_female <- rnorm(1e4,178,20)
+mu_male <- rnorm(1e4,178,20) + rnorm(1e4,0,10)
+precis( data.frame( mu_female , mu_male ) )
+```
+# R code 5.36: index variable
+```{r}
+d$sex <- ifelse( d$male==1 , 2 , 1 )
+str( d$sex )
+```
+# R code 5.37
+```{r}
+m5.8 <- quap(
+    alist(
+        height ~ dnorm( mu , sigma ) ,
+        mu <- a[sex] ,
+        a[sex] ~ dnorm( 178 , 20 ) ,
+        sigma ~ dunif( 0 , 50 )
+    ) , data=d )
+precis( m5.8 , depth=2 )
+```
+# R code 5.38
+```{r}
+post <- extract.samples(m5.8)
+post$diff_fm <- post$a[,1] - post$a[,2]
+precis( post , depth=2 )
+```
+5.3.2. Many categories.
+# R code 5.39
+```{r}
+data(milk)
+d <- milk
+unique(d$clade)
+```
+# R code 5.40
+```{r}
+d$clade_id <- as.integer( d$clade )
+```
+# R code 5.41
+```{r}
+d$K <- scale( d$kcal.per.g )
+m5.9 <- quap(
+    alist(
+        K ~ dnorm( mu , sigma ),
+        mu <- a[clade_id],
+        a[clade_id] ~ dnorm( 0 , 0.5 ),
+        sigma ~ dexp( 1 )
+    ) , data=d )
+labels <- paste( "a[" , 1:4 , "]:" , levels(d$clade) , sep="" )
+plot( precis( m5.9 , depth=2 , pars="a" ) , labels=labels ,
+    xlab="expected kcal (std)" )
+```
+# R code 5.42
+```{r}
+set.seed(63)
+d$house <- sample( rep(1:4,each=8) , size=nrow(d) )
+```
+# R code 5.43
+```{r}
+m5.10 <- quap(
+    alist(
+        K ~ dnorm( mu , sigma ),
+        mu <- a[clade_id] + h[house],
+        a[clade_id] ~ dnorm( 0 , 0.5 ),
+        h[house] ~ dnorm( 0 , 0.5 ),
+        sigma ~ dexp( 1 )
+) , data=d )
+```
+
+5.5 Practice 
+5E1: (A) (2) and (4)
+
+5E3: Write down a multiple regression to evaluate the claim: Neither amount of funding nor size of laboratory is by itself a good predictor of time to PhD degree; but together these variables are both positively associated with time to degree. Write down the model definition and indicate which side of zero each slope parameter should be on.
+```{r eval=FALSE, error=TRUE, include=FALSE}
+F #  amoun of funding
+S # size of lab
+T # time to PhD degree
+# single regression 1
+Ti ~ a + bF*Fi
+# single regression 2
+Ti ~ a + bS*Si
+# double regression
+Ti ~ a + bF*Fi + bS*Si
+
+```
+
+5M1 (optional). Invent your own example of a spurious correlation. An outcome variable should be correlated with both predictor variables. But when both predictors are entered in the same model, the correlation between the outcome and one of the predictors should mostly vanish (or at least be greatly reduced).
+
+
+5M2. Invent your own example of a masked relationship. An outcome variable should be correlated with both predictor variables, but in opposite directions. And the two predictor variables should be correlated with one another.
+```{r}
+# make simulated data (see R code 5.10)
+N <- 50 # number of simulated States 
+HL.sim <- rnorm(N,mean=10,sd=1 ) # HL, hypocotyl length (mm)
+SW.sim <- rnorm(N,mean=0.3*HL.sim) # SW, seed weight (g)
+PL.sim<-rnorm(N,PL.sim-3*SW.sim)  #sim HL.sim -> PL.sim (positive), SW.sim -> PL.sim (negative)
+d.sim<-data.frame(HL=HL.sim,SW=SW.sim,PL=PL.sim)
+# look correlation
+pairs(~HL+SW+PL,d.sim)
+# model
+model.Practice5m2 <- quap(
+    alist(
+        PL ~ dnorm( mu , sigma ) , # PL, petiole length (mm)
+        mu <- a + b1*HL + b2*SW, # HL, hipocotyl length (mm); SW, seed weight (g)
+        a ~ dnorm(10, 5) ,
+        b1 ~ dlnorm( 0 , 1 ) ,
+        b2 ~ dnorm( 0 , 10 ) ,
+        b3 ~ dnorm( 0 , 10 ) ,
+        sigma ~ dunif( 0 , 50 )
+    ) ,
+    data=d.sim )
+
+```
+
+
+
+
+#### skip my own real SAS data #####
+# reading data
+```{r}
+leafdata <- read_csv(file.path("","Volumes","data_work","Data7","Arabi_SAS_phenotyping","SAS_Pst-lux","input","Pst-lux_SAS.csv"),na="") # default na=c("","NA"), which treat "NA" as N/A. (042619)
+str(leafdata)
+# change character into factor if any
+leafdata <- leafdata %>% modify_if(is.character,as.factor)
+# rename
+leafdata <- leafdata %>% rename(plant=genotype)
+# calculate petiole length / blade length ratio (102516)
+library(stringr)
+leafdata<-leafdata %>% mutate(petiole_bladeLength=petioleLength/bladeLength,rep2=str_c(Set, rep,sep="_"))
+
+#Filter outliers
+# leafdata<-leafdata[leafdata$petioleLength<300,]
+apply(leafdata, 2, max)
+apply(leafdata, 2, min)
+filter(leafdata, petiole_bladeLength > 4)
+min(leafdata[leafdata$leaf %in% c(4:7),]$petiole_bladeLength)
+filter(leafdata, leafdata$petiole_bladeLength<0.08)
+class(leafdata$leaf)
+hist(leafdata$petioleLength, main="Petiole Length", xlab="Petiole Length")
+# graph (frequency distribution of petiole_bladeLength with leaf position)
+select(leafdata,petiole_bladeLength,rep2,leaf) %>% ggplot(aes(petiole_bladeLength,fill=leaf)) + geom_histogram(binwidth=0.1)
+```
+
+# setA ()
+```{r}
+leafdata.setA<- leafdata %>% filter(Set=="A")
+# which leaves?
+leaf.start=4;leaf.end=10
+leafdata.setA.part<-leafdata.setA %>% filter(leaf>=leaf.start&leaf<=leaf.end) 
+table(leafdata.setA$Treatment1,leafdata.setA$Treatment2)
+```
+
+# PetioleLength (PL)
+```{r}
+# plot raw data
+p.PL<-leafdata.setA.part %>% dplyr::select(petioleLength,leaf,plant,Treatment1,Treatment2) %>%
+  ggplot(aes(x=fct_relevel(Treatment1,"sun","shade"),y=petioleLength,color=Treatment1)) + geom_jitter() + labs(x="")
+p.PL <- p.PL + stat_summary(fun.y="mean",geom="bar",alpha=0.5)
+p.PL <- p.PL + stat_summary(fun.data="calc.sem",geom="errorbar",position="dodge") 
+p.PL <- p.PL + facet_grid(plant~leaf) + theme(strip.text.y=element_text(angle=0),legend.position = "none")
+p.PL
+#ggsave(filename="SAS_leaf_Pst-lux_mock_PL.pdf",p.PL,path=file.path("..","output"))
+# which leaves?
+leaf.start=4;leaf.end=10
+leafdata.setA.part<-leafdata.setA %>% filter(leaf>=leaf.start&leaf<=leaf.end) 
+```
+# model for baysien analysis
+```{r}
+
+
+```
+
+
+
+5M3
+```{r}
+
+```
+
+5M4
+```{r}
+
+```
+
+
+5H1
+```{r}
+
+```
+
+5H2
+```{r}
+
+```
+
+
