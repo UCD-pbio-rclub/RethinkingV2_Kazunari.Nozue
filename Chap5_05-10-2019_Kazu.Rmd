@@ -580,9 +580,9 @@ summary(foxes)
 practice.5H1.1 <- quap(
     alist(
         weight ~ dnorm( mu , sigma ) ,
-        mu <- a + bN*area,
+        mu <- a + bA*area,
         a ~ dnorm( 0 , 0.2 ) ,
-        bN ~ dnorm( 0 , 0.5 ) ,
+        bA ~ dnorm( 0 , 0.5 ) ,
         sigma ~ dexp( 1 )
     ) , data=foxes )
 precis(practice.5H1.1)
@@ -590,9 +590,9 @@ precis(practice.5H1.1)
 practice.5H1.2 <- quap(
     alist(
         weight ~ dnorm( mu , sigma ) ,
-        mu <- a + bN*groupsize,
+        mu <- a + bG*groupsize,
         a ~ dnorm( 0 , 0.2 ) ,
-        bN ~ dnorm( 0 , 0.5 ) ,
+        bG ~ dnorm( 0 , 0.5 ) ,
         sigma ~ dexp( 1 )
     ) , data=foxes )
 precis(practice.5H1.2)
@@ -617,6 +617,16 @@ shade( mu_PI , xseq2 )
 
 5H2 Now fit a multiple linear regression with weight as the outcome and both area and group size as predictor variables. Plot the predictions of the model for each predictor, holding the other predictor constant at its mean. What does this model say about the importance of each variable? Why do you get different results than you got in the exercise just above?
 ```{r}
+practice.5H1.2 <- quap(
+    alist(
+        weight ~ dnorm( mu , sigma ) ,
+        mu <- a + bG*groupsize + bA*area,
+        a ~ dnorm( 0 , 0.2 ) ,
+        bG ~ dnorm( 0 , 0.5 ) ,
+        bA ~ dnorm( 0 , 0.5 ) ,
+        sigma ~ dexp( 1 )
+    ) , data=foxes )
+precis(practice.5H2)
 
 ```
 
