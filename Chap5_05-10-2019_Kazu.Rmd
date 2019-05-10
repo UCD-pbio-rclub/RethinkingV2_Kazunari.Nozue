@@ -198,6 +198,7 @@ x_real <- rnorm( N )             # x_real as Gaussian with mean 0 and stddev 1
 x_spur <- rnorm( N , x_real )    # x_spur as Gaussian with mean=x_real
 y <- rnorm( N , x_real )         # y as Gaussian with mean=x_real
 d <- data.frame(y,x_real,x_spur) # bind all together in data frame
+pairs(d) # correlation (my own)
 ```
 
 5.2. Masked relationship
@@ -489,11 +490,12 @@ Ti ~ a + bF*Fi + bS*Si
 # make simulated data (see R code 5.10)
 N <- 50 # number of simulated States 
 HL.sim <- rnorm(N,mean=10,sd=1 ) # HL, hypocotyl length (mm)
-SW.sim <- rnorm(N,mean=0.3*HL.sim) # SW, seed weight (g)
-PL.sim<-rnorm(N,PL.sim-3*SW.sim)  #sim HL.sim -> PL.sim (positive), SW.sim -> PL.sim (negative)
+SW.sim <- rnorm(N,mean=HL.sim) # SW, seed weight (g). the two predictor variables should be correlated with one another
+PL.sim<-rnorm(N,PL.sim-SW.sim)  #sim HL.sim -> PL.sim (positive), SW.sim -> PL.sim (negative)
 d.sim<-data.frame(HL=HL.sim,SW=SW.sim,PL=PL.sim)
 # look correlation
 pairs(~HL+SW+PL,d.sim)
+
 # model
 model.Practice5m2 <- quap(
     alist(
@@ -502,85 +504,29 @@ model.Practice5m2 <- quap(
         a ~ dnorm(10, 5) ,
         b1 ~ dlnorm( 0 , 1 ) ,
         b2 ~ dnorm( 0 , 10 ) ,
-        b3 ~ dnorm( 0 , 10 ) ,
         sigma ~ dunif( 0 , 50 )
     ) ,
     data=d.sim )
-
+precis( model.Practice5m2 )
+plot( coeftab(model.Practice5m2) )
 ```
 
-
-
-
-#### skip my own real SAS data #####
-# reading data
-```{r}
-leafdata <- read_csv(file.path("","Volumes","data_work","Data7","Arabi_SAS_phenotyping","SAS_Pst-lux","input","Pst-lux_SAS.csv"),na="") # default na=c("","NA"), which treat "NA" as N/A. (042619)
-str(leafdata)
-# change character into factor if any
-leafdata <- leafdata %>% modify_if(is.character,as.factor)
-# rename
-leafdata <- leafdata %>% rename(plant=genotype)
-# calculate petiole length / blade length ratio (102516)
-library(stringr)
-leafdata<-leafdata %>% mutate(petiole_bladeLength=petioleLength/bladeLength,rep2=str_c(Set, rep,sep="_"))
-
-#Filter outliers
-# leafdata<-leafdata[leafdata$petioleLength<300,]
-apply(leafdata, 2, max)
-apply(leafdata, 2, min)
-filter(leafdata, petiole_bladeLength > 4)
-min(leafdata[leafdata$leaf %in% c(4:7),]$petiole_bladeLength)
-filter(leafdata, leafdata$petiole_bladeLength<0.08)
-class(leafdata$leaf)
-hist(leafdata$petioleLength, main="Petiole Length", xlab="Petiole Length")
-# graph (frequency distribution of petiole_bladeLength with leaf position)
-select(leafdata,petiole_bladeLength,rep2,leaf) %>% ggplot(aes(petiole_bladeLength,fill=leaf)) + geom_histogram(binwidth=0.1)
-```
-
-# setA ()
-```{r}
-leafdata.setA<- leafdata %>% filter(Set=="A")
-# which leaves?
-leaf.start=4;leaf.end=10
-leafdata.setA.part<-leafdata.setA %>% filter(leaf>=leaf.start&leaf<=leaf.end) 
-table(leafdata.setA$Treatment1,leafdata.setA$Treatment2)
-```
-
-# PetioleLength (PL)
-```{r}
-# plot raw data
-p.PL<-leafdata.setA.part %>% dplyr::select(petioleLength,leaf,plant,Treatment1,Treatment2) %>%
-  ggplot(aes(x=fct_relevel(Treatment1,"sun","shade"),y=petioleLength,color=Treatment1)) + geom_jitter() + labs(x="")
-p.PL <- p.PL + stat_summary(fun.y="mean",geom="bar",alpha=0.5)
-p.PL <- p.PL + stat_summary(fun.data="calc.sem",geom="errorbar",position="dodge") 
-p.PL <- p.PL + facet_grid(plant~leaf) + theme(strip.text.y=element_text(angle=0),legend.position = "none")
-p.PL
-#ggsave(filename="SAS_leaf_Pst-lux_mock_PL.pdf",p.PL,path=file.path("..","output"))
-# which leaves?
-leaf.start=4;leaf.end=10
-leafdata.setA.part<-leafdata.setA %>% filter(leaf>=leaf.start&leaf<=leaf.end) 
-```
-# model for baysien analysis
-```{r}
-
-
-```
-
-
-
-5M3
+5M3 It is sometimes observed that the best predictor of fire risk is the presence of firefighters— States and localities with many firefighters also have more fires. Presumably firefighters do not cause fires. Nevertheless, this is not a spurious correlation. Instead fires cause firefighters. Consider the same reversal of causal inference in the context of the divorce and marriage data. How might a high divorce rate cause a higher marriage rate? Can you think of a way to evaluate this relationship, using multiple regression?
 ```{r}
 
 ```
 
-5M4
+5M4 In the divorce data, States with high numbers of Mormons (members of The Church of Jesus Christ of Latter-day Saints, LDS) have much lower divorce rates than the regression models expected. Find a list of LDS population by State and use those numbers as a predictor variable, predicting di- vorce rate using marriage rate, median age at marriage, and percent LDS population (possibly stan- dardized). You may want to consider transformations of the raw percent LDS variable.
 ```{r}
 
 ```
 
 
-5H1
+Hard. All three exercises below use the same data, data(foxes)(partofrethinking). Theurban fox (Vulpes vulpes) is a successful exploiter of human habitat. Since urban foxes move in packs and defend territories, data on habitat quality and population density is also included. The data frame has five columns:
+(1) group: Number of the social group the individual fox belongs to (2) avgfood: The average amount of food available in the territory (3) groupsize: The number of foxes in the social group
+(4) area: Size of the territory
+(5) weight: Body weight of the individual fox
+5H1. Fit two bivariate Gaussian regressions, using quap: (1) body weight as a linear function of territory size (area), and (2) body weight as a linear function of groupsize. Plot the results of these regressions, displaying the MAP regression line and the 95% interval of the mean. Is either variable important for predicting fox body weight?
 ```{r}
 
 ```
