@@ -1,0 +1,49 @@
+---
+title: "Chap6_05_24_2019"
+author: "Kazu"
+date: "5/16/2019"
+output: 
+  html_document: 
+    keep_md: yes
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=TRUE)
+#install.packages(c("devtools","mvtnorm","loo","coda"),dependencies=TRUE)
+#library(devtools)
+#install_github("rmcelreath/rethinking",ref="Experimental")
+library(rethinking)
+library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
+```
+
+Overthinking: Simulated science distortion. Simulations like this one are easy to do in R, or in any other scripting language, once you have seen a few examples. In this simulation, we just draw some random Gaussian criteria for a sample of proposals and then select the top 10% combined scores.
+# R code 6.1
+```{r}
+set.seed(1914)
+N <- 200 # num grant proposals
+p <- 0.1 # proportion to select
+# uncorrelated newsworthiness and trustworthiness 
+nw <- rnorm(N)
+tw <- rnorm(N)
+# select top 10% of combined scores
+s<-nw+tw #totalscore
+q <- quantile( s , 1-p ) # top 10% threshold 
+selected <- ifelse( s >= q , TRUE , FALSE )
+cor( tw[selected] , nw[selected] )
+```
+
+# 6.1. Multicollinearity
+6.1.1. Multicollinear legs.
+The code below will simulate the heights and leg lengths of 100 individuals.
+```{r}
+N <- 100  # number of individuals
+set.seed(909)
+height <- rnorm(N,10,2)
+leg_prop <- runif(N,0.4,0.5)
+
+```
+
+
+

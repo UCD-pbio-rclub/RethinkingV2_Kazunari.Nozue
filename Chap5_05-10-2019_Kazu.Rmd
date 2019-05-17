@@ -21,7 +21,7 @@ library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyv
 # R code 5.1
 ```{r}
 # load data and copy
-library(rethinking)
+#library(rethinking)
 data(WaffleDivorce)
 d <- WaffleDivorce
 # standardize variables
@@ -49,7 +49,7 @@ m5.1 <- quap(
 # R code 5.4
 ```{r}
 set.seed(10)
-prior <- extract.prior( m5.1 )
+prior <- extract.prior( m5.1 ) # extract prior from fit model
 mu <- link( m5.1 , post=prior , data=list( A=c(-2,2) ) )
 plot( NULL , xlim=c(-2,2) , ylim=c(-2,2) )
 for ( i in 1:50 ) lines( c(-2,2) , mu[i,] , col=col.alpha("black",0.4) )
@@ -136,14 +136,14 @@ m5.4 <- quap(
         sigma ~ dexp( 1 )
 ) , data = d )
 ```
-# R code 5.12
+# R code 5.12 (residual)
 ```{r}
-mu <- link(m5.4)
+mu <- link(m5.4) # 1000 50. Why 50? d is 50x16  (50 locations)
 mu_mean <- apply( mu , 2 , mean )
 mu_resid <- d$M - mu_mean
 ```
 5.1.4.2. Counterfactual plots.
-# R code 5.13
+# R code 5.13 (for Fig 5.5)
 ```{r}
 # prepare new counterfactual data
 M_seq <- seq( from=-2 , to=3 , length.out=30 )
@@ -577,36 +577,36 @@ head(foxes)
 summary(foxes)
 ###### bivariate: depending on two viables
 # (1) body weight as a linear function of territory size (area)
-practice.5H1.1 <- quap(
+practice.5H1.1.A <- quap(
     alist(
         weight ~ dnorm( mu , sigma ) ,
         mu <- a + bA*area,
-        a ~ dnorm( 0 , 0.2 ) ,
-        bA ~ dnorm( 0 , 0.5 ) ,
+        a ~ dnorm( 3 , 2 ) ,
+        bA ~ dnorm( 0 , 1 ) ,
         sigma ~ dexp( 1 )
     ) , data=foxes )
-precis(practice.5H1.1)
+precis(practice.5H1.1.A)
 # (2) body weight as a linear function of groupsize
-practice.5H1.2 <- quap(
+practice.5H1.2.G <- quap(
     alist(
         weight ~ dnorm( mu , sigma ) ,
         mu <- a + bG*groupsize,
-        a ~ dnorm( 0 , 0.2 ) ,
-        bG ~ dnorm( 0 , 0.5 ) ,
+        a ~ dnorm( 3 , 2 ) ,
+        bG ~ dnorm( 0 , 1 ) ,
         sigma ~ dexp( 1 )
     ) , data=foxes )
 precis(practice.5H1.2)
 ## plot for area (see R code 5.27)
 xseq <- seq( from=min(foxes$area)-0.15 , to=max(foxes$area)+0.15 , length.out=30 )
-mu <- link( practice.5H1.1 , data=list(area=xseq) )
+mu <- link( practice.5H1.1.A , data=list(area=xseq) ) # need to fix this link by looking Julin's scripts
 mu_mean <- apply(mu,2,mean)
 mu_PI <- apply(mu,2,function(x) PI(x,prob=0.95)) # 95%. default is 89%
 plot( weight ~ area , data=foxes ,main="weight~area")
-lines( xseq , mu_mean , lwd=2 )
+lines( xseq , mu_mean , lwd=2 ) # true?
 shade( mu_PI , xseq )
 ## plot for groupsize (see R code 5.27)
 xseq2 <- seq( from=min(foxes$groupsize)-0.15 , to=max(foxes$groupsize)+0.15 , length.out=30 )
-mu <- link( practice.5H1.2 , data=list(groupsize=xseq2) )
+mu <- link( practice.5H1.2.G , data=list(groupsize=xseq2) )
 mu_mean <- apply(mu,2,mean)
 mu_PI <- apply(mu,2,function(x) PI(x,prob=0.95))
 plot( weight ~ groupsize , data=foxes ,main="weight~groupsize") # line does not fit... something is wrong
@@ -617,26 +617,113 @@ shade( mu_PI , xseq2 )
 
 5H2 Now fit a multiple linear regression with weight as the outcome and both area and group size as predictor variables. Plot the predictions of the model for each predictor, holding the other predictor constant at its mean. What does this model say about the importance of each variable? Why do you get different results than you got in the exercise just above?
 ```{r error=TRUE}
-practice.5H2 <- quap(
+practice.5H2.GA <- quap(
     alist(
         weight ~ dnorm( mu , sigma ) ,
         mu <- a + bG*groupsize + bA*area,
-        a ~ dnorm( 0 , 0.2 ) ,
-        bG ~ dnorm( 0 , 0.5 ) ,
-        bA ~ dnorm( 0 , 0.5 ) ,
+        a ~ dnorm( 3 , 2 ) ,
+        bG ~ dnorm( 0 , 1 ) ,
+        bA ~ dnorm( 0 , 1 ) ,
         sigma ~ dexp( 1 )
     ) , data=foxes )
-precis(practice.5H2)
-##### under construction #### 
-## plot for groupsize (see R code 5.27)
-xseq2 <- seq( from=min(foxes$groupsize)-0.15 , to=max(foxes$groupsize)+0.15 , length.out=30 )
-
-mu <- link( practice.5H2 , data=list(groupsize=xseq2) ) # how to use?
+precis(practice.5H2.GA)
+## plot for groupsize (see R code 5.31, not 5.27). counterfactual plots
+xseq <- seq( from=min(foxes$area)-0.15 , to=max(foxes$area)+0.15 , length.out=30 )
+mu <- link( practice.5H2.GA , data=data.frame(area=xseq,groupsize=0) ) 
 mu_mean <- apply(mu,2,mean)
 mu_PI <- apply(mu,2,function(x) PI(x,prob=0.95))
-plot( weight ~ groupsize , data=foxes ,main="weight~groupsize") # line does not fit... something is wrong
+plot( weight ~ area , data=foxes ,main="weight~area") 
+lines( xseq , mu_mean , lwd=2 )
+shade( mu_PI , xseq )
+
+## plot for groupsize (see R code 5.31, not 5.27). counterfactual plots
+xseq2 <- seq( from=min(foxes$groupsize)-0.15 , to=max(foxes$groupsize)+0.15 , length.out=30 )
+mu <- link( practice.5H2.GA , data=data.frame(area=0,groupsize=xseq2) ) 
+mu_mean <- apply(mu,2,mean)
+mu_PI <- apply(mu,2,function(x) PI(x,prob=0.95))
+plot( weight ~ groupsize , data=foxes ,main="weight~groupsize") 
 lines( xseq2 , mu_mean , lwd=2 )
 shade( mu_PI , xseq2 )
+```
+# My own question. Are thye realy better prediction than single?
+
+5H3. Finally, consider the avgfood variable. Fit two more multiple regressions: (1) body weight as an additive function of avgfood and groupsize, and (2) body weight as an additive function of all three variables, avgfood and groupsize and area. Compare the results of these models to the previous models you’ve fit, in the first two exercises. (a) Is avgfood or area a better predictor of body weight? If you had to choose one or the other to include in a model, which would it be? Support your assessment with any tables or plots you choose. (b) When both avgfood or area are in the same model, their effects are reduced (closer to zero) and their standard errors are larger than when they are included in separate models. Can you explain this result?
+```{r}
+# (1) body weight as an additive function of avgfood and groupsize
+practice.5H3.GF <- quap(
+    alist(
+        weight ~ dnorm( mu , sigma ) ,
+        mu <- a + bG*groupsize + bF*avgfood,
+        a ~ dnorm( 3 , 2 ) ,
+        bG ~ dnorm( 0 , 1 ) ,
+        bF ~ dnorm( 0 , 1 ) ,
+        sigma ~ dexp( 1 )
+    ) , data=foxes )
+# (2) body weight as an additive function of all three variables, avgfood and groupsize and area.
+practice.5H3.GAF <- quap(
+    alist(
+        weight ~ dnorm( mu , sigma ) ,
+        mu <- a + bG*groupsize + bA*area + bF*avgfood,
+        a ~ dnorm( 3 , 2 ) ,
+        bG ~ dnorm( 0 , 1 ) ,
+        bA ~ dnorm( 0 , 1 ) ,
+        bF ~ dnorm( 0 , 1 ) ,
+        sigma ~ dexp( 1 )
+    ) , data=foxes )
+# comparison of models
+plot(coeftab(practice.5H1.1.A,practice.5H1.2.G,practice.5H2.GA,practice.5H3.GF,practice.5H3.GAF) )# 
+# cor
+pairs(foxes)
+#
+foxes$logavgfood<-log(foxes$avgfood)
+pairs(foxes)
+
+## plot for groupsize (see R code 5.31, not 5.27). counterfactual plots
+xseq3 <- seq( from=min(foxes$avgfood)-0.15 , to=max(foxes$avgfood)+0.15 , length.out=30 )
+mu <- link( practice.5H3.GAF , data=data.frame(area=0,groupsize=0,avgfood=xseq3) ) 
+mu_mean <- apply(mu,2,mean)
+mu_PI <- apply(mu,2,function(x) PI(x,prob=0.95))
+plot( weight ~ avgfood , data=foxes ,main="weight~avgfood") 
+lines( xseq3 , mu_mean , lwd=2 )
+shade( mu_PI , xseq3 )
+
+
+# (a) Is avgfood or area a better predictor of body weight? If you had to choose one or the other to include in a model, which would it be? Support your assessment with any tables or plots you choose.
+# (answer) Area is better than avgfood becasue variance of bA is smaller than bG. 
+
+# (b) When both avgfood or area are in the same model, their effects are reduced (closer to zero) and their standard errors are larger than when they are included in separate models. Can you explain this result?
+# 
+practice.5H3.AF <- quap(
+    alist(
+        weight ~ dnorm( mu , sigma ) ,
+        mu <- a + bA*area + bF*avgfood,
+        a ~ dnorm( 3 , 2 ) ,
+        bA ~ dnorm( 0 , 1 ) ,
+        bF ~ dnorm( 0 , 1 ) ,
+        sigma ~ dexp( 1 )
+    ) , data=foxes )
+plot(coeftab(practice.5H1.1.A,practice.5H1.2.G,practice.5H2.GA,practice.5H3.GF,practice.5H3.AF,practice.5H3.GAF),par=c("bA","bG","bF"))# 
+# avgfood is positively correlated with group,groupsize, and area, but not weight.
+# masked: bG is negative, bA is positive
+
+# logF?
+practice.5H3.GAlogF <- quap(
+    alist(
+        weight ~ dnorm( mu , sigma ) ,
+        mu <- a + bG*groupsize + bA*area + bF*log(avgfood),
+        a ~ dnorm( 3 , 2 ) ,
+        bG ~ dnorm( 0 , 1 ) ,
+        bA ~ dnorm( 0 , 1 ) ,
+        bF ~ dnorm( 0 , 1 ) ,
+        sigma ~ dexp( 1 )
+    ) , data=foxes )
+plot(coeftab(practice.5H1.1.A,practice.5H1.2.G,practice.5H2.GA,practice.5H3.GF,practice.5H3.AF,practice.5H3.GAF,practice.5H3.GAlogF),par=c("bA","bG","bF"))# 
+# residual plot? for GAF model
+mu <- link(practice.5H3.GAF) # wait, what is mu? why matrix? 1000 (row) x 116 (column). n=1000 sampling in link() default. What is 116?
+mu_mean <- apply( mu , 2 , mean ) # 116
+mu_resid <- foxes$weight - mu_mean
+# how to make fig like Fig 5.4?
+plot(x=mu_resid,y=foxes$weight,main="GAF model")
 
 ```
 
