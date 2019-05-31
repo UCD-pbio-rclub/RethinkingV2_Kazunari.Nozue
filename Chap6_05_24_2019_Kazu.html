@@ -474,10 +474,18 @@ plot( plant_dag )</code></pre>
 </div>
 <div id="r-code-6.20" class="section level1">
 <h1>R code 6.20</h1>
+<div id="i-do-not-understand-dseparated-see-dseparated" class="section level3">
+<h3>I do not understand dseparated()… (see ?dseparated)</h3>
 <pre class="r"><code>dseparated( plant_dag , &quot;T&quot; , &quot;H1&quot; )</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>dseparated( plant_dag , &quot;H1&quot;,&quot;T&quot; ) # how about reverse oriengation?</code></pre>
 <pre><code>## [1] FALSE</code></pre>
 <pre class="r"><code>dseparated( plant_dag , &quot;T&quot; , &quot;H1&quot; , &quot;F&quot; )</code></pre>
 <pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code># MO
+dseparated( plant_dag , &quot;T&quot; , &quot;F&quot; )</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+</div>
 </div>
 <div id="r-code-6.21" class="section level1">
 <h1>R code 6.21</h1>
@@ -552,7 +560,7 @@ b_U&lt;-2 #directeffectofUonPandC</code></pre>
 <div id="r-code-6.27" class="section level1">
 <h1>R code 6.27</h1>
 <pre class="r"><code>set.seed(1)
-U &lt;- 2*rbern( N , 0.5 ) - 1
+U &lt;- 2*rbern( N , 0.5 ) - 1 # Random Sample From Bernoulli Distribution 
 G &lt;- rnorm( N )
 P &lt;- rnorm( N , b_GP*G + b_U*U )
 C &lt;- rnorm( N , b_PC*P + b_GC*G + b_U*U )
@@ -593,8 +601,74 @@ precis(m6.12)</code></pre>
 ## b_U    1.99648992 0.14770462  1.7604294  2.232550439
 ## sigma  1.01959911 0.05080176  0.9384081  1.100790130</code></pre>
 </div>
-<div id="section" class="section level1">
-<h1></h1>
+<div id="confronting-confounding-page-180." class="section level1">
+<h1>6.4. Confronting confounding (Page 180).</h1>
+</div>
+<div id="r-cod-6.30" class="section level1">
+<h1>R cod 6.30</h1>
+<pre class="r"><code>library(dagitty)
+dag_6.1 &lt;- dagitty(&quot;dag {
+            X -&gt; Y &lt;- C
+            X &lt;- U -&gt; B
+            U &lt;- A -&gt; C
+            U -&gt; B &lt;- C
+} &quot;)
+adjustmentSets(dag_6.1,exposure=&quot;X&quot;,outcome=&quot;Y&quot;)</code></pre>
+<pre><code>##  { C }
+##  { A }
+##  { U }</code></pre>
+</div>
+<div id="r-code-6.31" class="section level1">
+<h1>R code 6.31</h1>
+<pre class="r"><code>library(dagitty)
+dag_6.2 &lt;- dagitty(&quot;dag {
+                   S -&gt; A -&gt; D
+                  S -&gt; M -&gt; D
+                  S -&gt; W -&gt; D
+                  A -&gt; M
+                   }&quot;)
+adjustmentSets(dag_6.2,exposure=&quot;W&quot;,outcome=&quot;D&quot;)</code></pre>
+<pre><code>##  { A, M }
+##  { S }</code></pre>
+<pre class="r"><code>impliedConditionalIndependencies(dag_6.2)</code></pre>
+<pre><code>## A _||_ W | S
+## D _||_ S | A, M, W
+## M _||_ W | S</code></pre>
+<ul>
+<li>Read the first as “median age of marriage should be independent of (<em>||</em>) Waffle Houses, conditioning on (|) a State being in the south.” In the second, divorce and being in the south should be independent when we simultaneously condition on all of median age of marriage, marriage rate, and Waffle Houses. Finally, marriage rate and Waffle Houses should be independent, conditioning on being in the south.(Page 185).</li>
+</ul>
+</div>
+<div id="problems" class="section level1">
+<h1>problems</h1>
+<p>Problems: 6H1 6H2 and the three problems at <a href="https://github.com/rmcelreath/statrethinking_winter2019/blob/master/homework/week03.pdf" class="uri">https://github.com/rmcelreath/statrethinking_winter2019/blob/master/homework/week03.pdf</a> ## 6H1. Use the Waffle House data, data(WaffleDivorce), to find the total causal influence of number of Waffle Houses on divorce rate. Justify your model or models with a causal graph. (Page 186).</p>
+<pre class="r"><code>data(WaffleDivorce)
+d &lt;- WaffleDivorce 
+# standardize variables
+d$A &lt;- scale( d$MedianAgeMarriage ) # midian scaled age marriage
+d$D &lt;- scale( d$Divorce ) # scaled divorce rate
+# S: wheather or not a State is the southern Unitead States.
+# M: marriage rate
+# W: number of waffle house 
+
+library(dagitty) 
+dag_6.2 &lt;- dagitty( &quot;dag { S -&gt; A -&gt; D S -&gt; M -&gt; D S -&gt; W -&gt; D A -&gt; M }&quot;)
+adjustmentSets( dag_6.2 , exposure=&quot;W&quot; , outcome=&quot;D&quot; )</code></pre>
+<pre><code>##  { A, M }
+##  { S }</code></pre>
+<pre class="r"><code>## how to solve the problem?????</code></pre>
+<div id="h2.-build-a-series-of-models-to-test-the-implied-conditional-independencies-of-the-causal-graph-you-used-in-the-previous-problem.-if-any-of-the-tests-fail-how-do-you-think-the-graph-needs-to-be-amended-does-the-graph-need-more-or-fewer-arrows-feel-free-to-nominate-variables-that-arent-in-the-data.-page-186." class="section level2">
+<h2>6H2. Build a series of models to test the implied conditional independencies of the causal graph you used in the previous problem. If any of the tests fail, how do you think the graph needs to be amended? Does the graph need more or fewer arrows? Feel free to nominate variables that aren’t in the data. (Page 186).</h2>
+</div>
+<div id="httpsgithub.comrmcelreathstatrethinking_winter2019blobmasterhomeworkweek03.pdf" class="section level2">
+<h2><a href="https://github.com/rmcelreath/statrethinking_winter2019/blob/master/homework/week03.pdf" class="uri">https://github.com/rmcelreath/statrethinking_winter2019/blob/master/homework/week03.pdf</a></h2>
+</div>
+</div>
+<div id="homework1" class="section level1">
+<h1>homework1:</h1>
+<pre class="r"><code>data(foxes)</code></pre>
+<div id="section" class="section level2">
+<h2></h2>
+</div>
 </div>
 
 
