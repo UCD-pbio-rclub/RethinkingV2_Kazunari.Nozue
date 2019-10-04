@@ -245,7 +245,8 @@ plant_dag <- dagitty( "dag {
     T -> F
 }")
 coordinates( plant_dag ) <- list( x=c(H0=0,T=2,F=1.5,H1=1) ,
-y=c(H0=0,T=0,F=1,H1=2) )
+y=c(H0=0,T=0,F=1,H1=2) ) # for graphing DAG graph
+# for automatic layout, use layout=TRUE in dagitty()
 plot( plant_dag )
 ```
 
@@ -406,6 +407,14 @@ adjustmentSets( dag_6.2 , exposure="W" , outcome="D" )
 # homework1:
 ```{r}
 data(foxes)
+# drawing DAG (full model)
+
+# scalled
+foxes.scalled <-foxes %>%
+  select(G=group, F=avgfood, A=area, W=weight) %>%
+  mutate_at(vars(G, F, A, W), scale)
+head(foxes.scalled)
+#
 
 ```
 
