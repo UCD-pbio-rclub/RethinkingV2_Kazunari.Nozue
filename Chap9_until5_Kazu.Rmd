@@ -2,7 +2,9 @@
 title: "Chap9"
 author: "Kazu"
 date: "9/27/2019"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 editor_options: 
   chunk_output_type: console
 ---
@@ -256,7 +258,7 @@ m9.1.sigma.unif <- ulam(
     b[cid] ~ dnorm( 0 , 0.3 ) ,
     sigma ~ dunif(0,10) # uniform prior
   ) ,
-  data=dat_slim , chains=2,cores=2 ) # try chains 2 and cores 2
+  data=dat_slim , chains=2,cores=2,log_lik = TRUE ) # try chains 2 and cores 2
 # exponential for standar deviation
 m9.1.sigma.expo <- ulam(
   alist(
@@ -266,7 +268,7 @@ m9.1.sigma.expo <- ulam(
     b[cid] ~ dnorm( 0 , 0.3 ) ,
     sigma ~ dexp(1) # an exponential prior
   ) ,
-  data=dat_slim , chains=2, cores=2 )
+  data=dat_slim , chains=2, cores=2,log_lik = TRUE )
 
 ```
 # posterior
@@ -281,6 +283,24 @@ rethinking::compare(m9.1.sigma.unif,m9.1.sigma.expo)
 
 ```{r}
 # Cauchy distribution
+m9.1.sigma.cauchy.100 <- ulam(
+  alist(
+    log_gdp_std ~ dnorm( mu , sigma ) ,
+    mu <- a[cid] + b[cid]*( rugged_std - 0.215 ) ,
+    a[cid] ~ dnorm( 1 , 0.1 ) ,
+    b[cid] ~ dnorm( 0 , 0.3 ) ,
+    sigma ~ dcauchy(0,100) # cauchy distribution
+  ) ,
+  data=dat_slim , chains=2,cores=2,log_lik = TRUE)
+m9.1.sigma.cauchy.1 <- ulam(
+  alist(
+    log_gdp_std ~ dnorm( mu , sigma ) ,
+    mu <- a[cid] + b[cid]*( rugged_std - 0.215 ) ,
+    a[cid] ~ dnorm( 1 , 0.1 ) ,
+    b[cid] ~ dnorm( 0 , 0.3 ) ,
+    sigma ~ dcauchy(0,10) # cauchy distribution
+  ) ,
+  data=dat_slim , chains=2,cores=2,log_lik = TRUE)
 m9.1.sigma.cauchy.1 <- ulam(
   alist(
     log_gdp_std ~ dnorm( mu , sigma ) ,
@@ -318,6 +338,24 @@ m9.1.sigma.cauchy.0.001 <- ulam(
   ) ,
   data=dat_slim , chains=2,cores=2,log_lik = TRUE )
 # exponential distribution for standar deviation
+m9.1.sigma.expo.100 <- ulam(
+  alist(
+    log_gdp_std ~ dnorm( mu , sigma ) ,
+    mu <- a[cid] + b[cid]*( rugged_std - 0.215 ) ,
+    a[cid] ~ dnorm( 1 , 0.1 ) ,
+    b[cid] ~ dnorm( 0 , 0.3 ) ,
+    sigma ~ dexp(100) # an exponential prior
+  ) ,
+  data=dat_slim , chains=2, cores=2,log_lik = TRUE )
+m9.1.sigma.expo.10 <- ulam(
+  alist(
+    log_gdp_std ~ dnorm( mu , sigma ) ,
+    mu <- a[cid] + b[cid]*( rugged_std - 0.215 ) ,
+    a[cid] ~ dnorm( 1 , 0.1 ) ,
+    b[cid] ~ dnorm( 0 , 0.3 ) ,
+    sigma ~ dexp(10) # an exponential prior
+  ) ,
+  data=dat_slim , chains=2, cores=2,log_lik = TRUE )
 m9.1.sigma.expo.1 <- ulam(
   alist(
     log_gdp_std ~ dnorm( mu , sigma ) ,
@@ -357,17 +395,33 @@ m9.1.sigma.expo.0.001 <- ulam(
 ```
 #
 ```{r}
+precis(m9.1.sigma.cauchy.100,depth=2)
+precis(m9.1.sigma.cauchy.10,depth=2)
 precis(m9.1.sigma.cauchy.1,depth=2)
 precis(m9.1.sigma.cauchy.0.1,depth=2)
 precis(m9.1.sigma.cauchy.0.01,depth=2)
 precis(m9.1.sigma.cauchy.0.001,depth=2)
+precis(m9.1.sigma.expo.100,depth=2)
+precis(m9.1.sigma.expo.10,depth=2)
 precis(m9.1.sigma.expo.1,depth=2)
 precis(m9.1.sigma.expo.0.1,depth=2)
 precis(m9.1.sigma.expo.0.01,depth=2)
 precis(m9.1.sigma.expo.0.001,depth=2)
-compare(m9.1.sigma.cauchy.1,m9.1.sigma.cauchy.0.1,m9.1.sigma.cauchy.0.01,m9.1.sigma.cauchy.0.001)
-compare(m9.1.sigma.expo.1,m9.1.sigma.expo.0.1,m9.1.sigma.expo.0.01,m9.1.sigma.expo.0.001)
+compare(m9.1.sigma.cauchy.100,m9.1.sigma.cauchy.10,m9.1.sigma.cauchy.1,m9.1.sigma.cauchy.0.1,m9.1.sigma.cauchy.0.01,m9.1.sigma.cauchy.0.001)
+compare(m9.1.sigma.expo.100,m9.1.sigma.expo.10,m9.1.sigma.expo.1,m9.1.sigma.expo.0.1,m9.1.sigma.expo.0.01,m9.1.sigma.expo.0.001)
 ```
+
+## note on dexp()
+```{r}
+x<-seq(0,1,by=.01)
+plot(x,dexp(x))
+plot(x,dexp(x,rate=100))
+plot(x,dexp(x,rate=10))
+plot(x,dexp(x,rate=1))
+plot(x,dexp(x,rate=.1))
+plot(x,dexp(x,rate=.01))
+```
+
 
 
 ## 8H1. 

@@ -8,9 +8,14 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,error=TRUE)
+knitr::opts_chunk$set(echo = TRUE,error=TRUE, cache=TRUE)
 library(rethinking)
 library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
+```
+# Install updated "rethinking" package (Oct 11, 2019)
+```{r}
+# library(devtools)
+# install_github("rmcelreath/rethinking",ref="Experimental")
 ```
 
 # Quad approximation does not work with non Gausian distribution... (by J)
@@ -72,6 +77,7 @@ x <- rnorm(50)
 x <- as.numeric(scale(x))
 y <- as.numeric(scale(y))
 ```
+
 ## R code 9.5
 ```{r}
 library(shape) # for fancy arrows
@@ -100,6 +106,7 @@ for ( i in 1:n_samples ) {
           col=ifelse( abs(Q$dH)>0.1 , "red" , "black" ) )
 }
 ```
+
 ## R code 9.6
 ```{r}
 HMC2 <- function (U, grad_U, epsilon, L, current_q) {
@@ -146,6 +153,7 @@ HMC2 <- function (U, grad_U, epsilon, L, current_q) {
   return(list( q=new_q, traj=qtraj, ptraj=ptraj, accept=accept ))
 }
 ```
+
 # 9.4. EasyHMC:ulam
 ## the terrain ruggedness example from Chapter 7. This code will load the data and reduce it down to cases (nations) that have the outcome variable of interest:
 
@@ -163,6 +171,7 @@ dd$rugged_std <- dd$rugged / max(dd$rugged)
 # make variable to index Africa (1) or not (2) (pg 249)
 dd$cid <- ifelse( dd$cont_africa==1 , 1 , 2 )
 ```
+
 ## R code 9.10 (the old way)
 ```{r}  
 m8.5 <- quap(
@@ -176,6 +185,7 @@ m8.5 <- quap(
   data=dd )
 precis( m8.5 , depth=2 )
 ```
+
 ## R code 9.11
 ```{r}
 dat_slim <- list(
@@ -186,6 +196,7 @@ dat_slim <- list(
 str(dat_slim)
 ```
 # 9.4.2. Sampling from the posterior
+
 ## R code 9.12
 ```{r}
 m9.1 <- ulam(
@@ -198,11 +209,14 @@ m9.1 <- ulam(
   ) ,
   data=dat_slim , chains=1 )
 ```
+
 ## R code 9.13
 ```{r}
 precis( m9.1 , depth=2 )
 ```
+
 # 9.4.3. Samplingagain,inparallel.
+
 ## R code 9.14
 ```{r}
 m9.1 <- ulam(
@@ -215,86 +229,33 @@ m9.1 <- ulam(
   ) ,
   data=dat_slim , chains=4 , cores=2 , iter=1000 )
 ```
+
 ## R code 9.15
 ```{r}
 show( m9.1 )
 ```
+
 ## R code 9.16
 ```{r}
 precis( m9.1 , 2 )
 ```
+
 # 9.4.4. Visualization
 ## R code 9.17
 ```{r}
 pairs( m9.1 )
 ```
+
 # 9.4.5. Checking the chain.
 ## R code 9.18
 ```{r}
 traceplot( m9.1 )
 ```
+
 ## R code 9.19
 ```{r}
 trankplot( m9.1 , n_cols=2 )
 ```
-
-# 9.7 Practice #####
-## 8E3. Which sort of parameters can Hamiltonian Monte Carlo not handle? Can you explain why?
-
-## 8M1. Re-estimate the terrain ruggedness model from the chapter,but now using a uniform prior and an exponential prior for the standard deviation, sigma. The uniform prior should be dunif(0,10) and the exponential should be dexp(1). Do the different priors have any detectible influence on the posterior distribution?
-# 9.4.2. Sampling from the posterior
-## R code 9.12
-```{r}
-# uniform prior for standar deviation
-m9.1.8M1a <- ulam(
-  alist(
-    log_gdp_std ~ dnorm( mu , sigma ) ,
-    mu <- a[cid] + b[cid]*( rugged_std - 0.215 ) ,
-    a[cid] ~ dnorm( 1 , 0.1 ) ,
-    b[cid] ~ dnorm( 0 , 0.3 ) ,
-    #sigma ~ dexp( 1 )
-    sigma ~ dunif(0,10) # uniform prior
-  ) ,
-  data=dat_slim , chains=1 )
-# uniform prior for standar deviation
-m9.1.8M1b <- ulam(
-  alist(
-    log_gdp_std ~ dnorm( mu , sigma ) ,
-    mu <- a[cid] + b[cid]*( rugged_std - 0.215 ) ,
-    a[cid] ~ dnorm( 1 , 0.1 ) ,
-    b[cid] ~ dnorm( 0 , 0.3 ) ,
-    #sigma ~ dexp( 1 )
-    sigma ~ dexp(1) # an exponential prior
-  ) ,
-  data=dat_slim , chains=1 )
-```
-# posterior
-```{r}
-precis( m9.1 , depth=2 )
-precis( m9.1.8M1a , depth=2 )
-precis( m9.1.8M1b , depth=2 )
-```
-
-
-
-## 8M2. The Cauchy and exponential priors from the terrain ruggedness model are very weak. They can be made more informative by reducing their scale. Compare the dcauchy and dexp priors for progressively smaller values of the scaling parameter. As these priors become stronger, how does each influence the posterior distribution?
-
-## 8H1. Run the model below and then inspect the posterior distribution and explain what it is accomplishing.
-```{r}
-mp <- map2stan(
-    alist(
-        a ~ dnorm(0,1),
-        b ~ dcauchy(0,1)
-    ),
-    data=list(y=1),
-    start=list(a=0,b=0),
-    iter=1e4, warmup=100 , WAIC=FALSE )
-```
-### Compare the samples for the parameters a and b. Can you explain the different trace plots, using what you know about the Cauchy distribution?
-
-
-## 8H2. Recall the divorce rate example from Chapter 5. Repeat that analysis, using map2stan this time, fitting models m5.1, m5.2, and m5.3. Use compare to compare the models on the basis of WAIC. Explain the results.
-
 
 
 # 9.5  ### 
@@ -303,16 +264,16 @@ mp <- map2stan(
 
 ## R code 9.20
 ```{r}
-y <- c(-1,1)
+y <- c(-1.00001,1.00001)
 set.seed(11)
 m9.2 <- ulam(
   alist(
-    y ~ dnorm( mu , sigma ) ,
-    mu <- alpha ,
-    alpha ~ dnorm( 0 , 1000 ) ,
-    sigma ~ dexp( 0.0001 )
-  ) ,
-  data=list(y=y) , chains=2 )
+    y ~ dnorm(mu, sigma),
+    mu <- alpha,
+    alpha ~ dnorm(0,1000),
+    sigma ~ dexp(0.0001)
+  ),
+  data=list(y=y) , chains=2)
 ```
 ## R code 9.21
 ```{r}
@@ -362,9 +323,16 @@ m9.5 <- ulam(
   data=list(y=y) , chains=2 )
 precis( m9.5 )
 ```
-## R code 9.26
+
+
+# practices
+# 8E4 Explain the difference between the effective number of samples, n_eff as calculated by Stan, and the actual number of samples.
+# (A) n_eff is independent samples within samples. 
+
+# 8M3 Re-estimate one of the Stan models from the chapter, but at different numbers of warmup iterations. Be sure to use the same number of sampling iterations in each case. Compare the n_eff values. How much warmup is enough?
+## R code 9.26 warmup 100
 ```{r}
-mp <- map2stan(
+mp.warmup100 <- map2stan(
   alist(
     a ~ dnorm(0,1),
     b ~ dcauchy(0,1)
@@ -373,6 +341,50 @@ mp <- map2stan(
   start=list(a=0,b=0),
   iter=1e4, warmup=100 , WAIC=FALSE )
 ```
+# warmup 10
+```{r}
+mp.warmup10 <- map2stan(
+  alist(
+    a ~ dnorm(0,1),
+    b ~ dcauchy(0,1)
+  ),
+  data=list(y=1),
+  start=list(a=0,b=0),
+  iter=1e4, warmup=10 , WAIC=FALSE )
+```
+# warmup 1000
+```{r}
+mp.warmup1000 <- map2stan(
+  alist(
+    a ~ dnorm(0,1),
+    b ~ dcauchy(0,1)
+  ),
+  data=list(y=1),
+  start=list(a=0,b=0),
+  iter=1e4, warmup=1000 , WAIC=FALSE )
+```
+# warmup 5000
+```{r}
+mp.warmup5000 <- map2stan(
+  alist(
+    a ~ dnorm(0,1),
+    b ~ dcauchy(0,1)
+  ),
+  data=list(y=1),
+  start=list(a=0,b=0),
+  iter=1e4, warmup=5000 , WAIC=FALSE,control = list(max_treedepth = 15))
+# control = list(max_treedepth = 15) added after an error with default
+```
+# compare different warmup
+```{r}
+precis(mp.warmup10)
+precis(mp.warmup100)
+precis(mp.warmup1000)
+precis(mp.warmup5000)
+```
+* sd of b is increased as warmup increased.
+
+# 8H3 Sometimes changing a prior for one parameter has unanticipated effects on other parameters. This is because when a parameter is highly correlated with another parameter in the posterior, the prior influences both parameters. Here’s an example to work and think through. Go back to the leg length example in Chapter 5. Here is the code again, which simulates height and leg lengths for 100 imagined individuals:
 ## R code 9.27
 ```{r}
 N <- 100                          # number of individuals
@@ -385,6 +397,7 @@ leg_right <- leg_prop*height +    # sim right leg as proportion + error
 # combine into data frame
 d <- data.frame(height,leg_left,leg_right)
 ```
+* And below is the model you fit before, resulting in a highly correlated posterior for the two beta parameters. This time, fit the model using map2stan:
 ## R code 9.28
 ```{r}
 m5.8s <- map2stan(
@@ -397,8 +410,21 @@ m5.8s <- map2stan(
     sigma ~ dcauchy( 0 , 1 )
   ) ,
   data=d, chains=4,
-  start=list(a=10,bl=0,br=0,sigma=1) )
+  log_lik = TRUE, cores=2,# added
+  start=list(a=10,bl=0,br=0,sigma=1),control = list(max_treedepth = 15) )
 ```
+
+* Compare the posterior distribution produced by the code above to the posterior distribution produced when you change the prior for br so that it is strictly positive:
+
+```{r}
+precis(m5.8s)
+```
+
+```{r}
+pairs(m5.8s)
+
+```
+
 ## R code 9.29
 ```{r}
 m5.8s2 <- map2stan(
@@ -411,5 +437,30 @@ m5.8s2 <- map2stan(
     sigma ~ dcauchy( 0 , 1 )
   ) ,
   data=d, chains=4,
-  start=list(a=10,bl=0,br=0,sigma=1) )
+  log_lik = TRUE, cores=2,# added
+  start=list(a=10,bl=0,br=0,sigma=1),control = list(adapt_delta=0.99999,max_treedepth = 15) )
 ```
+* Note that T[0,] on the right-hand side of the prior for br. What the T[0,] does is truncate the normal distribution so that it has poositive probablitiy only above zero. 
+* Compare the two posterior distributions for m5.8s and m5.8s2. What has changed in the posterior distribution of both beta parameters? Can you explain the hange induced by the change in prior?
+```{r}
+precis(m5.8s2)
+```
+
+```{r}
+pairs(m5.8s2)
+```
+
+```{r}
+trankplot(m5.8s2)
+```
+
+```{r}
+plotchains(m5.8s2)
+
+```
+
+# 8H4 For the two models fit in the previous problem, use DIC or WAIC to compare the effective numbers of parameters for each model. Which model has more effective parameters? Why?
+```{r}
+compare(m5.8s,m5.8s2)
+```
+
