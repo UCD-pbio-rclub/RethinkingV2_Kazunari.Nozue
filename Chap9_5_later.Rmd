@@ -332,6 +332,8 @@ precis( m9.5 )
 # (A) n_eff is independent samples within samples. 
 
 # 8M3 Re-estimate one of the Stan models from the chapter, but at different numbers of warmup iterations. Be sure to use the same number of sampling iterations in each case. Compare the n_eff values. How much warmup is enough?
+## KN note: "warmup" is not used in posterior distribution.
+
 ## R code 9.26 warmup 100
 ```{r}
 mp.warmup100 <- map2stan(
@@ -465,4 +467,4 @@ plotchains(m5.8s2)
 ```{r}
 compare(m5.8s,m5.8s2)
 ```
-
+* Note. WAIC, pWAIC read chapter 7.5

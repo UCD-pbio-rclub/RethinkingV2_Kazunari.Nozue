@@ -10,7 +10,7 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,error=TRUE)
+knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = TRUE)
 library(rethinking)
 library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
 ```
