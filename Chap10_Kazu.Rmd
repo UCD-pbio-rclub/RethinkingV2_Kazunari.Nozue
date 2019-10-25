@@ -6,11 +6,11 @@ output:
   html_document: 
     keep_md: yes
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = TRUE)
+knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
 library(rethinking)
 library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
 ```
@@ -98,7 +98,7 @@ distributions <- H[2,]
  distributions[ which.max(entropies) ]
 ```
 
-# practice 
+# [practice](https://github.com/rmcelreath/statrethinking_winter2019/blob/master/homework/week05.pdf)
 * https://github.com/rmcelreath/statrethinking_winter2019/blob/master/homework/week05.pdf
 * 1. Consider the data (Wines 2012) data table.These data are expert ratings of 20 different French and American wines by 9 different French and American judges. Your goal is to model score, the subjective rating assigned by each judge to each wine. I recommend standardizing it.
 
@@ -150,14 +150,15 @@ practice.m1_score_norm<-ulam(
         #score_norm2 ~ dnorm( mu , sigma ) , # no error
         # mu <- a[judge.inex] +  b[judge.index]*wine.index,
         mu <- a[judge_index] + b[wine_index], 
-        a[judge_index] ~ dnorm(0 , 1 ) ,
-        b[wine_index] ~ dnorm(0 , 1 ) ,
+        a[judge_index] ~ dnorm(0 , .1 ) ,
+        b[wine_index] ~ dnorm(0 , .05 ) ,
         sigma ~ dexp(1)
 ),
 data=Wines2012.list, chains=1,cores=2,iter=2000) # errors....
 # 
 
 ```
+* Probably because score_norm elliminate judge-to-judge variation (judge effects)
 
 ```{r practice 1.5}
 practice.m1_score_norm2<-ulam(
@@ -226,7 +227,7 @@ practice.m2_score_norm2<-ulam(
         c[judge_amer_index] ~ dnorm(0,1),
         sigma ~ dexp(1)
 ),
-data=Wines2012.list, chains=1,cores=2,iter=2000) # errors....
+data=Wines2012.list, chains=1,cores=2,iter=2000) # no errors....
 # 
 
 ```
@@ -248,31 +249,89 @@ traceplot(practice.m2_score_norm2 )
 
 ## 3. Now consider two-way interactions among the three features.You should end up with three different interaction terms in your model. These will be easier to build, if you use indicator variables. Again use ulam, justify your priors, and be sure to check the chains. Explain what each interaction means. Be sure to interpret the model’s predictions on the outcome scale (mu, the expected score), not on the scale of individual parameters. You can use link to help with this, or just use your knowledge of the linear model instead.
 * What do you conclude about the features and the scores? Can you relate the results of your model(s) to the individual judge and wine inferences from Problem 1?
-### needs to learn how to do with interaction .... help me! which page in the textbook?
-```{r practice 3.1, eval=FALSE}
+### needs to learn how to do with interaction .... help me! which page in the textbook? -> chapter 8
+
+
+```{r practice 3.1}
 practice.m3_score_norm2_interaction<-ulam(
     alist(
-        score_norm2 ~ dnorm( mu , sigma ) , # no error
-        mu <- a[flight_index] + b[wine_amer_index] + c[judge_amer_index] + d[flight_index]*[wine_amer_index]+e[wine_amer_index]*[judge_amer_index] + f[judge_amer_index]*[flight_index], 
+        score_norm2 ~ dnorm( mu , sigma ) , 
+        mu <- a[flight_index] + 
+          b[wine_amer_index] + 
+          c[judge_amer_index] +
+          d[flight_index]*wine_amer_index + 
+          e[wine_amer_index]*judge_amer_index +
+          f[judge_amer_index]*flight_index,
         a[flight_index] ~ dnorm(0 , 1),
         b[wine_amer_index] ~ dnorm(0 , 1),
         c[judge_amer_index] ~ dnorm(0,1),
-        d[flight_index]*[wine_amer_index] ~ dnorm(0,1),
-        e[wine_amer_index]*[judge_amer_index] ~ dnorm(0,1),
-        f[judge_amer_index]*[flight_index] ~ dnorm(0,1),
-        sigma ~ dexp(1)
-),
-data=Wines2012.list, chains=1,cores=2,iter=2000) # errors....
+        d[flight_index] ~ dnorm(0,1),
+        e[wine_amer_index] ~ dnorm(0,1),
+        f[judge_amer_index] ~ dnorm(0,1),
+        sigma ~ dexp(1)),
+data=Wines2012.list, chains=4,cores=2,iter=2000) # errors....
 # 
 
 ```
 
 ```{r}
-link() #...
+plot(precis(practice.m3_score_norm2_interaction,2))
 ```
 
+```{r}
+traceplot(practice.m3_score_norm2_interaction)
+```
 
-# 10.2. Generalized inear models
-##### under construction ####
+# more thoughts: prior extimate
+```{r}
+set.seed(7)
+prior <- extract.prior(practice.m3_score_norm2_interaction)
+lapply(prior, head)
+# plot a in histogram
+prior$a %>% as_tibble %>% gather(key=index) %>% ggplot(aes(x=value))+ geom_histogram(aes(color=index)) + facet_grid(index~.)
+```
+
+# What hypothesis we can create by plotting raw data?
+```{r}
+Wines2012.list %>% dplyr::bind_cols() %>% head()
+# wine_amer
+  Wines2012.list %>% dplyr::bind_cols() %>% 
+  ggplot(aes(x=as.character(judge_amer_index),y=score_norm2)) + geom_boxplot() + geom_jitter() + facet_grid(.~wine_amer_index) 
+# flight
+Wines2012.list %>% dplyr::bind_cols() %>% 
+  ggplot(aes(x=as.character(judge_amer_index),y=score_norm2)) + geom_boxplot() + geom_jitter() + facet_grid(flight_index~.) 
+# both
+p.rawdata<-Wines2012.list %>% dplyr::bind_cols() %>% 
+  ggplot(aes(x=as.character(judge_amer_index),y=score_norm2)) + geom_boxplot() + geom_jitter() + facet_grid(flight_index~wine_amer_index) 
+
+p.rawdata
+# judge.amer has correlation with wine.amer in white flight?
+```
+
+# Using link for plotting predicitn
+```{r, fig.height=11}
+p.prior <- p.rawdata
+p.posterior <- p.rawdata
+
+# prediction
+dummy.data<-list(flight_index=c(1,2,1,2,1,2,1,2),wine_amer_index=c(1,1,1,1,2,2,2,2),judge_amer_index=c(1,1,2,2,1,1,2,2))
+mu.post<-link(practice.m3_score_norm2_interaction,data=dummy.data)
+mu.prior<-link(practice.m3_score_norm2_interaction,data=dummy.data,post=prior) # see chapter 8.3.4
+# plotting
+for(i in 1:100) {
+data.prediction<-dummy.data %>% bind_cols() %>% mutate(score_norm2.post=mu.post[i,],score_norm2.prior=mu.prior[i,]) %>% unite(category,flight_index,wine_amer_index,remove=FALSE)
+
+p.prior<- p.prior +   geom_line(aes(x=as.character(judge_amer_index),y=score_norm2.prior, group=category),data=data.prediction,color="green",alpha=0.5) +  facet_grid(flight_index~wine_amer_index) 
+p.posterior<- p.posterior +  geom_line(aes(x=as.character(judge_amer_index),y=score_norm2.post, group=category),data=data.prediction,color="magenta",alpha=0.5) +   facet_grid(flight_index~wine_amer_index) 
+}
+
+p.prior + labs(title="prior")
+p.posterior + labs(title="posterior")
+# Why posterior is very compact? Should I change prior?
+# Looks like predictin does not match to real data??? 
+
+# How to modify the model?
+
+```
 
 

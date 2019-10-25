@@ -1,0 +1,298 @@
+---
+title: "Chap8_Kazu"
+author: "Kazu"
+date: "10/18/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = TRUE)
+library(rethinking)
+library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
+```
+# 8.1.1 Making two models
+```{r}
+data(rugged)
+d <- rugged
+# make log version of outcome
+d$log_gdp <- log(d$rgdppc_2000)
+# extract countries with GDP data
+dd <- d[complete.cases(d$rgdppc_2000),]
+# rescale variables
+dd$log_gdp_std <- dd$log_gdp/mean(dd$log_gdp)
+dd$rugged_std <- dd$rugged/max(dd$rugged)
+#split countries into Africa and non-Africa
+d.A1 <- dd[dd$cont_africa==1,] # Africa
+d.A0 <- dd[dd$cont_africa==0,] # non Africa
+
+```
+
+```{r}
+m8.1 <- quap(
+    alist(
+        log_gdp_std ~ dnorm( mu , sigma ) ,
+        mu <- a + b*( rugged_std - 0.215 ) ,
+        a ~ dnorm( 1 , 1 ) ,
+        b ~ dnorm( 0 , 1 ) ,
+        sigma ~ dexp( 1 )
+    ) , data=d.A1 )
+```
+
+* We’re not going to look at the posterior predictions yet, but rather at the prior predictions. Let’s extract the prior and plot the implied lines. We’ll do this using link, as in earlier chapters.
+
+```{r}
+set.seed(7)
+prior <- extract.prior( m8.1 )
+# set up the plot dimensions
+plot( NULL , xlim=c(0,1) , ylim=c(0.5,1.5) ,
+    xlab="ruggedness" , ylab="log GDP" )
+abline( h=min(dd$log_gdp_std) , lty=2 )
+abline( h=max(dd$log_gdp_std) , lty=2 )
+# draw 50 lines from the prior
+rugged_seq <- seq( from=-0.1 , to=1.1 , length.out=30 )
+mu <- link( m8.1 , post=prior , data=data.frame(rugged_std=rugged_seq) )
+for ( i in 1:50 ) lines( rugged_seq , mu[i,] , col=col.alpha("black",0.3) )
+```
+
+```{r R code 8.4}
+sum( abs(prior$b) > 0.6 ) / length(prior$bR)
+```
+
+```{r R code 8.5}
+m8.1 <- quap(
+    alist(
+        log_gdp_std ~ dnorm( mu , sigma ) ,
+        mu <- a + b*( rugged_std - 0.215 ) ,
+        a ~ dnorm( 1 , 0.1 ) ,
+        b ~ dnorm( 0 , 0.3 ) ,
+        sigma ~ dexp(1)
+    ) , data=d.A1 )
+```
+
+```{r R code 8.6}
+# Non-African nations
+m8.2 <- quap(
+    alist(
+        log_gdp_std ~ dnorm( mu , sigma ) ,
+        mu <- a + b*( rugged_std - 0.215 ) ,
+        a ~ dnorm( 1 , 0.1 ) ,
+        b ~ dnorm( 0 , 0.25 ) ,
+        sigma ~ dexp(1)
+), data=d.A0 )
+```
+
+# 8.1.2. Adding an indicator variable doesn’t work.
+
+```{r R code 8.7}
+m8.3 <- quap(
+    alist(
+        log_gdp_std ~ dnorm( mu , sigma ) ,
+        mu <- a + b*( rugged_std - 0.215 ) ,
+        a ~ dnorm( 1 , 0.1 ) ,
+        b ~ dnorm( 0 , 0.3 ) ,
+sigma ~ dexp( 1 ) ),
+data=dd )
+```
+
+* indexing
+```{r R code 8.8}
+# make variable to index Africa (1) or not (2)
+dd$cid <- ifelse( dd$cont_africa==1 , 1 , 2 )
+```
+
+```{r}
+m8.4 <- quap(
+    alist(
+        log_gdp_std ~ dnorm( mu , sigma ) ,
+        mu <- a[cid] + b*( rugged_std - 0.215 ) ,
+        a[cid] ~ dnorm( 1 , 0.1 ) ,
+        b ~ dnorm( 0 , 0.3 ) ,
+        sigma ~ dexp( 1 )
+), data=dd )
+```
+
+# compare model
+```{r}
+compare( m8.3 , m8.4 )
+```
+* m8.4 gets all the model weight. And while the standard error of the difference in WAIC is 15, the difference itself is 64. So the continent variable seems to be picking up something important to the sample. The precis output gives a good hint. Note that we need to use depth=2 to display the vector parameter a. With only two parameters in a, it wouldn’t be bad to display it by default. But often a vector like this has hundreds of values, and you don’t want to see each one in a table.
+
+```{r}
+ precis( m8.4 , depth=2 )
+```
+
+```{r R code 8.12}
+rugged.seq <- seq( from=-0.1 , to=1.1 , length.out=30 )
+# compute mu over samples, fixing cid=2
+mu.NotAfrica <- link( m8.4 ,
+    data=data.frame( cid=2 , rugged_std=rugged.seq ) )
+```
+
+```{r}
+# compute mu over samples, fixing cid=1
+mu.Africa <- link( m8.4 ,
+    data=data.frame( cid=1 , rugged_std=rugged.seq ) )
+# summarize to means and intervals
+mu.NotAfrica_mu <- apply( mu.NotAfrica , 2 , mean )
+mu.NotAfrica_ci <- apply( mu.NotAfrica , 2 , PI , prob=0.97 )
+mu.Africa_mu <- apply( mu.Africa , 2 , mean )
+mu.Africa_ci <- apply( mu.Africa , 2 , PI , prob=0.97 )
+```
+
+# 8.1.3. Adding an interaction does work.
+```{r R code 8.13}
+m8.5 <- quap(
+    alist(
+        log_gdp_std ~ dnorm( mu , sigma ) ,
+        mu <- a[cid] + b[cid]*( rugged_std - 0.215 ) ,
+        a[cid] ~ dnorm( 1 , 0.1 ) ,
+        b[cid] ~ dnorm( 0 , 0.3 ) ,
+        sigma ~ dexp( 1 )
+), data=dd )
+```
+```{r R code 8.14}
+precis(m8.5,depth=2)
+```
+
+```{r R code 8.15}
+ compare( m8.3 , m8.4 , m8.5 )
+```
+
+* Model family m8.5 has about 98% of the estimated model weight. That’s very strong support for including the interaction effect, if prediction is our goal. 
+
+* To get WAIC (or LOO) in pointwise fashion, you can just add pointwise=TRUE:
+```{r}
+ waic_list <- WAIC( m8.5 , pointwise=TRUE )
+```
+
+# 8.1.4. Plotting the interaction. 
+```{r}
+# plot Africa - cid=1
+plot( d.A1$rugged_std , d.A1$log_gdp_std , pch=16 , col=rangi2 ,
+    xlab="ruggedness (standardized)" , ylab="log GDP (as proportion of mean)" ,
+    xlim=c(0,1) )
+mu <- link( m8.5 , data=data.frame( cid=1 , rugged_std=rugged_seq ) )
+mu_mean <- apply( mu , 2 , mean )
+mu_ci <- apply( mu , 2 , PI , prob=0.97 )
+lines( rugged_seq , mu_mean , lwd=2 )
+shade( mu_ci , rugged_seq , col=col.alpha(rangi2,0.3) )
+mtext("African nations")
+# plot non-Africa - cid=2
+plot( d.A0$rugged_std , d.A0$log_gdp_std , pch=1 , col="black" ,
+    xlab="ruggedness (standardized)" , ylab="log GDP (as proportion of mean)" ,
+    xlim=c(0,1) )
+mu <- link( m8.5 , data=data.frame( cid=2 , rugged_std=rugged_seq ) )
+mu_mean <- apply( mu , 2 , mean )
+mu_ci <- apply( mu , 2 , PI , prob=0.97 )
+lines( rugged_seq , mu_mean , lwd=2 )
+shade( mu_ci , rugged_seq )
+mtext("Non-African nations")
+```
+
+# 8.2. Symmetryofinteractions
+```{r R code 8.18}
+rugged_seq <- seq(from=-0.2,to=1.2,length.out=30)
+muA <- link( m8.5 , data=data.frame(cid=1,rugged_std=rugged_seq) )
+muN <- link( m8.5 , data=data.frame(cid=2,rugged_std=rugged_seq) )
+delta <- muA - muN
+```
+
+# 8.3. Continuous interactions
+## 8.3.1. A winter flower.
+```{r R code 8.19}
+library(rethinking)
+data(tulips)
+d <- tulips
+str(d)
+```
+
+# 8.3.2. The models.
+* Let’s pre-center these variables, as well as scale the outcome by its maximum:
+```{r}
+d$blooms_std <- d$blooms / max(d$blooms)
+d$water_cent <- d$water - mean(d$water)
+d$shade_cent <- d$shade - mean(d$shade)
+```
+
+```{r R code 8.21}
+a <- rnorm( 1e4 , 0.5 , 1 )
+sum( a < 0 | a > 1 ) / length( a )
+```
+
+```{r R code 8.22}
+a <- rnorm( 1e4 , 0.5 , 0.25 )
+sum( a < 0 | a > 1 ) / length( a )
+```
+
+```{r R code 8.23}
+m8.6 <- quap(
+    alist(
+        blooms_std ~ dnorm( mu , sigma ) ,
+        mu <- a + bw*water_cent + bs*shade_cent ,
+        a ~ dnorm( 0.5 , 0.25 ) ,
+        bw ~ dnorm( 0 , 0.25 ) ,
+        bs ~ dnorm( 0 , 0.25 ) ,
+        sigma ~ dexp( 1 )
+), data=d )
+```
+
+```{r R code 8.24}
+m8.7 <- quap(
+    alist(
+        blooms_std ~ dnorm( mu , sigma ) ,
+        mu <- a + bw*water_cent + bs*shade_cent + bws*water_cent*shade_cent ,
+        a ~ dnorm( 0.5 , 0.25 ) ,
+        bw ~ dnorm( 0 , 0.25 ) ,
+        bs ~ dnorm( 0 , 0.25 ) ,
+        bws ~ dnorm( 0 , 0.25 ) ,
+        sigma ~ dexp( 1 )
+), data=d )
+```
+
+# 8.3.3. Plotting posterior predictions.
+```{r R code 8.25}
+par(mfrow=c(1,3)) # 3 plots in 1 row
+for ( s in -1:1 ) {
+    idx <- which( d$shade_cent==s )
+    plot( d$water_cent[idx] , d$blooms_std[idx] , xlim=c(-1,1) , ylim=c(0,1) ,
+        xlab="water" , ylab="blooms" , pch=16 , col=rangi2 )
+    mu <- link( m8.6 , data=data.frame( shade_cent=s , water_cent=-1:1 ) )
+    for ( i in 1:20 ) lines( -1:1 , mu[i,] , col=col.alpha("black",0.3) )
+}
+```
+
+# 8.3.4. Plotting prior predictions.
+* And we can use the same technique to finally plot prior predictive simulations as well. This will let us evaluate my guesses from earlier. To produce the prior predictions, all that’s need is to extract the prior:
+
+```{r}
+set.seed(7)
+prior <- extract.prior(m8.6)
+```
+
+```{r}
+par(mfrow=c(1,3)) # 3 plots in 1 row
+for ( s in -1:1 ) {
+    idx <- which( d$shade_cent==s )
+    plot( d$water_cent[idx] , d$blooms_std[idx] , xlim=c(-1,1) , ylim=c(0,1) ,
+        xlab="water" , ylab="blooms" , pch=16 , col=rangi2 )
+    mu <- link( m8.6 , data=data.frame( shade_cent=s , water_cent=-1:1 ) ,
+                post=prior)
+    for ( i in 1:100 ) lines( -1:1 , mu[i,] , col=col.alpha("black",0.3) )
+}
+```
+```{r}
+set.seed(7)
+prior <- extract.prior(m8.7)
+```
+
+```{r}
+par(mfrow=c(1,3)) # 3 plots in 1 row
+for ( s in -1:1 ) {
+    idx <- which( d$shade_cent==s )
+    plot( d$water_cent[idx] , d$blooms_std[idx] , xlim=c(-1,1) , ylim=c(0,1) ,
+        xlab="water" , ylab="blooms" , pch=16 , col=rangi2 )
+    mu <- link( m8.7 , data=data.frame( shade_cent=s , water_cent=-1:1 ) ,
+                post=prior)
+    for ( i in 1:100 ) lines( -1:1 , mu[i,] , col=col.alpha("black",0.3) )
+}
+```
