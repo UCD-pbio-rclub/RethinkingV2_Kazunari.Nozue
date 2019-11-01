@@ -332,6 +332,10 @@ p.posterior + labs(title="posterior")
 
 # How to modify the model?
 
+# Note: since indexes are 1 and 2, which is treated as numbers, my model is wrong. One solution is 0 and 1. 
+# If we have multiple categories, how to do? (Oct 25, 2019)
+# 
+# Take a look at his solution in hw5 (https://github.com/rmcelreath/statrethinking_winter2019/tree/master/homework) 
 ```
 
 

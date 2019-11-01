@@ -126,7 +126,7 @@ distributions <- H[2,]
 ```
 
 ```
-## [1] 1.221727
+## [1] 1.221728
 ```
 
 
@@ -136,7 +136,7 @@ distributions <- H[2,]
 
 ```
 ## [[1]]
-## [1] 0.08975763 0.21073714 0.20974760 0.48975763
+## [1] 0.09011615 0.20985273 0.20991496 0.49011615
 ```
 
 # [practice](https://github.com/rmcelreath/statrethinking_winter2019/blob/master/homework/week05.pdf)
@@ -244,8 +244,8 @@ data=Wines2012.list, chains=1,cores=2,iter=2000) # errors....
 ## 
 ## SAMPLING FOR MODEL '6f8da6303b072431fcef4292dd7ad4a3' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 5e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.5 seconds.
+## Chain 1: Gradient evaluation took 3.6e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.36 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -262,9 +262,9 @@ data=Wines2012.list, chains=1,cores=2,iter=2000) # errors....
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.379176 seconds (Warm-up)
-## Chain 1:                0.352415 seconds (Sampling)
-## Chain 1:                0.731591 seconds (Total)
+## Chain 1:  Elapsed Time: 0.276393 seconds (Warm-up)
+## Chain 1:                0.207196 seconds (Sampling)
+## Chain 1:                0.483589 seconds (Total)
 ## Chain 1:
 ```
 
@@ -304,8 +304,8 @@ data=Wines2012.list, chains=1,cores=2,iter=1000)
 ## 
 ## SAMPLING FOR MODEL '639b1b4b70cb3d837e9b9bf05b263cdc' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 2.6e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.26 seconds.
+## Chain 1: Gradient evaluation took 3.1e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.31 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -322,22 +322,10 @@ data=Wines2012.list, chains=1,cores=2,iter=1000)
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.109784 seconds (Warm-up)
-## Chain 1:                0.08149 seconds (Sampling)
-## Chain 1:                0.191274 seconds (Total)
+## Chain 1:  Elapsed Time: 0.114409 seconds (Warm-up)
+## Chain 1:                0.069067 seconds (Sampling)
+## Chain 1:                0.183476 seconds (Total)
 ## Chain 1:
-```
-
-```
-## Warning: The largest R-hat is 1.07, indicating chains have not mixed.
-## Running the chains for more iterations may help. See
-## http://mc-stan.org/misc/warnings.html#r-hat
-```
-
-```
-## Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
-## Running the chains for more iterations may help. See
-## http://mc-stan.org/misc/warnings.html#bulk-ess
 ```
 
 ```r
@@ -433,8 +421,8 @@ data=Wines2012.list, chains=1,cores=2,iter=2000) # no errors....
 ## 
 ## SAMPLING FOR MODEL 'd56d06282eb11bcd91de91707e83528b' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 2.5e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
+## Chain 1: Gradient evaluation took 3.1e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.31 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -451,9 +439,9 @@ data=Wines2012.list, chains=1,cores=2,iter=2000) # no errors....
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.775838 seconds (Warm-up)
-## Chain 1:                0.627975 seconds (Sampling)
-## Chain 1:                1.40381 seconds (Total)
+## Chain 1:  Elapsed Time: 0.542354 seconds (Warm-up)
+## Chain 1:                0.600034 seconds (Sampling)
+## Chain 1:                1.14239 seconds (Total)
 ## Chain 1:
 ```
 
@@ -545,8 +533,8 @@ prior <- extract.prior(practice.m3_score_norm2_interaction)
 ## 
 ## SAMPLING FOR MODEL '6858c59ba193f98627ff200b83953038' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 4.1e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.41 seconds.
+## Chain 1: Gradient evaluation took 4.8e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.48 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -563,9 +551,9 @@ prior <- extract.prior(practice.m3_score_norm2_interaction)
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.315448 seconds (Warm-up)
-## Chain 1:                0.318168 seconds (Sampling)
-## Chain 1:                0.633616 seconds (Total)
+## Chain 1:  Elapsed Time: 0.300712 seconds (Warm-up)
+## Chain 1:                0.28927 seconds (Sampling)
+## Chain 1:                0.589982 seconds (Total)
 ## Chain 1:
 ```
 
@@ -731,6 +719,11 @@ p.posterior + labs(title="posterior")
 # Looks like predictin does not match to real data??? 
 
 # How to modify the model?
+
+# Note: since indexes are 1 and 2, which is treated as numbers, my model is wrong. One solution is 0 and 1. 
+# If we have multiple categories, how to do? (Oct 25, 2019)
+# 
+# Take a look at his solution in hw5 (https://github.com/rmcelreath/statrethinking_winter2019/tree/master/homework) 
 ```
 
 
