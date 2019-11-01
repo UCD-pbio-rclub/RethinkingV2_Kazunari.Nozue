@@ -185,7 +185,7 @@ m11.5 <- ulam(
         bs[side] ~ dnorm( 0 , 0.5 ),
         bc[cond] ~ dnorm( 0 , 0.5 )
 ),
-data=dat_list2 , chains=4 , , core=2,log_lik=TRUE )
+data=dat_list2 , chains=4 , core=2,log_lik=TRUE )
 ```
 
 #
