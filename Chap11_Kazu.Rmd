@@ -298,7 +298,7 @@ for ( i in 1:6 ) {
 ```
 
 ```{r R code 11.32}
-d$dept_id <- rep(1:6,each=2)
+d$dept_id <- rep(1:6,each=2) # Note: since thsi column is used for index, integer is fine. 
 m11.8 <- quap(
     alist(
         admit ~ dbinom( applications , p ) ,

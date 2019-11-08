@@ -1,0 +1,274 @@
+---
+title: "Chap11_2_Kazu"
+author: "Kazu"
+date: "11/8/2019"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
+library(rethinking)
+library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
+```
+
+# 11.2. Poissonregression
+```{r}
+y <- rbinom(1e5,1000,1/1000)
+c( mean(y) , var(y) )
+```
+
+```{r R code 11.39}
+library(rethinking)
+data(Kline)
+d <- Kline
+d
+```
+
+* The total_tools variable will be the outcome variable. We’ll model the idea that:
+* (1) The number of tools increases with the log population size. Why log? Because that’s what the theory says, that it is the order of magnitude of the population that matters, not the absolute size of it. So we’ll look for a positive association between total_tools and log population. You can get some intuition for why a linear impact of population size can’t be right by thinking about mechanism. We’ll think about mechanism more at the end.
+* (2) The number of tools increases with the contact rate among islands. Islands that are better networked acquire or sustain more tool types.
+* (3) Theimpactofpopulationontoolcountsisincreasedbyhighcontact.Thisisto say that the association between total_tools and log population depends upon contact. So we will look for a positive interaction between log population and contact rate.
+* Let’s build now. First, we make some new columns with the standardized log of popu- lation and an index variable for contact:
+
+```{r}
+d$P <- scale( log(d$population) )
+d$contact_id <- ifelse( d$contact=="high" , 2 , 1 )
+```
+
+```{r}
+curve(dlnorm(x,0,10),from=0,to=100,n=200)
+```
+```{r}
+a <- rnorm(1e4,0,10)
+lambda <- exp(a)
+mean( lambda )
+```
+```{r}
+curve( dlnorm( x , 3 , 0.5 ) , from=0 , to=100 , n=200 )
+```
+```{r}
+N <- 100
+a <- rnorm( N , 3 , 0.5 )
+b <- rnorm( N , 0 , 10 )
+plot( NULL , xlim=c(-2,2) , ylim=c(0,100) )
+for ( i in 1:N ) curve( exp( a[i] + b[i]*x ) , add=TRUE , col=col.alpha("black",0.5) )
+```
+
+```{r R code 11.45}
+set.seed(10)
+N <- 100
+a <- rnorm( N , 3 , 0.5 )
+b <- rnorm( N , 0 , 0.2 )
+plot( NULL , xlim=c(-2,2) , ylim=c(0,100) )
+for ( i in 1:N ) curve( exp( a[i] + b[i]*x ) , add=TRUE , col=col.alpha("black",0.5) )
+```
+
+```{r R code 11.46}
+ x_seq <- seq( from=log(100) , to=log(200000) , length.out=100 )
+lambda <- sapply( x_seq , function(x) exp( a + b*x ) )
+plot( NULL , xlim=range(x_seq) , ylim=c(0,500) , xlab="log population" , ylab="total tools")
+for ( i in 1:N ) lines( x_seq , lambda[i,] , col=col.alpha("black",0.5) , lwd=1.5 )
+```
+
+```{r}
+ plot( NULL , xlim=range(exp(x_seq)) , ylim=c(0,500) , xlab="population" , ylab="total tools")
+for ( i in 1:N ) lines( exp(x_seq) , lambda[i,] , col=col.alpha("black",0.5) , lwd=1.5 )
+```
+
+```{r}
+dat <- list(
+    T = d$total_tools ,
+    P = d$P ,
+    cid = d$contact_id )
+# intercept only
+m11.9 <- ulam(
+    alist(
+        T ~ dpois( lambda ),
+        log(lambda) <- a,
+        a ~ dnorm(3,0.5)
+    ), data=dat , chains=4 , log_lik=TRUE )
+# interaction model
+m11.10 <- ulam(
+    alist(
+        T ~ dpois( lambda ),
+        log(lambda) <- a[cid] + b[cid]*P,
+        a[cid] ~ dnorm( 3 , 0.5 ),
+        b[cid] ~ dnorm( 0 , 0.2 )
+    ), data=dat , chains=4 , log_lik=TRUE )
+
+```
+
+```{r R code 11.49}
+ compare( m11.9 , m11.10 , func=LOO )
+```
+
+```{r}
+k <- LOOPk(m11.10) # error!
+plot( dat$P , dat$T , xlab="log population (std)" , ylab="total tools" ,
+    col=rangi2 , pch=ifelse( dat$cid==1 , 1 , 16 ) , lwd=2 ,
+    ylim=c(0,75) , cex=1+normalize(k) )
+# set up the horizontal axis values to compute predictions at
+ns <- 100
+P_seq <- seq( from=-1.4 , to=3 , length.out=ns )
+# predictions for cid=1 (low contact)
+lambda <- link( m11.10 , data=data.frame( P=P_seq , cid=1 ) )
+lmu <- apply( lambda , 2 , mean )
+lci <- apply( lambda , 2 , PI )
+lines( P_seq , lmu , lty=2 , lwd=1.5 )
+shade( lci , P_seq , xpd=TRUE )
+# predictions for cid=2 (high contact)
+lambda <- link( m11.10 , data=data.frame( P=P_seq , cid=2 ) )
+lmu <- apply( lambda , 2 , mean )
+lci <- apply( lambda , 2 , PI )
+lines( P_seq , lmu , lty=1 , lwd=1.5 )
+shade( lci , P_seq , xpd=TRUE )
+
+```
+
+```{r}
+ plot( d$population , d$total_tools , xlab="population" , ylab="total tools" ,
+    col=rangi2 , pch=ifelse( dat$cid==1 , 1 , 16 ) , lwd=2 ,
+    ylim=c(0,75) , cex=1+normalize(k) )
+ns <- 100
+P_seq <- seq( from=-5 , to=3 , length.out=ns )
+# 1.53 is sd of log(population)
+# 9 is mean of log(population)
+pop_seq <- exp( P_seq*1.53 + 9 )
+lambda <- link( m11.10 , data=data.frame( P=P_seq , cid=1 ) )
+lmu <- apply( lambda , 2 , mean )
+lci <- apply( lambda , 2 , PI )
+lines( pop_seq , lmu , lty=2 , lwd=1.5 )
+shade( lci , pop_seq , xpd=TRUE )
+lambda <- link( m11.10 , data=data.frame( P=P_seq , cid=2 ) )
+lmu <- apply( lambda , 2 , mean )
+lci <- apply( lambda , 2 , PI )
+lines( pop_seq , lmu , lty=1 , lwd=1.5 )
+shade( lci , pop_seq , xpd=TRUE )
+```
+
+```{r R code 11.52}
+dat2 <- list( T=d$total_tools, P=d$population, cid=d$contact_id )
+m11.11 <- ulam(
+    alist(
+        T ~ dpois( lambda ),
+        lambda <- exp(a[cid])*P^b[cid]/g,
+        a[cid] ~ dnorm(1,1),
+        b[cid] ~ dexp(1),
+        g ~ dexp(1)
+    ), data=dat2 , chains=4 , log_lik=TRUE )
+```
+
+# 11.2.2. Negativebinomial(gamma-Poisson)models. 
+# 11.2.3. Example:Exposure and the offset. 
+```{r}
+num_days <- 30
+y <- rpois( num_days , 1.5 )
+```
+
+```{r}
+num_weeks <- 4
+y_new <- rpois( num_weeks , 0.5*7 )
+```
+
+```{r}
+y_all <- c( y , y_new )
+exposure <- c( rep(1,30) , rep(7,4) )
+monastery <- c( rep(0,30) , rep(1,4) )
+d <- data.frame( y=y_all , days=exposure , monastery=monastery )
+```
+
+```{r}
+# compute the offset
+d$log_days <- log( d$days )
+# fit the model
+m11.12 <- quap(
+    alist(
+        y ~ dpois( lambda ),
+        log(lambda) <- log_days + a + b*monastery,
+        a ~ dnorm( 0 , 1 ),
+        b ~ dnorm( 0 , 1 )
+), data=d )
+```
+
+```{r}
+post <- extract.samples( m10.15 )
+lambda_old <- exp( post$a )
+lambda_new <- exp( post$a + post$b )
+precis( data.frame( lambda_old , lambda_new ) )
+```
+# 11.2.4. MultinomialindisguiseasPoisson. 
+```{r}
+library(rethinking)
+data(UCBadmit)
+d <- UCBadmit
+```
+
+```{r}
+# binomial model of overall admission probability
+m_binom <- map(
+    alist(
+        admit ~ dbinom(applications,p),
+        logit(p) <- a,
+        a ~ dnorm(0,100)
+), data=d )
+# Poisson model of overall admission rate and rejection rate
+d$rej <- d$reject # 'reject' is a reserved word
+m_pois <- map2stan(
+    alist(
+        admit ~ dpois(lambda1),
+        rej ~ dpois(lambda2),
+        log(lambda1) <- a1,
+        log(lambda2) <- a2,
+        c(a1,a2) ~ dnorm(0,100)
+    ),
+    data=d , chains=3 , cores=3 )
+```
+
+
+```{r}
+logistic(coef(m_binom))
+```
+
+
+```{r}
+k <- as.numeric(coef(m_pois))
+exp(k[1])/(exp(k[1])+exp(k[2]))
+```
+
+# problems
+# 10E4 Why do Poisson regressions sometimes require the use of an offset? Provide an example.
+```{r}
+
+```
+
+# 10M2 
+* If a coefficient in a Poisson regression has value 1.7, what does this imply about the change in the outcome?
+```{r}
+
+```
+
+# 10M3
+* Explain why the logit link is appropriate for a binomial generalized linear model.
+
+# 10M4
+* Explain why the log link is appropriate for a Poisson generalized linear model.
+
+# 10H4 
+* Thedatacontainedindata(salamanders)arecountsofsalamanders(Plethodonelongatus) from 47 different 49-m2 plots in northern California.170 The column SALAMAN is the count in each plot, and the columns PCTCOVER and FORESTAGE are percent of ground cover and age of trees in the plot, respectively. You will model SALAMAN as a Poisson variable.
+(a) Model the relationship between density and percent cover, using a log-link (same as the ex- ample in the book and lecture). Use weakly informative priors of your choosing. Check the quadratic approximation again, by comparing map to map2stan. Then plot the expected counts and their 89% interval against percent cover. In which ways does the model do a good job? In which ways does it do a bad job?
+* (b) Can you improve the model by using the other predictor, FORESTAGE? Try any models you think useful. Can you explain why FORESTAGE helps or does not help with prediction?
+
+# [Week6 PDF # 3](https://github.com/rmcelreath/statrethinking_winter2019/blob/master/homework/week06.pdf) 
+* 3. The data in data(Primates301) were first introduced at the end of Chapter7. In this problem, you will consider how brain size is associated with social learning. There are three parts.
+First, model the number of observations of social_learning for each species as a function of the log brain size. Use a Poisson distribution for the social_learning outcome variable. Interpret the resulting posterior.
+Second, some species are studied much more than others. So the number of re- ported instances of social_learning could be a product of research effort. Use the research_effort variable, specifically its logarithm, as an additional predic- tor variable. Interpret the coefficient for log research_effort. Does this model disagree with the previous one?
+Third, draw a DAG to represent how you think the variables social_learning, brain, and research_effort interact. Justify the DAG with the measured associations in the two models above (and any other models you used).
+```{r}
+data(Primates301)
+head(Primates301)
+
+```
+
+
