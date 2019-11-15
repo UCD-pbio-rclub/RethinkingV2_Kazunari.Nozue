@@ -265,9 +265,9 @@ compare( m11.5 , m11.4 , func=LOO )
 ```
 
 ```
-##            LOO     pLOO      dLOO    weight       SE      dSE
-## m11.5 531.2791 7.963326 0.0000000 0.6059983 19.11409       NA
-## m11.4 532.1401 8.387160 0.8610439 0.3940017 18.87165 1.362118
+##           PSIS pPSIS     dPSIS    weight       SE      dSE
+## m11.5 531.2791     0 0.0000000 0.6059983 19.11409       NA
+## m11.4 532.1401     0 0.8610439 0.3940017 18.87165 1.362118
 ```
 
 # 
@@ -279,10 +279,10 @@ str(post)
 
 ```
 ## List of 4
-##  $ log_lik: num [1:2000, 1:504] -0.321 -0.625 -0.484 -0.537 -0.465 ...
-##  $ a      : num [1:2000, 1:7] -0.966 -0.491 -0.528 -0.533 -0.467 ...
-##  $ b      : num [1:2000, 1:4] -0.00659 0.34974 0.05322 0.1927 -0.05702 ...
-##  $ lp__   : num [1:2000(1d)] -266 -272 -266 -270 -268 ...
+##  $ log_lik: num [1:2000, 1:504] -0.272 -0.583 -0.835 -0.364 -0.549 ...
+##  $ a      : num [1:2000, 1:7] -1.455 -0.206 -0.556 -1.006 -0.151 ...
+##  $ b      : num [1:2000, 1:4] 0.2935 -0.0276 0.8213 0.1824 -0.1627 ...
+##  $ lp__   : num [1:2000(1d)] -273 -267 -273 -268 -267 ...
 ##  - attr(*, "source")= chr "ulam posterior: 2000 samples from m11.4"
 ```
 
@@ -335,8 +335,8 @@ m11.4_stan <- stan( model_code=m11.4_stan_code , data=dat_list , chains=4 )
 ## 
 ## SAMPLING FOR MODEL '82480dff1a626a42c2ca9de938d65b9d' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.000105 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.05 seconds.
+## Chain 1: Gradient evaluation took 0.000137 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.37 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -353,15 +353,15 @@ m11.4_stan <- stan( model_code=m11.4_stan_code , data=dat_list , chains=4 )
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.604179 seconds (Warm-up)
-## Chain 1:                0.503989 seconds (Sampling)
-## Chain 1:                1.10817 seconds (Total)
+## Chain 1:  Elapsed Time: 0.576386 seconds (Warm-up)
+## Chain 1:                0.498454 seconds (Sampling)
+## Chain 1:                1.07484 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL '82480dff1a626a42c2ca9de938d65b9d' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 6.6e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.66 seconds.
+## Chain 2: Gradient evaluation took 4.8e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.48 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -378,15 +378,15 @@ m11.4_stan <- stan( model_code=m11.4_stan_code , data=dat_list , chains=4 )
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.628188 seconds (Warm-up)
-## Chain 2:                0.514985 seconds (Sampling)
-## Chain 2:                1.14317 seconds (Total)
+## Chain 2:  Elapsed Time: 0.616449 seconds (Warm-up)
+## Chain 2:                0.505578 seconds (Sampling)
+## Chain 2:                1.12203 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL '82480dff1a626a42c2ca9de938d65b9d' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 7.5e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.75 seconds.
+## Chain 3: Gradient evaluation took 5e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.5 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -403,15 +403,15 @@ m11.4_stan <- stan( model_code=m11.4_stan_code , data=dat_list , chains=4 )
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.633985 seconds (Warm-up)
-## Chain 3:                0.489978 seconds (Sampling)
-## Chain 3:                1.12396 seconds (Total)
+## Chain 3:  Elapsed Time: 0.631659 seconds (Warm-up)
+## Chain 3:                0.488601 seconds (Sampling)
+## Chain 3:                1.12026 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL '82480dff1a626a42c2ca9de938d65b9d' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 5.7e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.57 seconds.
+## Chain 4: Gradient evaluation took 6.6e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.66 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -428,9 +428,9 @@ m11.4_stan <- stan( model_code=m11.4_stan_code , data=dat_list , chains=4 )
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.605828 seconds (Warm-up)
-## Chain 4:                0.517461 seconds (Sampling)
-## Chain 4:                1.12329 seconds (Total)
+## Chain 4:  Elapsed Time: 0.643717 seconds (Warm-up)
+## Chain 4:                0.515887 seconds (Sampling)
+## Chain 4:                1.1596 seconds (Total)
 ## Chain 4:
 ```
 
@@ -500,8 +500,8 @@ data=dat , chains=4 , log_lik=TRUE )
 ## 
 ## SAMPLING FOR MODEL '79cee3368c3337e807538171c896ad26' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 2.1e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.21 seconds.
+## Chain 1: Gradient evaluation took 2.3e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -518,15 +518,15 @@ data=dat , chains=4 , log_lik=TRUE )
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.067286 seconds (Warm-up)
-## Chain 1:                0.040554 seconds (Sampling)
-## Chain 1:                0.10784 seconds (Total)
+## Chain 1:  Elapsed Time: 0.051719 seconds (Warm-up)
+## Chain 1:                0.040523 seconds (Sampling)
+## Chain 1:                0.092242 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL '79cee3368c3337e807538171c896ad26' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 8e-06 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
+## Chain 2: Gradient evaluation took 9e-06 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -543,15 +543,15 @@ data=dat , chains=4 , log_lik=TRUE )
 ## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.049419 seconds (Warm-up)
-## Chain 2:                0.046891 seconds (Sampling)
-## Chain 2:                0.09631 seconds (Total)
+## Chain 2:  Elapsed Time: 0.04772 seconds (Warm-up)
+## Chain 2:                0.046343 seconds (Sampling)
+## Chain 2:                0.094063 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL '79cee3368c3337e807538171c896ad26' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 1e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.1 seconds.
+## Chain 3: Gradient evaluation took 7e-06 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -568,9 +568,9 @@ data=dat , chains=4 , log_lik=TRUE )
 ## Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.053078 seconds (Warm-up)
-## Chain 3:                0.053799 seconds (Sampling)
-## Chain 3:                0.106877 seconds (Total)
+## Chain 3:  Elapsed Time: 0.051898 seconds (Warm-up)
+## Chain 3:                0.053796 seconds (Sampling)
+## Chain 3:                0.105694 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL '79cee3368c3337e807538171c896ad26' NOW (CHAIN 4).
@@ -593,9 +593,9 @@ data=dat , chains=4 , log_lik=TRUE )
 ## Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.052726 seconds (Warm-up)
-## Chain 4:                0.050858 seconds (Sampling)
-## Chain 4:                0.103584 seconds (Total)
+## Chain 4:  Elapsed Time: 0.052567 seconds (Warm-up)
+## Chain 4:                0.050414 seconds (Sampling)
+## Chain 4:                0.102981 seconds (Total)
 ## Chain 4:
 ```
 
@@ -617,9 +617,14 @@ compare( m11.6 , m11.4 , func=LOO )
 ```
 
 ```
-##            LOO     pLOO     dLOO       weight       SE      dSE
-## m11.6 114.1596 8.343023   0.0000 1.000000e+00  8.38159       NA
-## m11.4 532.1401 8.387160 417.9806 1.724549e-91 18.87165 9.410309
+## Warning in xcheckLOOk(loo_list$diagnostics$pareto_k): Some Pareto k values
+## are high (>0.5). Use PSISk to inspect individual points.
+```
+
+```
+##           PSIS pPSIS    dPSIS       weight       SE      dSE
+## m11.6 114.1596     0   0.0000 1.000000e+00  8.38159       NA
+## m11.4 532.1401     0 417.9806 1.724549e-91 18.87165 9.410309
 ```
 
 
@@ -647,14 +652,7 @@ compare( m11.6 , m11.4 , func=LOO )
 ```
 
 ```
-## Warning: Some Pareto k diagnostic values are too high. See help('pareto-k-diagnostic') for details.
-```
-
-```
-##  [1] 0.3595387 0.2990879 0.4707500 0.3550722 0.2605353 0.5795076 0.5001489
-##  [8] 0.4523195 0.2824575 0.7431238 0.6233017 0.3408837 0.3958567 0.4616791
-## [15] 0.3784047 0.3930594 0.2928150 0.7480926 0.3691650 0.2818920 0.4370494
-## [22] 0.2569786 0.2594460 0.5460941 0.1931589 0.3163645 0.4599945 0.6171741
+## Error in LOOPk(m11.6): could not find function "LOOPk"
 ```
 
 # 11.1.4. Aggregatedbinomial:Graduateschooladmissions.
@@ -677,9 +675,9 @@ precis( m11.7 , depth=2 )
 ```
 
 ```
-##            mean         sd       5.5%     94.5%
-## a[1] -0.2199857 0.03877483 -0.2819553 -0.158016
-## a[2] -0.8295645 0.05073385 -0.9106470 -0.748482
+##            mean         sd       5.5%      94.5%
+## a[1] -0.2199913 0.03877484 -0.2819610 -0.1580216
+## a[2] -0.8295216 0.05073343 -0.9106034 -0.7484398
 ```
 
 
@@ -692,8 +690,8 @@ precis( list( diff_a=diff_a , diff_p=diff_p ) )
 
 ```
 ##             mean         sd      5.5%     94.5%    histogram
-## diff_a 0.6106176 0.06423937 0.5068465 0.7123143  ▁▁▁▃▇▇▅▂▁▁▁
-## diff_p 0.1416542 0.01446852 0.1181384 0.1643462 ▁▁▁▂▃▇▇▅▂▁▁▁
+## diff_a 0.6086956 0.06419235 0.5060614 0.7101888   ▁▁▁▃▇▇▅▂▁▁
+## diff_p 0.1412127 0.01446009 0.1181588 0.1640054 ▁▁▁▂▃▇▇▅▂▁▁▁
 ```
 
 
@@ -721,7 +719,7 @@ for ( i in 1:6 ) {
 
 
 ```r
-d$dept_id <- rep(1:6,each=2)
+d$dept_id <- rep(1:6,each=2) # Note: since thsi column is used for index, integer is fine. 
 m11.8 <- quap(
     alist(
         admit ~ dbinom( applications , p ) ,
@@ -734,14 +732,14 @@ precis( m11.8 , depth=2 )
 
 ```
 ##                mean        sd       5.5%      94.5%
-## a[1]     -0.5278865 0.5322783 -1.3785700  0.3227971
-## a[2]     -0.4311956 0.5330873 -1.2831720  0.4207809
-## delta[1]  1.1079956 0.5350322  0.2529108  1.9630805
-## delta[2]  1.0631978 0.5371968  0.2046535  1.9217420
-## delta[3] -0.1502661 0.5347763 -1.0049419  0.7044097
-## delta[4] -0.1826828 0.5350901 -1.0378602  0.6724946
-## delta[5] -0.6246709 0.5378490 -1.4842575  0.2349156
-## delta[6] -2.1727307 0.5468627 -3.0467230 -1.2987385
+## a[1]     -0.5279078 0.5322783 -1.3785913  0.3227758
+## a[2]     -0.4312225 0.5330873 -1.2831990  0.4207540
+## delta[1]  1.1080149 0.5350322  0.2529301  1.9630998
+## delta[2]  1.0632178 0.5371968  0.2046735  1.9217620
+## delta[3] -0.1502399 0.5347763 -1.0049157  0.7044360
+## delta[4] -0.1826610 0.5350902 -1.0378384  0.6725165
+## delta[5] -0.6246479 0.5378490 -1.4842345  0.2349386
+## delta[6] -2.1727085 0.5468628 -3.0467008 -1.2987162
 ```
 
 
@@ -753,9 +751,9 @@ precis( list( diff_a=diff_a , diff_p=diff_p ) )
 ```
 
 ```
-##               mean         sd        5.5%       94.5%     histogram
-## diff_a -0.09783986 0.08156007 -0.22660460 0.034406908 ▁▁▁▂▅▇▇▅▂▁▁▁▁
-## diff_p -0.02188642 0.01861675 -0.05223422 0.007521669      ▁▁▂▇▇▂▁▁
+##               mean         sd        5.5%       94.5%       histogram
+## diff_a -0.09735524 0.08019711 -0.22704192 0.031503335   ▁▁▁▂▅▇▇▅▂▁▁▁▁
+## diff_p -0.02178166 0.01827551 -0.05200536 0.006967773 ▁▁▁▁▁▃▅▇▇▅▂▁▁▁▁
 ```
 
 

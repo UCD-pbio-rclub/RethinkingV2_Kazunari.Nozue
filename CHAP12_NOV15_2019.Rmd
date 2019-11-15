@@ -1,0 +1,26 @@
+---
+title: "Chap12_Nov15-2019"
+author: "Kazu"
+date: "11/15/2019"
+output: html_document
+---
+
+# 12 Monsters and Mixtures
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
+library(rethinking)
+library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
+```
+
+
+
+
+
+
+```{r R code 12.1}
+pbar <- 0.5
+theta <- 5
+curve( dbeta2(x,pbar,theta) , from=0 , to=1 ,
+    xlab="probability" , ylab="Density" )
+```
+

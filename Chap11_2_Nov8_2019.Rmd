@@ -246,7 +246,9 @@ exp(k[1])/(exp(k[1])+exp(k[2]))
 # 10M2 
 * If a coefficient in a Poisson regression has value 1.7, what does this imply about the change in the outcome?
 ```{r}
-
+x<-exp(1+1.7*1)
+x2<-exp(1+1.7*2)
+x2/x
 ```
 
 # 10M3
@@ -256,14 +258,32 @@ exp(k[1])/(exp(k[1])+exp(k[2]))
 * Explain why the log link is appropriate for a Poisson generalized linear model.
 
 # 10H4 
-* Thedatacontainedindata(salamanders)arecountsofsalamanders(Plethodonelongatus) from 47 different 49-m2 plots in northern California.170 The column SALAMAN is the count in each plot, and the columns PCTCOVER and FORESTAGE are percent of ground cover and age of trees in the plot, respectively. You will model SALAMAN as a Poisson variable.
-(a) Model the relationship between density and percent cover, using a log-link (same as the ex- ample in the book and lecture). Use weakly informative priors of your choosing. Check the quadratic approximation again, by comparing map to map2stan. Then plot the expected counts and their 89% interval against percent cover. In which ways does the model do a good job? In which ways does it do a bad job?
+* The data contained in data(salamanders) are counts of salamanders(Plethodonelongatus) from 47 different 49-m2 plots in northern California.170 The column SALAMAN is the count in each plot, and the columns PCTCOVER and FORESTAGE are percent of ground cover and age of trees in the plot, respectively. You will model SALAMAN as a Poisson variable.
+```{r}
+data(salamanders)
+pairs(salamanders[,-1])
+```
+* (a) Model the relationship between density and percent cover, using a log-link (same as the example in the book and lecture). Use weakly informative priors of your choosing. Check the quadratic approximation again, by comparing map to map2stan. Then plot the expected counts and their 89% interval against percent cover. In which ways does the model do a good job? In which ways does it do a bad job?
+```{r}
+m.practice10H4 <- ulam(
+    alist(
+        T ~ dpois( lambda ),
+        log(lambda) <- a + b*SALAMAN,
+        a ~ dnorm(3,0.5),
+        b ~ dexp(1)
+    ), data=salamanders , chains=4 , log_lik=TRUE )
+```
+
 * (b) Can you improve the model by using the other predictor, FORESTAGE? Try any models you think useful. Can you explain why FORESTAGE helps or does not help with prediction?
+```{r}
+
+```
+
 
 # [Week6 PDF # 3](https://github.com/rmcelreath/statrethinking_winter2019/blob/master/homework/week06.pdf) 
 * 3. The data in data(Primates301) were first introduced at the end of Chapter7. In this problem, you will consider how brain size is associated with social learning. There are three parts.
 First, model the number of observations of social_learning for each species as a function of the log brain size. Use a Poisson distribution for the social_learning outcome variable. Interpret the resulting posterior.
-Second, some species are studied much more than others. So the number of re- ported instances of social_learning could be a product of research effort. Use the research_effort variable, specifically its logarithm, as an additional predic- tor variable. Interpret the coefficient for log research_effort. Does this model disagree with the previous one?
+Second, some species are studied much more than others. So the number of reported instances of social_learning could be a product of research effort. Use the research_effort variable, specifically its logarithm, as an additional predictor variable. Interpret the coefficient for log research_effort. Does this model disagree with the previous one?
 Third, draw a DAG to represent how you think the variables social_learning, brain, and research_effort interact. Justify the DAG with the measured associations in the two models above (and any other models you used).
 ```{r}
 data(Primates301)
@@ -271,4 +291,23 @@ head(Primates301)
 
 ```
 
+
+# PRACTICE  (for Nov 15, 2019)
+* 10H3. The data contained in library(MASS);data(eagles) are records of salmon pirating attempts by Bald Eagles in Washington State. See ?eagles for details. While one eagle feeds, sometimes another will swoop in and try to steal the salmon from it. Call the feeding eagle the “victim” and the thief the “pirate.” Use the available data to build a binomial GLM of successful pirating attempts.
+```{r}
+library(MASS);data(eagles)
+?eagles
+eagles
+```
+```{r}
+
+# interaction model
+m11.10 <- ulam(
+    alist(
+        T ~ dpois( lambda ),
+        log(lambda) <- a[cid] + b[cid]*P,
+        a[cid] ~ dnorm( 3 , 0.5 ),
+        b[cid] ~ dnorm( 0 , 0.2 )
+    ), data=dat , chains=4 , log_lik=TRUE )
+```
 
