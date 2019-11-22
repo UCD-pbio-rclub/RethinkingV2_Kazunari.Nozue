@@ -257,7 +257,8 @@ compare( m11.6 , m11.4 , func=LOO )
 ```
 
 ```{r R code 11.27}
-( k <- LOOPk(m11.6) )
+# ( k <- LOOPk(m11.6) )
+( k <- PSISk(m11.6) ) # rethinking updated (read Jonh Davis's email)
 ```
 
 # 11.1.4. Aggregatedbinomial:Graduateschooladmissions.

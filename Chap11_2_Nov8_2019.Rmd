@@ -13,6 +13,21 @@ library(rethinking)
 library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
 ```
 
+* Hi Everybody,
+* An updated version of the textbook was released on Oct 21st. It includes revisions to code examples and problems. The website claims it is revised through Chapter 16, but reading through you will still have blank sections, disagreeing code blocks, and typos.
+* The book is available at https://xcelab.net/rm/sr2/ and the password to access is "tempest"
+* The rethinking package on the experimental github branch has also been updated. * It can be updated with the following command in R
+* devtools::install_github("rmcelreath/rethinking",ref="Experimental")
+* If you do upgrade your version, several functions in the book will not work due to either being removed, renamed, or changed. For example, the function `LOOPk` has been replaced with `PSISk`
+* Best,
+* John
+# run once
+```{r eval=FALSE, include=FALSE}
+devtools::install_github("rmcelreath/rethinking",ref="Experimental")
+```
+
+
+
 # 11.2. Poissonregression
 ```{r}
 y <- rbinom(1e5,1000,1/1000)
@@ -105,7 +120,8 @@ m11.10 <- ulam(
 ```
 
 ```{r}
-k <- LOOPk(m11.10) # error!
+#k <- LOOPk(m11.10) # error!
+k <- PSISk(m11.10)
 plot( dat$P , dat$T , xlab="log population (std)" , ylab="total tools" ,
     col=rangi2 , pch=ifelse( dat$cid==1 , 1 , 16 ) , lwd=2 ,
     ylim=c(0,75) , cex=1+normalize(k) )
@@ -205,7 +221,7 @@ data(UCBadmit)
 d <- UCBadmit
 ```
 
-```{r}
+```{r R code 11.59}
 # binomial model of overall admission probability
 m_binom <- map(
     alist(
@@ -264,7 +280,8 @@ data(salamanders)
 pairs(salamanders[,-1])
 ```
 * (a) Model the relationship between density and percent cover, using a log-link (same as the example in the book and lecture). Use weakly informative priors of your choosing. Check the quadratic approximation again, by comparing map to map2stan. Then plot the expected counts and their 89% interval against percent cover. In which ways does the model do a good job? In which ways does it do a bad job?
-```{r}
+### under construction
+```{r eval=FALSE, include=FALSE}
 m.practice10H4 <- ulam(
     alist(
         T ~ dpois( lambda ),
@@ -292,7 +309,7 @@ head(Primates301)
 ```
 
 
-# PRACTICE  (for Nov 15, 2019)
+# PRACTICE  (for Nov 15 and 22, 2019)
 * 10H3. The data contained in library(MASS);data(eagles) are records of salmon pirating attempts by Bald Eagles in Washington State. See ?eagles for details. While one eagle feeds, sometimes another will swoop in and try to steal the salmon from it. Call the feeding eagle the “victim” and the thief the “pirate.” Use the available data to build a binomial GLM of successful pirating attempts.
 ```{r}
 library(MASS);data(eagles)
@@ -300,14 +317,105 @@ library(MASS);data(eagles)
 eagles
 ```
 ```{r}
+eagleslist <- with(eagles,
+                   list(y=y,
+                        n=n,
+                        pirate_large=ifelse(P=="L",1,0),
+                        pirate_adult=ifelse(A=="A",1,0),
+                        victim_large=ifelse(V=="L",1,0)))
+str(eagleslist)
+```
 
-# interaction model
-m11.10 <- ulam(
-    alist(
-        T ~ dpois( lambda ),
-        log(lambda) <- a[cid] + b[cid]*P,
-        a[cid] ~ dnorm( 3 , 0.5 ),
-        b[cid] ~ dnorm( 0 , 0.2 )
-    ), data=dat , chains=4 , log_lik=TRUE )
+# a: Fit the model above to the eagles data, using both map and map2stan. Is the quadratic approximation okay?
+## map ? ulam? Map2stan.... I was confused...
+## Map: quadratic approximation (the same as quap???)
+## Map2Stan: Hamiltonian Monte Carlo?
+## ulam: Hamiltonian Monte Carlo?
+```{r}
+m10h3map <- rethinking::map(
+  alist(
+    y ~ dbinom(n, p),
+                    logit(p) <- alpha + 
+                      b_pirate_large*pirate_large +
+                      b_pirate_adult*pirate_adult +
+                      b_victim_large*victim_large,
+                    alpha ~ dnorm(0,10),
+                    c(b_pirate_large, b_pirate_adult, b_victim_large) ~ dnorm(0,5)),
+              data=eagleslist)
+```
+
+```{r}
+precis(m10h3map)
+```
+
+
+## map2stan
+```{r}
+m10h3stan <- rethinking::map2stan(
+  alist(
+    y ~ dbinom(n, p),
+                    logit(p) <- alpha + 
+                      b_pirate_large*pirate_large +
+                      b_pirate_adult*pirate_adult +
+                      b_victim_large*victim_large,
+                    alpha ~ dnorm(0,10),
+                    c(b_pirate_large, b_pirate_adult, b_victim_large) ~ dnorm(0,5)),
+              data=eagleslist)
+```
+## ulam
+```{r}
+m10h3ulam <- rethinking::ulam(
+  alist(
+    y ~ dbinom(n, p),
+                    logit(p) <- alpha + 
+                      b_pirate_large*pirate_large +
+                      b_pirate_adult*pirate_adult +
+                      b_victim_large*victim_large,
+                    alpha ~ dnorm(0,10),
+                    c(b_pirate_large, b_pirate_adult, b_victim_large) ~ dnorm(0,5)),
+              data=eagleslist)
+```
+
+```{r}
+precis(m10h3ulam)
+```
+
+## quap
+```{r}
+m10h3quap <- quap(
+  alist(y ~ dbinom(n, p),
+                    logit(p) <- alpha + 
+                      b_pirate_large*pirate_large +
+                      b_pirate_adult*pirate_adult +
+                      b_victim_large*victim_large,
+                    alpha ~ dnorm(0,10),
+                    c(b_pirate_large, b_pirate_adult, b_victim_large) ~ dnorm(0,5)),
+              data=eagleslist)
+```
+
+```{r}
+precis(m10h3quap)
+```
+
+```{r}
+pairs(m10h3quap)
+```
+
+# (b) Now interpret the estimates. If the quadratic approximation turned out okay, then it’s okay to use the map estimates. Otherwise stick to map2stan estimates. Then plot the posterior predictions. Compute and display both 
+* (1) the predicted probability of success and its 89% interval for each row (i) in the data, 
+```{r}
+# link(*** model name***)
+?HPDI # using HPDI (previous chapter ....)
+
+```
+
+* as well as (2) the predicted success count and its 89% interval. What different information does each type of posterior prediction provide?
+```{r}
+
+```
+
+# (c) Now try to improve the model. Consider an interaction between the pirate’s size and age (immature or adult). Compare this model to the previous one, using WAIC. Interpret.
+```{r}
+
 ```
 
