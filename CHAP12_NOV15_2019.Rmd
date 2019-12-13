@@ -3,6 +3,8 @@ title: "Chap12_Nov15-2019"
 author: "Kazu"
 date: "11/15/2019"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 # 12 Monsters and Mixtures
@@ -11,11 +13,9 @@ knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
 library(rethinking)
 library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
 ```
-
-
-
-
-
+* Abeta-binomialmodelassumesthateachbinomialcountobser- vation has its own probability of a success. The model estimates the distribution of proba- bilities of success across cases, instead of a single probability of success.
+* This will be easier to understand in the context of an example. For example, the UCBad- mit data that you met last chapter is quite over-dispersed, as long as we ignore department. This is because the departments vary a lot in baseline admission rates. You’ve already seen that ignoring this variation leads to an incorrect inference about applicant gender. Now let’s fit a beta-binomial model, ignoring department, and see how it picks up on the variation that arises from the omitted variable.
+* A beta distribtion has two parameters: an average probability and a shape parameter theta.
 
 ```{r R code 12.1}
 pbar <- 0.5
@@ -23,4 +23,282 @@ theta <- 5
 curve( dbeta2(x,pbar,theta) , from=0 , to=1 ,
     xlab="probability" , ylab="Density" )
 ```
+
+* UCBadmit data for application
+```{r}
+library(rethinking)
+data(UCBadmit)
+d <- UCBadmit
+d$gid <- ifelse(d$applicant.gender=="male",1L,2L) # gender
+dat <- list(A=d$admit,N=d$applications, gid=d$gid)
+m12.1 <- ulam(
+  alist(
+    A~dbetabinom(N,pbar,theta),
+    logit(pbar) <- a[gid],
+    a[gid]~dnorm(0,1.5),
+    theta ~ dexp(1)
+  ),data=dat,chains=4)
+```
+* Let's take a quick look at the posterior means.
+* Let's also go ahead and compute the constrast between the two genders first:
+* a[1] is the log-odds of admission for male applicants.
+```{r}
+post <- extract.samples(m12.1)
+post$da <- post$a[,1] - post$a[,2]
+precis(post,depth=2) # My Q: what is "depth"??? I forgot
+```
+* The beta-binomial model allows each row in the data—each combination of department and gender—to have its own unobserved intercept. These unobserved intercepts are sampled from a beta distribution with mean  ̄pi and dispersion θ. To see what this beta distribution looks like, we can just plot it.
+```{r R code 12.4}
+gid <-2
+# draw posterior mean beta distribution
+curve(dbeta2(x,mean(logistic(post$a[,gid])),mean(post$theta)),from=0,to=1,ylab="Density",xla="probability admit",ylim=c(0,3),lwd=2)
+# draw 50 beta distributions sampled from posterior
+for(i in 1:50) {
+  p <- logistic(post$a[i,gid])
+  theta <-post$theta[i]
+  curve(dbeta2(x,p,theta),add=TRUE,col=col.alpha("black",0.2))
+}
+mtext("distribution of female admission rates")
+```
+
+* To get a sense of how the beta distribution of probabilities of admission influences pre- dicted counts of applications admitted, let’s look at the posterior validation check:
+```{r R code 12.5}
+postcheck(m12.1) # Error in pred[[j]][s, ] : incorrect number of dimensions
+```
+# 12.1.2. Negative-binomial or gamma-Poisson.
+* each Poisson count observation has its own rate
+```{r R code 12.6}
+library(rethinking)
+data(Kline)
+d <- Kline
+d$P <- standardize( log(d$population) )
+d$contact_id <- ifelse( d$contact=="high" , 2L , 1L )
+dat2 <- list(
+    T = d$total_tools,
+    P = d$population,
+    cid = d$contact_id )
+m12.3 <- ulam(
+    alist(
+        T ~ dgampois( lambda , phi ),
+        lambda <- exp(a[cid])*P^b[cid] / g,
+        a[cid] ~ dnorm(1,1),
+        b[cid] ~ dexp(1),
+        g ~ dexp(1),
+        phi ~ dexp(1)
+    ), data=dat2 , chains=4 , log_lik=TRUE )
+```
+# 12.1.3. Over-dispersion, entropy, and information criteria.
+# 12.2. Zero-inflatedoutcomes
+# 12.2.1. Example: Zero-inflated Poisson.
+```{r R code 12.7}
+# define parameters
+prob_drink <- 0.2 # 20% of days
+rate_work <- 1    # average 1 manuscript per day
+# sample one year of production
+N <- 365
+# simulate days monks drink
+set.seed(365)
+drink <- rbinom( N , 1 , prob_drink )
+# simulate manuscripts completed
+y <- (1-drink)*rpois( N , rate_work ) # rpois()
+```
+* The outcome variable we get to observe is y, which is just a list of counts of completed manuscripts, one count for each day of the year. Take a look at the outcome variable:
+```{r R code 12.8}
+simplehist( y , xlab="manuscripts completed" , lwd=4 )
+zeros_drink <- sum(drink)
+zeros_work <- sum(y==0 & drink==0)
+zeros_total <- sum(y==0)
+lines( c(0,0) , c(zeros_work,zeros_total) , lwd=4 , col=rangi2) #Error in plot.xy(xy.coords(x, y), type = type, ...) : plot.new has not been called yet
+```
+
+
+```{r R code 12.9}
+m12.4 <- ulam(
+    alist(
+        y ~ dzipois( p , lambda ),
+        logit(p) <- ap,
+        log(lambda) <- al,
+        ap ~ dnorm( -1.5 , 1 ),
+        al ~ dnorm( 1 , 0.5 )
+    ) , data=list(y=as.integer(y)) , chains=4 )
+precis( m12.4 )
+```
+
+```{r 12.10}
+inv_logit(-1.28) # probability drink
+exp(0.01)       # rate finish manuscripts, when not drinking. # ???
+```
+
+```{r R code 12.11}
+m12.4_alt <- ulam(
+    alist(
+        y|y>0 ~ custom( log1m(p) + poisson_lpmf(y|lambda) ),
+        y|y==0 ~ custom( log_mix( p , 0 , poisson_lpmf(0|lambda) ) ),
+        logit(p) <- ap,
+        log(lambda) <- al,
+        ap ~ dnorm(-1.5,1),
+        al ~ dnorm(1,0.5)
+    ) , data=list(y=as.integer(y)) , chains=4 )
+```
+
+# 12.3. Ordered categorical outcomes
+# 12.3.1. Example: Moral intuition.
+* The action principle: Harm caused by action is morally worse than equivalent harm caused by omission.
+* The intention principle: Harm intended as the means to a goal is morally worse than equivalent harm foreseen as the side effect of a goal.
+* The contact principle: Using physical contact to cause harm to a victim is morally worse than causing equivalent harm to a victim without using physical contact.
+
+```{r}
+library(rethinking)
+data(Trolley)
+d <- Trolley # what is "order"??
+```
+# 12.3.2. Describing an ordered distribution with intercepts
+```{r R code 12.13}
+simplehist( d$response , xlim=c(1,7) , xlab="response" )
+```
+* re-describe this histogram on the log-cumulative-odds scale.
+* Because this is the cumulative analog of the logit link we used in pre- vious chapters. The logit is log-odds, and cumulative logit is log-cumulative-odds. Both are designed to constrain the probabilities to the 0/1 interval. 
+```{r R code 12.14}
+# discrete proportion of each response value
+pr_k <- table( d$response ) / nrow(d)
+# cumsum converts to cumulative proportions
+cum_pr_k <- cumsum( pr_k )
+# plot
+plot( 1:7 , cum_pr_k , type="b" , xlab="response" ,
+ylab="cumulative proportion" , ylim=c(0,1) )
+```
+
+```{r R code 12.15}
+logit <- function(x) log(x/(1-x)) # convenience function
+( lco <- logit( cum_pr_k ) )
+```
+
+* (MO) Why 0?
+* That zero in the dordlogit is a placeholder for the linear model that we’ll construct later.
+```{r R code 12.16}
+m12.5 <- ulam(
+    alist(
+        R ~ dordlogit( 0 , cutpoints ),
+cutpoints ~ dnorm( 0 , 1.5 ) ),
+    data=list( R=d$response ), chains=4 , cores=2 )
+```
+
+```{r R code 12.17}
+m12.5q <- quap(
+    alist(
+        response ~ dordlogit( 0 , c(a1,a2,a3,a4,a5,a6) ),
+        c(a1,a2,a3,a4,a5,a6) ~ dnorm( 0 , 1.5 )
+    ) , data=d ,
+    start=list(a1=-2,a2=-1,a3=0,a4=1,a5=2,a6=2.5) )
+```
+
+```{r R code 12.18}
+precis(m12.5,depth=2)
+```
+
+```{r R code 12.19}
+ inv_logit(coef(m12.5))
+```
+
+# 12.3.3. Adding predictor variables.
+```{r R code 12.20}
+ ( pk <- dordlogit( 1:7 , 0 , coef(m12.5) ) )
+```
+
+```{r R code 12.21}
+ sum( pk*(1:7) )
+```
+* And now subtracting 0.5 from each:
+```{r R code 12.22}
+ ( pk <- dordlogit( 1:7 , 0 , coef(m12.5)-0.5 ) )
+```
+
+```{r}
+ sum( pk*(1:7) )
+```
+
+```{r R code 12.24}
+dat <- list(
+    R = d$response,
+    A = d$action,
+    I = d$intention,
+    C = d$contact )
+m12.6 <- ulam(
+    alist(
+        R ~ dordlogit( phi , cutpoints ),
+        phi <- bA*A + bC*C + BI*I ,
+        BI <- bI + bIA*A + bIC*C ,
+        c(bA,bI,bC,bIA,bIC) ~ dnorm( 0 , 0.5 ),
+        cutpoints ~ dnorm( 0 , 1.5 )
+    ) , data=dat , chains=4 , cores=4 )
+precis( m12.6 )
+```
+
+```{r R code 12.25}
+ plot( precis(m12.6) , xlim=c(-1.4,0) )
+```
+
+```{r R code 12.26}
+plot( NULL , type="n" , xlab="intention" , ylab="probability",xlim=c(0,1) , ylim=c(0,1),xaxp=c(0,1,1) , yaxp=c(0,1,2))
+```
+
+```{r R code 12.27}
+kA <- 0 # value for action
+kC <- 0 # value for contact
+kI <- 0:1 # values of intention to calculate over
+pdat <- data.frame(A=kA,C=kC,I=kI)
+phi <- link( m12.6 , data=pdat )$phi
+```
+
+```{r R code 12.28}
+post <- extract.samples( m12.6 )
+for ( s in 1:50 ) {
+    pk <- pordlogit( 1:6 , phi[s,] , post$cutpoints[s,] )
+    for ( i in 1:6 ) lines( kI , pk[,i] , col=col.alpha("black",0.1) )
+}
+```
+* Another plotting option is to show the implied histogram of outcomes. All we have to do is use sim to simulate posterior outcomes:
+```{r}
+kA <- 0 # value for action
+kC <- 1 # value for contact
+kI <- 0:1 # values of intention to calculate over
+pdat <- data.frame(A=kA,C=kC,I=kI)
+s <- sim( m12.6 , data=pdat )
+simplehist( s , xlab="response" )
+```
+
+# 12.4. Ordered categorical predictors
+```{r R code 12.30}
+library(rethinking)
+data(Trolley)
+d <- Trolley
+levels(d$edu)
+```
+
+```{r}
+edu_levels <- c( 6 , 1 , 8 , 4 , 7 , 2 , 5 , 3 )
+d$edu_new <- edu_levels[ d$edu ]
+```
+
+# practice
+## 11H1
+```{r}
+library(rethinking)
+data(Hurricanes)
+Hurricanes
+```
+* In this problem, you’ll focus on predicting deaths using femininity of each hurricane’s name.
+Fit and interpret the simplest possible model, a Poisson model of deaths using femininity as a predictor. 
+```{r}
+H.list<-list(
+  
+)
+```
+
+# 11H2. Counts are nearly always over-dispersed relative to Poisson. So fit a gamma-Poisson (aka negative-binomial) model to predict deaths using femininity. Show that the over-dispersed model no longer shows as precise a positive association between femininity and deaths, with an 89% interval that overlaps zero. Can you explain why the association diminished in strength?
+```{r}
+
+```
+
+
 

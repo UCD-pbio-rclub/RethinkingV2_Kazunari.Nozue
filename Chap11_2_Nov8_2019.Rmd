@@ -5,6 +5,8 @@ date: "11/8/2019"
 output: 
   html_document: 
     keep_md: yes
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -253,6 +255,32 @@ k <- as.numeric(coef(m_pois))
 exp(k[1])/(exp(k[1])+exp(k[2]))
 ```
 
+# 11.3.
+* Q: What is "Y" in this code????
+```{r R code 11.64}
+library(rethinking)
+data(AustinCats)
+d <- AustinCats
+d$adopt <- ifelse( d$out_event=="Adoption" , 1L , 0L )
+dat <- list(
+    days_to_event = as.numeric( d$days_to_event ),
+    color_id = ifelse( d$color=="Black" , 1L , 2L ) ,
+    adopted = d$adopt
+)
+
+m11.14 <- ulam(
+    alist(
+        days_to_event|adopted==1 ~ exponential( lambda ),
+        days_to_event|adopted==0 ~ custom(exponential_lccdf( !Y | lambda )),
+        lambda <- 1.0/mu,
+        log(mu) <- a[color_id],
+        a[color_id] ~ normal(0,1)
+    ), data=dat , chains=4 , cores=4 )
+precis( m11.14 , 2 )
+```
+
+
+
 # problems
 # 10E4 Why do Poisson regressions sometimes require the use of an offset? Provide an example.
 ```{r}
@@ -329,40 +357,12 @@ str(eagleslist)
 # a: Fit the model above to the eagles data, using both map and map2stan. Is the quadratic approximation okay?
 ## map ? ulam? Map2stan.... I was confused...
 ## Map: quadratic approximation (the same as quap???)
-## Map2Stan: Hamiltonian Monte Carlo?
-## ulam: Hamiltonian Monte Carlo?
-```{r}
-m10h3map <- rethinking::map(
-  alist(
-    y ~ dbinom(n, p),
-                    logit(p) <- alpha + 
-                      b_pirate_large*pirate_large +
-                      b_pirate_adult*pirate_adult +
-                      b_victim_large*victim_large,
-                    alpha ~ dnorm(0,10),
-                    c(b_pirate_large, b_pirate_adult, b_victim_large) ~ dnorm(0,5)),
-              data=eagleslist)
-```
+## Map2Stan: Hamiltonian Monte Carlo
+## My Q and J's A (Nov 22, 2019)
+## ulam: Hamiltonian Monte Carlo? (new version of Map2Stan), MCMC
+## quap: new version of Map 
 
-```{r}
-precis(m10h3map)
-```
-
-
-## map2stan
-```{r}
-m10h3stan <- rethinking::map2stan(
-  alist(
-    y ~ dbinom(n, p),
-                    logit(p) <- alpha + 
-                      b_pirate_large*pirate_large +
-                      b_pirate_adult*pirate_adult +
-                      b_victim_large*victim_large,
-                    alpha ~ dnorm(0,10),
-                    c(b_pirate_large, b_pirate_adult, b_victim_large) ~ dnorm(0,5)),
-              data=eagleslist)
-```
-## ulam
+## ulam (new name for Map2Stan)
 ```{r}
 m10h3ulam <- rethinking::ulam(
   alist(
@@ -379,8 +379,11 @@ m10h3ulam <- rethinking::ulam(
 ```{r}
 precis(m10h3ulam)
 ```
+```{r}
+pairs(m10h3ulam)
+```
 
-## quap
+## quap (new name for Map)
 ```{r}
 m10h3quap <- quap(
   alist(y ~ dbinom(n, p),
@@ -392,7 +395,7 @@ m10h3quap <- quap(
                     c(b_pirate_large, b_pirate_adult, b_victim_large) ~ dnorm(0,5)),
               data=eagleslist)
 ```
-
+* Shape is Gausian? No, do not use (quap is used for Gausian) (J)
 ```{r}
 precis(m10h3quap)
 ```
@@ -404,6 +407,7 @@ pairs(m10h3quap)
 # (b) Now interpret the estimates. If the quadratic approximation turned out okay, then it’s okay to use the map estimates. Otherwise stick to map2stan estimates. Then plot the posterior predictions. Compute and display both 
 * (1) the predicted probability of success and its 89% interval for each row (i) in the data, 
 ```{r}
+
 # link(*** model name***)
 ?HPDI # using HPDI (previous chapter ....)
 
@@ -411,11 +415,40 @@ pairs(m10h3quap)
 
 * as well as (2) the predicted success count and its 89% interval. What different information does each type of posterior prediction provide?
 ```{r}
-
+m10h3ulam.int <- ulam(
+  alist(
+    y ~ dbinom(n, p),
+                    logit(p) <- alpha + 
+                      b_pirate_large*pirate_large +
+                      b_pirate_adult*pirate_adult +
+                      b_victim_large*victim_large +
+                      b_,
+                    alpha ~ dnorm(0,10),
+                    c(b_pirate_large, b_pirate_adult, b_victim_large) ~ dnorm(0,5)),
+              data=eagleslist)
 ```
 
 # (c) Now try to improve the model. Consider an interaction between the pirate’s size and age (immature or adult). Compare this model to the previous one, using WAIC. Interpret.
 ```{r}
 
 ```
+
+# 11H6
+```{r}
+data(Fish) # 
+head(Fish)
+Fishlist <- with(Fish,
+                   list(
+                        
+                   )
+)
+str(Fishlist)
+
+# The question of interest is how many fish an average visitor takes per hour, when fishing. The problem is that not everyone tried to fish, so the fish_caught numbers are zero-inflated. 
+# As with the monks example in the chapter, there is a process that determines who is fishing (working) and another pro- cess that determines fish per hour (manuscripts per day), conditional on fishing (working). We want to model both. Otherwise we’ll end up with an underestimate of rate of fish extraction from the park.
+
+
+```
+
+
 
