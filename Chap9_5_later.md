@@ -880,3 +880,60 @@ compare(m5.8s,m5.8s2)
 ## Error in compare(m5.8s, m5.8s2): object 'm5.8s' not found
 ```
 * Note. WAIC, pWAIC read chapter 7.5
+
+
+```r
+sessionInfo()
+```
+
+```
+## R version 3.6.2 (2019-12-12)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS Mojave 10.14.6
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] parallel  stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+##  [1] shape_1.4.4        forcats_0.4.0      stringr_1.4.0      dplyr_0.8.3       
+##  [5] purrr_0.3.3        readr_1.3.1        tidyr_1.0.0        tibble_2.1.3      
+##  [9] tidyverse_1.3.0    reshape2_1.4.3     lmerTest_3.1-1     lme4_1.1-21       
+## [13] Matrix_1.2-18      rethinking_1.93    dagitty_0.2-2      rstan_2.19.2      
+## [17] ggplot2_3.2.1      StanHeaders_2.19.0
+## 
+## loaded via a namespace (and not attached):
+##  [1] nlme_3.1-143        matrixStats_0.55.0  fs_1.3.1           
+##  [4] lubridate_1.7.4     httr_1.4.1          numDeriv_2016.8-1.1
+##  [7] tools_3.6.2         backports_1.1.5     R6_2.4.1           
+## [10] DBI_1.1.0           lazyeval_0.2.2      colorspace_1.4-1   
+## [13] withr_2.1.2         tidyselect_0.2.5    gridExtra_2.3      
+## [16] prettyunits_1.0.2   processx_3.4.1      curl_4.3           
+## [19] compiler_3.6.2      cli_2.0.1           rvest_0.3.5        
+## [22] xml2_1.2.2          scales_1.1.0        mvtnorm_1.0-11     
+## [25] callr_3.4.0         digest_0.6.23       minqa_1.2.4        
+## [28] rmarkdown_2.0       pkgconfig_2.0.3     htmltools_0.4.0    
+## [31] dbplyr_1.4.2        rlang_0.4.2         readxl_1.3.1       
+## [34] rstudioapi_0.10     generics_0.0.2      jsonlite_1.6       
+## [37] inline_0.3.15       magrittr_1.5        loo_2.2.0          
+## [40] Rcpp_1.0.3          munsell_0.5.0       fansi_0.4.0        
+## [43] lifecycle_0.1.0     stringi_1.4.3       yaml_2.2.0         
+## [46] MASS_7.3-51.5       pkgbuild_1.0.6      plyr_1.8.5         
+## [49] grid_3.6.2          crayon_1.3.4        lattice_0.20-38    
+## [52] haven_2.2.0         splines_3.6.2       hms_0.5.2          
+## [55] zeallot_0.1.0       knitr_1.26          ps_1.3.0           
+## [58] pillar_1.4.3        boot_1.3-24         stats4_3.6.2       
+## [61] reprex_0.3.0        glue_1.3.1          evaluate_0.14      
+## [64] V8_2.3              modelr_0.1.5        vctrs_0.2.1        
+## [67] nloptr_1.2.1        cellranger_1.1.0    gtable_0.3.0       
+## [70] assertthat_0.2.1    xfun_0.11           broom_0.5.3        
+## [73] coda_0.19-3
+```
+

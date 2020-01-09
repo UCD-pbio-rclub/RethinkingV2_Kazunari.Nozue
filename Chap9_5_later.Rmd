@@ -468,3 +468,8 @@ plotchains(m5.8s2)
 compare(m5.8s,m5.8s2)
 ```
 * Note. WAIC, pWAIC read chapter 7.5
+
+```{r}
+sessionInfo()
+```
+
