@@ -6,7 +6,7 @@ output:
   html_document: 
     keep_md: yes
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 
@@ -46,7 +46,7 @@ plot(x=1:1000, y=positions[1:1000])
 ```r
 D <- 10
 T <- 1e3
-Y <- rmvnorm(T,rep(0,D),diag(D))
+Y <- rmvnorm(T,rep(0,D),diag(D)) # problem in rmvnorm package installation (Jan 9, 2019)
 rad_dist <- function( Y ) sqrt( sum(Y^2) )
 Rd <- sapply( 1:T , function(i) rad_dist( Y[i,] ) )
 dens( Rd )
@@ -242,31 +242,30 @@ m9.1 <- ulam(
 ```
 
 ```
-## 
-## SAMPLING FOR MODEL 'f3314e777e4c586121dcc9de98266129' NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 3.6e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.36 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Iteration:   1 / 1000 [  0%]  (Warmup)
-## Chain 1: Iteration: 100 / 1000 [ 10%]  (Warmup)
-## Chain 1: Iteration: 200 / 1000 [ 20%]  (Warmup)
-## Chain 1: Iteration: 300 / 1000 [ 30%]  (Warmup)
-## Chain 1: Iteration: 400 / 1000 [ 40%]  (Warmup)
-## Chain 1: Iteration: 500 / 1000 [ 50%]  (Warmup)
-## Chain 1: Iteration: 501 / 1000 [ 50%]  (Sampling)
-## Chain 1: Iteration: 600 / 1000 [ 60%]  (Sampling)
-## Chain 1: Iteration: 700 / 1000 [ 70%]  (Sampling)
-## Chain 1: Iteration: 800 / 1000 [ 80%]  (Sampling)
-## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
-## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.058636 seconds (Warm-up)
-## Chain 1:                0.036522 seconds (Sampling)
-## Chain 1:                0.095158 seconds (Total)
-## Chain 1:
+## Warning in system(cmd, intern = !verbose): running command '/Library/
+## Frameworks/R.framework/Resources/bin/R CMD SHLIB file6ed86ef686f1.cpp 2>
+## file6ed86ef686f1.cpp.err.txt' had status 1
+```
+
+```
+## Error in compileCode(f, code, language = language, verbose = verbose): Compilation ERROR, function(s)/method(s) not created! clang: warning: no such sysroot directory: '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk' [-Wmissing-sysroot]
+## In file included from file6ed86ef686f1.cpp:8:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/stan/model/model_header.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/mat.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/core.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/core/autodiffstackstorage.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/memory/stack_alloc.hpp:8:
+## In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/cstdlib:86:
+## /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/stdlib.h:94:15: fatal error: 'stdlib.h' file not found
+## #include_next <stdlib.h>
+##               ^~~~~~~~~~
+## 1 error generated.
+## make: *** [file6ed86ef686f1.o] Error 1
+```
+
+```
+## Error in sink(type = "output"): invalid connection
 ```
 
 ## R code 9.13
@@ -276,12 +275,7 @@ precis( m9.1 , depth=2 )
 ```
 
 ```
-##             mean          sd        5.5%       94.5%     n_eff      Rhat
-## a[1]   0.8856304 0.016135936  0.86090235  0.91030609  806.0820 0.9987430
-## a[2]   1.0508378 0.009971161  1.03501948  1.06628425  852.5390 0.9982515
-## b[1]   0.1282220 0.068979985  0.02276656  0.24283156 1168.7511 1.0028849
-## b[2]  -0.1424442 0.054903299 -0.23611690 -0.05588177  634.8723 1.0024187
-## sigma  0.1115647 0.006134172  0.10232762  0.12162977  560.4679 1.0003481
+## Error in precis(m9.1, depth = 2): object 'm9.1' not found
 ```
 
 # 9.4.3. Samplingagain,inparallel.
@@ -301,7 +295,30 @@ m9.1 <- ulam(
 ```
 
 ```
-## recompiling to avoid crashing R session
+## Warning in system(cmd, intern = !verbose): running command '/Library/
+## Frameworks/R.framework/Resources/bin/R CMD SHLIB file6ed82cc8e921.cpp 2>
+## file6ed82cc8e921.cpp.err.txt' had status 1
+```
+
+```
+## Error in compileCode(f, code, language = language, verbose = verbose): Compilation ERROR, function(s)/method(s) not created! clang: warning: no such sysroot directory: '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk' [-Wmissing-sysroot]
+## In file included from file6ed82cc8e921.cpp:8:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/stan/model/model_header.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/mat.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/core.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/core/autodiffstackstorage.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/memory/stack_alloc.hpp:8:
+## In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/cstdlib:86:
+## /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/stdlib.h:94:15: fatal error: 'stdlib.h' file not found
+## #include_next <stdlib.h>
+##               ^~~~~~~~~~
+## 1 error generated.
+## make: *** [file6ed82cc8e921.o] Error 1
+```
+
+```
+## Error in sink(type = "output"): invalid connection
 ```
 
 ## R code 9.15
@@ -311,22 +328,7 @@ show( m9.1 )
 ```
 
 ```
-## Hamiltonian Monte Carlo approximation
-## 2000 samples from 4 chains
-## 
-## Sampling durations (seconds):
-##         warmup sample total
-## chain:1   0.07   0.04  0.11
-## chain:2   0.07   0.04  0.10
-## chain:3   0.08   0.05  0.12
-## chain:4   0.09   0.06  0.14
-## 
-## Formula:
-## log_gdp_std ~ dnorm(mu, sigma)
-## mu <- a[cid] + b[cid] * (rugged_std - 0.215)
-## a[cid] ~ dnorm(1, 0.1)
-## b[cid] ~ dnorm(0, 0.3)
-## sigma ~ dexp(1)
+## Error in show(m9.1): object 'm9.1' not found
 ```
 
 ## R code 9.16
@@ -336,12 +338,7 @@ precis( m9.1 , 2 )
 ```
 
 ```
-##             mean          sd         5.5%       94.5%    n_eff      Rhat
-## a[1]   0.8867426 0.016196232  0.861266785  0.91280007 2828.427 0.9991543
-## a[2]   1.0504301 0.009666239  1.034542266  1.06609864 3700.411 1.0006467
-## b[1]   0.1335807 0.078235453  0.005115089  0.25812597 2601.253 1.0014678
-## b[2]  -0.1413284 0.057254602 -0.235548822 -0.05065783 2625.489 0.9996354
-## sigma  0.1115353 0.006137684  0.102428831  0.12192061 2384.926 0.9992556
+## Error in precis(m9.1, 2): object 'm9.1' not found
 ```
 
 # 9.4.4. Visualization
@@ -351,7 +348,9 @@ precis( m9.1 , 2 )
 pairs( m9.1 )
 ```
 
-![](Chap9_5_later_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+```
+## Error in pairs(m9.1): object 'm9.1' not found
+```
 
 # 9.4.5. Checking the chain.
 ## R code 9.18
@@ -360,7 +359,9 @@ pairs( m9.1 )
 traceplot( m9.1 )
 ```
 
-![](Chap9_5_later_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+```
+## Error in traceplot(m9.1): object 'm9.1' not found
+```
 
 ## R code 9.19
 
@@ -368,7 +369,9 @@ traceplot( m9.1 )
 trankplot( m9.1 , n_cols=2 )
 ```
 
-![](Chap9_5_later_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+```
+## Error in class(object) %in% c("map2stan", "ulam", "stanfit"): object 'm9.1' not found
+```
 
 
 # 9.5  ### 
@@ -391,83 +394,30 @@ m9.2 <- ulam(
 ```
 
 ```
-## 
-## SAMPLING FOR MODEL '726d002e27cec1633082261fcfedb813' NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 5.7e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.57 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Iteration:   1 / 1000 [  0%]  (Warmup)
-## Chain 1: Iteration: 100 / 1000 [ 10%]  (Warmup)
-## Chain 1: Iteration: 200 / 1000 [ 20%]  (Warmup)
-## Chain 1: Iteration: 300 / 1000 [ 30%]  (Warmup)
-## Chain 1: Iteration: 400 / 1000 [ 40%]  (Warmup)
-## Chain 1: Iteration: 500 / 1000 [ 50%]  (Warmup)
-## Chain 1: Iteration: 501 / 1000 [ 50%]  (Sampling)
-## Chain 1: Iteration: 600 / 1000 [ 60%]  (Sampling)
-## Chain 1: Iteration: 700 / 1000 [ 70%]  (Sampling)
-## Chain 1: Iteration: 800 / 1000 [ 80%]  (Sampling)
-## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
-## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.029424 seconds (Warm-up)
-## Chain 1:                0.107448 seconds (Sampling)
-## Chain 1:                0.136872 seconds (Total)
-## Chain 1: 
-## 
-## SAMPLING FOR MODEL '726d002e27cec1633082261fcfedb813' NOW (CHAIN 2).
-## Chain 2: 
-## Chain 2: Gradient evaluation took 2e-06 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
-## Chain 2: Adjust your expectations accordingly!
-## Chain 2: 
-## Chain 2: 
-## Chain 2: Iteration:   1 / 1000 [  0%]  (Warmup)
-## Chain 2: Iteration: 100 / 1000 [ 10%]  (Warmup)
-## Chain 2: Iteration: 200 / 1000 [ 20%]  (Warmup)
-## Chain 2: Iteration: 300 / 1000 [ 30%]  (Warmup)
-## Chain 2: Iteration: 400 / 1000 [ 40%]  (Warmup)
-## Chain 2: Iteration: 500 / 1000 [ 50%]  (Warmup)
-## Chain 2: Iteration: 501 / 1000 [ 50%]  (Sampling)
-## Chain 2: Iteration: 600 / 1000 [ 60%]  (Sampling)
-## Chain 2: Iteration: 700 / 1000 [ 70%]  (Sampling)
-## Chain 2: Iteration: 800 / 1000 [ 80%]  (Sampling)
-## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
-## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
-## Chain 2: 
-## Chain 2:  Elapsed Time: 0.075149 seconds (Warm-up)
-## Chain 2:                0.011039 seconds (Sampling)
-## Chain 2:                0.086188 seconds (Total)
-## Chain 2:
+## Warning in system(cmd, intern = !verbose): running command '/Library/
+## Frameworks/R.framework/Resources/bin/R CMD SHLIB file6ed84cb8d4c2.cpp 2>
+## file6ed84cb8d4c2.cpp.err.txt' had status 1
 ```
 
 ```
-## Warning: There were 34 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See
-## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
+## Error in compileCode(f, code, language = language, verbose = verbose): Compilation ERROR, function(s)/method(s) not created! clang: warning: no such sysroot directory: '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk' [-Wmissing-sysroot]
+## In file included from file6ed84cb8d4c2.cpp:8:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/stan/model/model_header.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/mat.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/core.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/core/autodiffstackstorage.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/memory/stack_alloc.hpp:8:
+## In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/cstdlib:86:
+## /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/stdlib.h:94:15: fatal error: 'stdlib.h' file not found
+## #include_next <stdlib.h>
+##               ^~~~~~~~~~
+## 1 error generated.
+## make: *** [file6ed84cb8d4c2.o] Error 1
 ```
 
 ```
-## Warning: Examine the pairs() plot to diagnose sampling problems
-```
-
-```
-## Warning: The largest R-hat is 1.15, indicating chains have not mixed.
-## Running the chains for more iterations may help. See
-## http://mc-stan.org/misc/warnings.html#r-hat
-```
-
-```
-## Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
-## Running the chains for more iterations may help. See
-## http://mc-stan.org/misc/warnings.html#bulk-ess
-```
-
-```
-## Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
-## Running the chains for more iterations may help. See
-## http://mc-stan.org/misc/warnings.html#tail-ess
+## Error in sink(type = "output"): invalid connection
 ```
 ## R code 9.21
 
@@ -476,9 +426,7 @@ precis( m9.2 )
 ```
 
 ```
-##            mean       sd        5.5%     94.5%    n_eff     Rhat
-## alpha  17.85181 292.3982 -382.987675  516.2728 90.49047 1.015773
-## sigma 453.97043 914.6421    2.933042 2071.2362 74.28568 1.035413
+## Error in precis(m9.2): object 'm9.2' not found
 ```
 ## R code 9.22
 
@@ -495,56 +443,30 @@ m9.3 <- ulam(
 ```
 
 ```
-## 
-## SAMPLING FOR MODEL 'db8b93ccfa83872ce482c35ebed2c618' NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 9e-06 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Iteration:   1 / 1000 [  0%]  (Warmup)
-## Chain 1: Iteration: 100 / 1000 [ 10%]  (Warmup)
-## Chain 1: Iteration: 200 / 1000 [ 20%]  (Warmup)
-## Chain 1: Iteration: 300 / 1000 [ 30%]  (Warmup)
-## Chain 1: Iteration: 400 / 1000 [ 40%]  (Warmup)
-## Chain 1: Iteration: 500 / 1000 [ 50%]  (Warmup)
-## Chain 1: Iteration: 501 / 1000 [ 50%]  (Sampling)
-## Chain 1: Iteration: 600 / 1000 [ 60%]  (Sampling)
-## Chain 1: Iteration: 700 / 1000 [ 70%]  (Sampling)
-## Chain 1: Iteration: 800 / 1000 [ 80%]  (Sampling)
-## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
-## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.011958 seconds (Warm-up)
-## Chain 1:                0.00797 seconds (Sampling)
-## Chain 1:                0.019928 seconds (Total)
-## Chain 1: 
-## 
-## SAMPLING FOR MODEL 'db8b93ccfa83872ce482c35ebed2c618' NOW (CHAIN 2).
-## Chain 2: 
-## Chain 2: Gradient evaluation took 3e-06 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.03 seconds.
-## Chain 2: Adjust your expectations accordingly!
-## Chain 2: 
-## Chain 2: 
-## Chain 2: Iteration:   1 / 1000 [  0%]  (Warmup)
-## Chain 2: Iteration: 100 / 1000 [ 10%]  (Warmup)
-## Chain 2: Iteration: 200 / 1000 [ 20%]  (Warmup)
-## Chain 2: Iteration: 300 / 1000 [ 30%]  (Warmup)
-## Chain 2: Iteration: 400 / 1000 [ 40%]  (Warmup)
-## Chain 2: Iteration: 500 / 1000 [ 50%]  (Warmup)
-## Chain 2: Iteration: 501 / 1000 [ 50%]  (Sampling)
-## Chain 2: Iteration: 600 / 1000 [ 60%]  (Sampling)
-## Chain 2: Iteration: 700 / 1000 [ 70%]  (Sampling)
-## Chain 2: Iteration: 800 / 1000 [ 80%]  (Sampling)
-## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
-## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
-## Chain 2: 
-## Chain 2:  Elapsed Time: 0.01121 seconds (Warm-up)
-## Chain 2:                0.011782 seconds (Sampling)
-## Chain 2:                0.022992 seconds (Total)
-## Chain 2:
+## Warning in system(cmd, intern = !verbose): running command '/Library/
+## Frameworks/R.framework/Resources/bin/R CMD SHLIB file6ed8795d1e7f.cpp 2>
+## file6ed8795d1e7f.cpp.err.txt' had status 1
+```
+
+```
+## Error in compileCode(f, code, language = language, verbose = verbose): Compilation ERROR, function(s)/method(s) not created! clang: warning: no such sysroot directory: '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk' [-Wmissing-sysroot]
+## In file included from file6ed8795d1e7f.cpp:8:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/stan/model/model_header.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/mat.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/core.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/core/autodiffstackstorage.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/memory/stack_alloc.hpp:8:
+## In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/cstdlib:86:
+## /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/stdlib.h:94:15: fatal error: 'stdlib.h' file not found
+## #include_next <stdlib.h>
+##               ^~~~~~~~~~
+## 1 error generated.
+## make: *** [file6ed8795d1e7f.o] Error 1
+```
+
+```
+## Error in sink(type = "output"): invalid connection
 ```
 
 ```r
@@ -552,9 +474,7 @@ precis( m9.3 )
 ```
 
 ```
-##             mean        sd       5.5%    94.5%    n_eff     Rhat
-## alpha 0.01263886 1.2489126 -2.1390824 1.984368 325.5065 1.004251
-## sigma 1.55149084 0.8080941  0.6903885 3.125982 235.7730 1.006849
+## Error in precis(m9.3): object 'm9.3' not found
 ```
 ## R code 9.23
 
@@ -577,83 +497,30 @@ m9.4 <- ulam(
 ```
 
 ```
-## 
-## SAMPLING FOR MODEL '768cb5e4a7e14d76cfa600c7952118d5' NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 1.3e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.13 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Iteration:   1 / 1000 [  0%]  (Warmup)
-## Chain 1: Iteration: 100 / 1000 [ 10%]  (Warmup)
-## Chain 1: Iteration: 200 / 1000 [ 20%]  (Warmup)
-## Chain 1: Iteration: 300 / 1000 [ 30%]  (Warmup)
-## Chain 1: Iteration: 400 / 1000 [ 40%]  (Warmup)
-## Chain 1: Iteration: 500 / 1000 [ 50%]  (Warmup)
-## Chain 1: Iteration: 501 / 1000 [ 50%]  (Sampling)
-## Chain 1: Iteration: 600 / 1000 [ 60%]  (Sampling)
-## Chain 1: Iteration: 700 / 1000 [ 70%]  (Sampling)
-## Chain 1: Iteration: 800 / 1000 [ 80%]  (Sampling)
-## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
-## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 1.03447 seconds (Warm-up)
-## Chain 1:                1.20398 seconds (Sampling)
-## Chain 1:                2.23845 seconds (Total)
-## Chain 1: 
-## 
-## SAMPLING FOR MODEL '768cb5e4a7e14d76cfa600c7952118d5' NOW (CHAIN 2).
-## Chain 2: 
-## Chain 2: Gradient evaluation took 5e-06 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.05 seconds.
-## Chain 2: Adjust your expectations accordingly!
-## Chain 2: 
-## Chain 2: 
-## Chain 2: Iteration:   1 / 1000 [  0%]  (Warmup)
-## Chain 2: Iteration: 100 / 1000 [ 10%]  (Warmup)
-## Chain 2: Iteration: 200 / 1000 [ 20%]  (Warmup)
-## Chain 2: Iteration: 300 / 1000 [ 30%]  (Warmup)
-## Chain 2: Iteration: 400 / 1000 [ 40%]  (Warmup)
-## Chain 2: Iteration: 500 / 1000 [ 50%]  (Warmup)
-## Chain 2: Iteration: 501 / 1000 [ 50%]  (Sampling)
-## Chain 2: Iteration: 600 / 1000 [ 60%]  (Sampling)
-## Chain 2: Iteration: 700 / 1000 [ 70%]  (Sampling)
-## Chain 2: Iteration: 800 / 1000 [ 80%]  (Sampling)
-## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
-## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
-## Chain 2: 
-## Chain 2:  Elapsed Time: 1.15598 seconds (Warm-up)
-## Chain 2:                1.24967 seconds (Sampling)
-## Chain 2:                2.40566 seconds (Total)
-## Chain 2:
+## Warning in system(cmd, intern = !verbose): running command '/Library/
+## Frameworks/R.framework/Resources/bin/R CMD SHLIB file6ed825accfa9.cpp 2>
+## file6ed825accfa9.cpp.err.txt' had status 1
 ```
 
 ```
-## Warning: There were 781 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
-## http://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded
+## Error in compileCode(f, code, language = language, verbose = verbose): Compilation ERROR, function(s)/method(s) not created! clang: warning: no such sysroot directory: '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk' [-Wmissing-sysroot]
+## In file included from file6ed825accfa9.cpp:8:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/stan/model/model_header.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/mat.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/core.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/core/autodiffstackstorage.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/memory/stack_alloc.hpp:8:
+## In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/cstdlib:86:
+## /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/stdlib.h:94:15: fatal error: 'stdlib.h' file not found
+## #include_next <stdlib.h>
+##               ^~~~~~~~~~
+## 1 error generated.
+## make: *** [file6ed825accfa9.o] Error 1
 ```
 
 ```
-## Warning: Examine the pairs() plot to diagnose sampling problems
-```
-
-```
-## Warning: The largest R-hat is 2.3, indicating chains have not mixed.
-## Running the chains for more iterations may help. See
-## http://mc-stan.org/misc/warnings.html#r-hat
-```
-
-```
-## Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
-## Running the chains for more iterations may help. See
-## http://mc-stan.org/misc/warnings.html#bulk-ess
-```
-
-```
-## Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
-## Running the chains for more iterations may help. See
-## http://mc-stan.org/misc/warnings.html#tail-ess
+## Error in sink(type = "output"): invalid connection
 ```
 
 ```r
@@ -661,14 +528,7 @@ precis( m9.4 )
 ```
 
 ```
-##              mean           sd          5.5%       94.5%     n_eff
-## a1     395.185445 728.61048404  -559.0494854 1268.662042  1.078219
-## a2    -394.993484 728.61275630 -1268.6867684  559.248922  1.078221
-## sigma    1.036479   0.05428696     0.9417533    1.117275 21.342718
-##           Rhat
-## a1    5.442344
-## a2    5.442258
-## sigma 1.114786
+## Error in precis(m9.4): object 'm9.4' not found
 ```
 ## R code 9.25
 
@@ -685,65 +545,30 @@ m9.5 <- ulam(
 ```
 
 ```
-## 
-## SAMPLING FOR MODEL '891f4364bbaa597b05591eddef7a0d2b' NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 1.3e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.13 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Iteration:   1 / 1000 [  0%]  (Warmup)
-## Chain 1: Iteration: 100 / 1000 [ 10%]  (Warmup)
-## Chain 1: Iteration: 200 / 1000 [ 20%]  (Warmup)
-## Chain 1: Iteration: 300 / 1000 [ 30%]  (Warmup)
-## Chain 1: Iteration: 400 / 1000 [ 40%]  (Warmup)
-## Chain 1: Iteration: 500 / 1000 [ 50%]  (Warmup)
-## Chain 1: Iteration: 501 / 1000 [ 50%]  (Sampling)
-## Chain 1: Iteration: 600 / 1000 [ 60%]  (Sampling)
-## Chain 1: Iteration: 700 / 1000 [ 70%]  (Sampling)
-## Chain 1: Iteration: 800 / 1000 [ 80%]  (Sampling)
-## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
-## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.368885 seconds (Warm-up)
-## Chain 1:                0.433613 seconds (Sampling)
-## Chain 1:                0.802498 seconds (Total)
-## Chain 1: 
-## 
-## SAMPLING FOR MODEL '891f4364bbaa597b05591eddef7a0d2b' NOW (CHAIN 2).
-## Chain 2: 
-## Chain 2: Gradient evaluation took 5e-06 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.05 seconds.
-## Chain 2: Adjust your expectations accordingly!
-## Chain 2: 
-## Chain 2: 
-## Chain 2: Iteration:   1 / 1000 [  0%]  (Warmup)
-## Chain 2: Iteration: 100 / 1000 [ 10%]  (Warmup)
-## Chain 2: Iteration: 200 / 1000 [ 20%]  (Warmup)
-## Chain 2: Iteration: 300 / 1000 [ 30%]  (Warmup)
-## Chain 2: Iteration: 400 / 1000 [ 40%]  (Warmup)
-## Chain 2: Iteration: 500 / 1000 [ 50%]  (Warmup)
-## Chain 2: Iteration: 501 / 1000 [ 50%]  (Sampling)
-## Chain 2: Iteration: 600 / 1000 [ 60%]  (Sampling)
-## Chain 2: Iteration: 700 / 1000 [ 70%]  (Sampling)
-## Chain 2: Iteration: 800 / 1000 [ 80%]  (Sampling)
-## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
-## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
-## Chain 2: 
-## Chain 2:  Elapsed Time: 0.354212 seconds (Warm-up)
-## Chain 2:                0.525201 seconds (Sampling)
-## Chain 2:                0.879413 seconds (Total)
-## Chain 2:
+## Warning in system(cmd, intern = !verbose): running command '/Library/
+## Frameworks/R.framework/Resources/bin/R CMD SHLIB file6ed87a0df7f3.cpp 2>
+## file6ed87a0df7f3.cpp.err.txt' had status 1
 ```
 
 ```
-## Warning: There were 3 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
-## http://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded
+## Error in compileCode(f, code, language = language, verbose = verbose): Compilation ERROR, function(s)/method(s) not created! clang: warning: no such sysroot directory: '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk' [-Wmissing-sysroot]
+## In file included from file6ed87a0df7f3.cpp:8:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/stan/model/model_header.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/mat.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/core.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/rev/core/autodiffstackstorage.hpp:4:
+## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/memory/stack_alloc.hpp:8:
+## In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/cstdlib:86:
+## /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/stdlib.h:94:15: fatal error: 'stdlib.h' file not found
+## #include_next <stdlib.h>
+##               ^~~~~~~~~~
+## 1 error generated.
+## make: *** [file6ed87a0df7f3.o] Error 1
 ```
 
 ```
-## Warning: Examine the pairs() plot to diagnose sampling problems
+## Error in sink(type = "output"): invalid connection
 ```
 
 ```r
@@ -751,10 +576,7 @@ precis( m9.5 )
 ```
 
 ```
-##             mean        sd        5.5%     94.5%    n_eff     Rhat
-## a1     0.9300540 7.2094585 -10.9724230 12.854360 267.0679 1.009293
-## a2    -0.7394915 7.2099661 -12.5556400 11.334190 267.1788 1.009181
-## sigma  1.0365648 0.0796294   0.9168439  1.170685 353.3044 1.001317
+## Error in precis(m9.5): object 'm9.5' not found
 ```
 
 
@@ -763,6 +585,8 @@ precis( m9.5 )
 # (A) n_eff is independent samples within samples. 
 
 # 8M3 Re-estimate one of the Stan models from the chapter, but at different numbers of warmup iterations. Be sure to use the same number of sampling iterations in each case. Compare the n_eff values. How much warmup is enough?
+## KN note: "warmup" is not used in posterior distribution.
+
 ## R code 9.26 warmup 100
 
 ```r
@@ -777,48 +601,18 @@ mp.warmup100 <- map2stan(
 ```
 
 ```
-## 
-## SAMPLING FOR MODEL '8d212d2af7270775bb0a9519bafb1a4d' NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 7e-06 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: WARNING: There aren't enough warmup iterations to fit the
-## Chain 1:          three stages of adaptation as currently configured.
-## Chain 1:          Reducing each adaptation stage to 15%/75%/10% of
-## Chain 1:          the given number of warmup iterations:
-## Chain 1:            init_buffer = 15
-## Chain 1:            adapt_window = 75
-## Chain 1:            term_buffer = 10
-## Chain 1: 
-## Chain 1: Iteration:    1 / 10000 [  0%]  (Warmup)
-## Chain 1: Iteration:  101 / 10000 [  1%]  (Sampling)
-## Chain 1: Iteration: 1100 / 10000 [ 11%]  (Sampling)
-## Chain 1: Iteration: 2100 / 10000 [ 21%]  (Sampling)
-## Chain 1: Iteration: 3100 / 10000 [ 31%]  (Sampling)
-## Chain 1: Iteration: 4100 / 10000 [ 41%]  (Sampling)
-## Chain 1: Iteration: 5100 / 10000 [ 51%]  (Sampling)
-## Chain 1: Iteration: 6100 / 10000 [ 61%]  (Sampling)
-## Chain 1: Iteration: 7100 / 10000 [ 71%]  (Sampling)
-## Chain 1: Iteration: 8100 / 10000 [ 81%]  (Sampling)
-## Chain 1: Iteration: 9100 / 10000 [ 91%]  (Sampling)
-## Chain 1: Iteration: 10000 / 10000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.0022 seconds (Warm-up)
-## Chain 1:                0.237064 seconds (Sampling)
-## Chain 1:                0.239264 seconds (Total)
-## Chain 1:
+## Warning in system(cmd, intern = !verbose): running command '/Library/
+## Frameworks/R.framework/Resources/bin/R CMD SHLIB file6ed83e7a3b5b.cpp 2>
+## file6ed83e7a3b5b.cpp.err.txt' had status 1
 ```
 
 ```
-## Warning: There were 4 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
-## http://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded
+## Error in sink(type = "output") : invalid connection
 ```
 
 ```
-## Warning: Examine the pairs() plot to diagnose sampling problems
+## Error in map2stan(alist(a ~ dnorm(0, 1), b ~ dcauchy(0, 1)), data = list(y = 1), : Something went wrong, when calling Stan. Check any debug messages for clues, detective.
+## invalid connection
 ```
 # warmup 10
 
@@ -834,43 +628,18 @@ mp.warmup10 <- map2stan(
 ```
 
 ```
-## 
-## SAMPLING FOR MODEL 'b46d1a56545d154e2dd4d7f78f512f8c' NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 1.2e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.12 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: WARNING: No variance estimation is
-## Chain 1:          performed for num_warmup < 20
-## Chain 1: 
-## Chain 1: Iteration:    1 / 10000 [  0%]  (Warmup)
-## Chain 1: Iteration:   11 / 10000 [  0%]  (Sampling)
-## Chain 1: Iteration: 1010 / 10000 [ 10%]  (Sampling)
-## Chain 1: Iteration: 2010 / 10000 [ 20%]  (Sampling)
-## Chain 1: Iteration: 3010 / 10000 [ 30%]  (Sampling)
-## Chain 1: Iteration: 4010 / 10000 [ 40%]  (Sampling)
-## Chain 1: Iteration: 5010 / 10000 [ 50%]  (Sampling)
-## Chain 1: Iteration: 6010 / 10000 [ 60%]  (Sampling)
-## Chain 1: Iteration: 7010 / 10000 [ 70%]  (Sampling)
-## Chain 1: Iteration: 8010 / 10000 [ 80%]  (Sampling)
-## Chain 1: Iteration: 9010 / 10000 [ 90%]  (Sampling)
-## Chain 1: Iteration: 10000 / 10000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.000149 seconds (Warm-up)
-## Chain 1:                0.250969 seconds (Sampling)
-## Chain 1:                0.251118 seconds (Total)
-## Chain 1:
+## Warning in system(cmd, intern = !verbose): running command '/Library/
+## Frameworks/R.framework/Resources/bin/R CMD SHLIB file6ed84bd9f298.cpp 2>
+## file6ed84bd9f298.cpp.err.txt' had status 1
 ```
 
 ```
-## Warning: There were 7 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
-## http://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded
+## Error in sink(type = "output") : invalid connection
 ```
 
 ```
-## Warning: Examine the pairs() plot to diagnose sampling problems
+## Error in map2stan(alist(a ~ dnorm(0, 1), b ~ dcauchy(0, 1)), data = list(y = 1), : Something went wrong, when calling Stan. Check any debug messages for clues, detective.
+## invalid connection
 ```
 # warmup 1000
 
@@ -886,40 +655,18 @@ mp.warmup1000 <- map2stan(
 ```
 
 ```
-## 
-## SAMPLING FOR MODEL 'af235467a27c8a2f706aacb46c6b1861' NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 8e-06 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Iteration:    1 / 10000 [  0%]  (Warmup)
-## Chain 1: Iteration: 1000 / 10000 [ 10%]  (Warmup)
-## Chain 1: Iteration: 1001 / 10000 [ 10%]  (Sampling)
-## Chain 1: Iteration: 2000 / 10000 [ 20%]  (Sampling)
-## Chain 1: Iteration: 3000 / 10000 [ 30%]  (Sampling)
-## Chain 1: Iteration: 4000 / 10000 [ 40%]  (Sampling)
-## Chain 1: Iteration: 5000 / 10000 [ 50%]  (Sampling)
-## Chain 1: Iteration: 6000 / 10000 [ 60%]  (Sampling)
-## Chain 1: Iteration: 7000 / 10000 [ 70%]  (Sampling)
-## Chain 1: Iteration: 8000 / 10000 [ 80%]  (Sampling)
-## Chain 1: Iteration: 9000 / 10000 [ 90%]  (Sampling)
-## Chain 1: Iteration: 10000 / 10000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.047138 seconds (Warm-up)
-## Chain 1:                0.366857 seconds (Sampling)
-## Chain 1:                0.413995 seconds (Total)
-## Chain 1:
+## Warning in system(cmd, intern = !verbose): running command '/Library/
+## Frameworks/R.framework/Resources/bin/R CMD SHLIB file6ed83b06b3ae.cpp 2>
+## file6ed83b06b3ae.cpp.err.txt' had status 1
 ```
 
 ```
-## Warning: There were 3 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
-## http://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded
+## Error in sink(type = "output") : invalid connection
 ```
 
 ```
-## Warning: Examine the pairs() plot to diagnose sampling problems
+## Error in map2stan(alist(a ~ dnorm(0, 1), b ~ dcauchy(0, 1)), data = list(y = 1), : Something went wrong, when calling Stan. Check any debug messages for clues, detective.
+## invalid connection
 ```
 # warmup 5000
 
@@ -935,31 +682,18 @@ mp.warmup5000 <- map2stan(
 ```
 
 ```
-## 
-## SAMPLING FOR MODEL '6e2c78729777e118e79ced87f5b8e408' NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 8e-06 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Iteration:    1 / 10000 [  0%]  (Warmup)
-## Chain 1: Iteration: 1000 / 10000 [ 10%]  (Warmup)
-## Chain 1: Iteration: 2000 / 10000 [ 20%]  (Warmup)
-## Chain 1: Iteration: 3000 / 10000 [ 30%]  (Warmup)
-## Chain 1: Iteration: 4000 / 10000 [ 40%]  (Warmup)
-## Chain 1: Iteration: 5000 / 10000 [ 50%]  (Warmup)
-## Chain 1: Iteration: 5001 / 10000 [ 50%]  (Sampling)
-## Chain 1: Iteration: 6000 / 10000 [ 60%]  (Sampling)
-## Chain 1: Iteration: 7000 / 10000 [ 70%]  (Sampling)
-## Chain 1: Iteration: 8000 / 10000 [ 80%]  (Sampling)
-## Chain 1: Iteration: 9000 / 10000 [ 90%]  (Sampling)
-## Chain 1: Iteration: 10000 / 10000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.216858 seconds (Warm-up)
-## Chain 1:                0.303508 seconds (Sampling)
-## Chain 1:                0.520366 seconds (Total)
-## Chain 1:
+## Warning in system(cmd, intern = !verbose): running command '/Library/
+## Frameworks/R.framework/Resources/bin/R CMD SHLIB file6ed81d3f2c72.cpp 2>
+## file6ed81d3f2c72.cpp.err.txt' had status 1
+```
+
+```
+## Error in sink(type = "output") : invalid connection
+```
+
+```
+## Error in map2stan(alist(a ~ dnorm(0, 1), b ~ dcauchy(0, 1)), data = list(y = 1), : Something went wrong, when calling Stan. Check any debug messages for clues, detective.
+## invalid connection
 ```
 
 ```r
@@ -972,9 +706,7 @@ precis(mp.warmup10)
 ```
 
 ```
-##          mean         sd      5.5%    94.5%     n_eff     Rhat
-## a -0.01181029  0.9897119 -1.567432 1.598000 7007.2662 1.000018
-## b -2.78100959 57.5473000 -6.977261 6.912284  384.2565 1.002481
+## Error in precis(mp.warmup10): object 'mp.warmup10' not found
 ```
 
 ```r
@@ -982,9 +714,7 @@ precis(mp.warmup100)
 ```
 
 ```
-##          mean       sd      5.5%    94.5%    n_eff     Rhat
-## a 0.004558004  1.01158 -1.581982 1.620826 7058.039 0.999993
-## b 0.002515181 20.79427 -6.328333 5.584906 1525.849 1.000207
+## Error in precis(mp.warmup100): object 'mp.warmup100' not found
 ```
 
 ```r
@@ -992,9 +722,7 @@ precis(mp.warmup1000)
 ```
 
 ```
-##          mean        sd      5.5%    94.5%    n_eff      Rhat
-## a -0.01765092  1.019024 -1.623902 1.601440 2336.598 0.9999006
-## b  0.95861317 24.810164 -5.477941 6.888453 1302.084 1.0007210
+## Error in precis(mp.warmup1000): object 'mp.warmup1000' not found
 ```
 
 ```r
@@ -1002,9 +730,7 @@ precis(mp.warmup5000)
 ```
 
 ```
-##          mean        sd      5.5%    94.5%    n_eff      Rhat
-## a -0.05619489  1.017989 -1.678488 1.598072 694.3169 0.9999285
-## b -1.46022121 20.951712 -6.142237 5.238787 300.9585 1.0034781
+## Error in precis(mp.warmup5000): object 'mp.warmup5000' not found
 ```
 * sd of b is increased as warmup increased.
 
@@ -1041,7 +767,18 @@ m5.8s <- map2stan(
 ```
 
 ```
-## Computing WAIC
+## Warning in system(cmd, intern = !verbose): running command '/Library/
+## Frameworks/R.framework/Resources/bin/R CMD SHLIB file6ed85f12e246.cpp 2>
+## file6ed85f12e246.cpp.err.txt' had status 1
+```
+
+```
+## Error in sink(type = "output") : invalid connection
+```
+
+```
+## Error in map2stan(alist(height ~ dnorm(mu, sigma), mu <- a + bl * leg_left + : Something went wrong in at least one chain. Debug your model while setting chains=1 and cores=1. Once the model is working with a single chain and core, try using multiple chains/cores again.
+## invalid connection
 ```
 
 * Compare the posterior distribution produced by the code above to the posterior distribution produced when you change the prior for br so that it is strictly positive:
@@ -1052,11 +789,7 @@ precis(m5.8s)
 ```
 
 ```
-##            mean         sd       5.5%     94.5%    n_eff     Rhat
-## a     1.7438995 0.28453327  1.2909953 2.1896690 2218.169 1.000196
-## bl    1.1753955 2.07344550 -2.1304184 4.4161483 1386.272 1.000517
-## br    0.6465312 2.07355095 -2.6194399 3.9411622 1381.077 1.000531
-## sigma 0.6041422 0.04512729  0.5365537 0.6795671 2006.625 1.000215
+## Error in precis(m5.8s): object 'm5.8s' not found
 ```
 
 
@@ -1064,7 +797,9 @@ precis(m5.8s)
 pairs(m5.8s)
 ```
 
-![](Chap9_5_later_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+```
+## Error in pairs(m5.8s): object 'm5.8s' not found
+```
 
 ## R code 9.29
 
@@ -1084,27 +819,18 @@ m5.8s2 <- map2stan(
 ```
 
 ```
-## Warning: There were 1413 divergent transitions after warmup. Increasing adapt_delta above 0.99999 may help. See
-## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
+## Warning in system(cmd, intern = !verbose): running command '/Library/
+## Frameworks/R.framework/Resources/bin/R CMD SHLIB file6ed82bd9c6b0.cpp 2>
+## file6ed82bd9c6b0.cpp.err.txt' had status 1
 ```
 
 ```
-## Warning: Examine the pairs() plot to diagnose sampling problems
+## Error in sink(type = "output") : invalid connection
 ```
 
 ```
-## Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
-## Running the chains for more iterations may help. See
-## http://mc-stan.org/misc/warnings.html#bulk-ess
-```
-
-```
-## Computing WAIC
-```
-
-```
-## Warning in map2stan(alist(height ~ dnorm(mu, sigma), mu <- a + bl * leg_left + : There were 1413 divergent iterations during sampling.
-## Check the chains (trace plots, n_eff, Rhat) carefully to ensure they are valid.
+## Error in map2stan(alist(height ~ dnorm(mu, sigma), mu <- a + bl * leg_left + : Something went wrong in at least one chain. Debug your model while setting chains=1 and cores=1. Once the model is working with a single chain and core, try using multiple chains/cores again.
+## invalid connection
 ```
 * Note that T[0,] on the right-hand side of the prior for br. What the T[0,] does is truncate the normal distribution so that it has poositive probablitiy only above zero. 
 * Compare the two posterior distributions for m5.8s and m5.8s2. What has changed in the posterior distribution of both beta parameters? Can you explain the hange induced by the change in prior?
@@ -1114,11 +840,7 @@ precis(m5.8s2)
 ```
 
 ```
-##             mean         sd       5.5%     94.5%     n_eff     Rhat
-## a      1.7501496 0.28596543  1.2902927 2.2028408 1463.4242 1.000320
-## bl    -0.2041739 1.45075051 -2.8294268 1.6108451  388.5491 1.010537
-## br     2.0245312 1.45162114  0.2100113 4.6520843  385.3997 1.010709
-## sigma  0.6043037 0.04505536  0.5384964 0.6805372  946.0208 1.003590
+## Error in precis(m5.8s2): object 'm5.8s2' not found
 ```
 
 
@@ -1126,14 +848,18 @@ precis(m5.8s2)
 pairs(m5.8s2)
 ```
 
-![](Chap9_5_later_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+```
+## Error in pairs(m5.8s2): object 'm5.8s2' not found
+```
 
 
 ```r
 trankplot(m5.8s2)
 ```
 
-![](Chap9_5_later_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+```
+## Error in class(object) %in% c("map2stan", "ulam", "stanfit"): object 'm5.8s2' not found
+```
 
 
 ```r
@@ -1141,10 +867,8 @@ plotchains(m5.8s2)
 ```
 
 ```
-## Warning: Ignoring unknown parameters: ask
+## Error in plotchains(m5.8s2): object 'm5.8s2' not found
 ```
-
-![](Chap9_5_later_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
 
 # 8H4 For the two models fit in the previous problem, use DIC or WAIC to compare the effective numbers of parameters for each model. Which model has more effective parameters? Why?
 
@@ -1153,8 +877,6 @@ compare(m5.8s,m5.8s2)
 ```
 
 ```
-##            WAIC    pWAIC     dWAIC    weight       SE dSE
-## m5.8s2 185.3020 3.109080 0.0000000 0.5737682 11.77394  NA
-## m5.8s  185.8965 3.612413 0.5944845 0.4262318 11.72117  NA
+## Error in compare(m5.8s, m5.8s2): object 'm5.8s' not found
 ```
-
+* Note. WAIC, pWAIC read chapter 7.5
