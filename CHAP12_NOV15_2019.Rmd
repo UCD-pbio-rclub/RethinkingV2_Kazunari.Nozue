@@ -10,15 +10,15 @@ editor_options:
 # 12 Monsters and Mixtures
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
-install.packages("rstan", repos = "https://cloud.r-project.org/", dependencies = TRUE)
-pkgbuild::has_build_tools(debug = TRUE)
-library("rstan") 
-options(mc.cores = parallel::detectCores())
-rstan_options(auto_write = TRUE)
-
-install.packages(c("devtools","mvtnorm","loo","coda"),dependencies=TRUE)
-library(devtools)
-install_github("rmcelreath/rethinking",ref="Experimental",force=TRUE)
+# install.packages("rstan", repos = "https://cloud.r-project.org/", dependencies = TRUE)
+# pkgbuild::has_build_tools(debug = TRUE)
+# library("rstan") 
+# options(mc.cores = parallel::detectCores())
+# rstan_options(auto_write = TRUE)
+# 
+# install.packages(c("devtools","mvtnorm","loo","coda"),dependencies=TRUE)
+# library(devtools)
+# install_github("rmcelreath/rethinking",ref="Experimental",force=TRUE)
 library(rethinking)
 library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
 ```

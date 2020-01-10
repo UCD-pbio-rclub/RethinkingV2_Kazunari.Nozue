@@ -1,0 +1,168 @@
+---
+title: "Chap13_Jan_10_2020"
+author: "Kazu"
+date: "1/10/2020"
+output: 
+  html_document: 
+    keep_md: yes
+editor_options: 
+  chunk_output_type: console
+---
+# 13. Models with memory
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
+library(rethinking)
+library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
+```
+
+# practices
+# 12E1 
+* Which of the following priors will produce more shrinkage in the estimates? (a) αtank ∼
+Normal(0, 1); (b) αtank ∼ Normal(0, 2). Answer: (a)
+* 
+# 12E2 # learning how to draw math formula in [Rmarkdown/LaTeX](https://en.wikibooks.org/wiki/LaTeX/Mathematics)
+* original
+$$
+y_i \sim Binomial(1, p_i) \\
+logit(p_i) = \alpha_{group[i]} + \beta x_i \\
+\alpha_{group} \sim Normal(0, 10) \\
+\beta \sim Normal(0, 1)
+$$
+
+* multilevel 
+* Is sigma necesary for exponential?
+$$
+y_i \sim Binomial(1, p_i) \\
+logit(p_i) = \alpha_{group[i]} + \beta x_i \\
+\alpha_{group} \sim Normal(\bar\alpha, \sigma) \\
+\bar\alpha \sim Normal(0, 10) \\
+\bar{\alpha} \sim Normal(0, 10) \dots with or without is ignored \\ 
+\sigma \sim Exponential(1) \\ 
+\beta \sim Normal(0, 1)
+$$
+
+
+# 12E3
+* Half Cauchy distribution
+```{r}
+library(extraDistr)
+?extraDistr::dhcauchy
+```
+
+* original
+$$
+y_i \sim Normal(\mu_i, \sigma) \\
+\mu_i = \alpha_{group[i]} + \beta x_i \\
+\alpha_{group} \sim Normal(0, 10) \\
+\beta \sim Normal(0, 1) \\
+\sigma \sim HalfCauchy(0, 2)
+$$
+
+* multilevel
+$$
+y_i \sim Normal(\mu_i, \sigma) \\
+\mu_i = \alpha_{group[i]} + \beta x_i \\
+\alpha_{group} \sim Normal(\bar\alpha, \sigma_2) \\
+\bar\alpha \sim Normal(0, 10) \\
+\sigma_2 \sim Exponential(1) \\ 
+\beta \sim Normal(0, 1) \\
+\sigma \sim HalfCauchy(0, 2)
+$$
+
+# 12M1 
+* Revisit the Reed frog survival data, data(reedfrogs), and add the predation and size treatment variables to the varying intercepts model. Consider models with either main effect alone, both main effects, as well as a model including both and their interaction. Instead of focusing on inferences about these two predictor variables, focus on the inferred variation across tanks. Explain why it changes as it does across models.
+```{r}
+data(reedfrogs) # 13.1. Example: Multilevel tadpoles
+d <- reedfrogs
+str(d)
+```
+```{r}
+# make the tank cluster variable
+d$tank <- 1:nrow(d)
+dat_pred <- list(
+    S = d$surv,
+    N = d$density,
+    tank = d$tank,
+    pred = ifelse(d$pred == "no", 0, 1)
+    )
+dat_pred_size <- list(
+    S = d$surv,
+    N = d$density,
+    tank = d$tank,
+    pred = ifelse(d$pred == "no", 0, 1),
+    size = ifelse(d$size == "small",0,1)
+    )
+```
+
+# tank + pred
+```{r}
+m13.2.mod.tank.pred <- ulam(
+    alist(
+        S ~ dbinom( N , p ) ,
+        logit(p) <- a[tank] + b*pred,
+        a[tank] ~ dnorm( a_bar , a_sigma ) ,
+        a_bar ~ dnorm( 0 , 1.5 ) ,
+        a_sigma ~ dexp( 1 ),
+        b ~ dnorm(0, 1)
+), data=dat_pred , chains=4 , log_lik=TRUE ,cores=2) 
+```
+* error .... why??? Do not use "a.sigma". Use "a_sigma".
+* If I use data_pred_size there is an error: Why?
+ <!-- SYNTAX ERROR, MESSAGE(S) FROM PARSER: -->
+<!-- Variable identifier (name) may not be reserved word -->
+<!--     found identifier=size -->
+<!-- Variable identifier (name) may not be reserved word -->
+<!--     found identifier=size -->
+<!--  error in 'model9a66097c2c3_44191844a02ecf95246d72c40b264e24' at line 2, column 7 -->
+<!--   ------------------------------------------------- -->
+<!--      1: data{ -->
+<!--      2:     int size[48]; -->
+<!--               ^ -->
+<!--      3:     int N[48]; -->
+<!--   ------------------------------------------------- -->
+<!-- PARSER EXPECTED: <identifier> -->
+<!-- Error in stanc(file = file, model_code = model_code, model_name = model_name,  :  -->
+<!--   failed to parse Stan model '44191844a02ecf95246d72c40b264e24' due to the above error. -->
+
+```{r}
+precis( m13.2.mod.tank.pred , depth=2 )
+```
+
+
+# tank + pred + size
+```{r}
+m13.2.mod.tank.pred.size <- ulam(
+    alist(
+        S ~ dbinom( N , p ) ,
+        logit(p) <- a[tank] + b*pred + c*size,
+        a[tank] ~ dnorm( a_bar , a_sigma ) ,
+        a_bar ~ dnorm( 0 , 1.5 ) ,
+        a_sigma ~ dexp( 1 ),
+        b ~ dnorm(0, 1),
+        c ~ dnorm(0, 1)
+), data=dat_pred_size , chains=4 , log_lik=TRUE ,cores=2) 
+```
+* error. why?
+
+```{r}
+precis( m13.2.mod.tank.pred.size , depth=2 )
+```
+
+
+
+* I forgot to how to deal with interaction terms...
+
+
+# 12M2
+# 12H1
+```{r}
+
+```
+
+
+
+
+```{r}
+sessionInfo()
+```
+
