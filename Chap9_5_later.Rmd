@@ -9,8 +9,14 @@ editor_options:
   chunk_output_type: inline
 ---
 
+# Install updated "rethinking" package (Oct 11, 2019)
+```{r}
+library(devtools)
+install_github("rmcelreath/rethinking",ref="Experimental") # 
+```
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,error=TRUE, cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE,error=TRUE)
 library(rethinking)
 library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
 ```
