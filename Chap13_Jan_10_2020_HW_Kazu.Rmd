@@ -92,7 +92,31 @@ dat_pred_size <- list(
     pred = ifelse(d$pred == "no", 0, 1),
     size = ifelse(d$size == "small",0,1)
     )
+dat_pred_sze <- list(
+    S = d$surv,
+    N = d$density,
+    tank = d$tank,
+    pred = ifelse(d$pred == "no", 0, 1),
+    sze = ifelse(d$size == "small",0,1)
+    ) # avoiding to use a name, "size" 
+
+
 ```
+
+# original (tank only)
+```{r}
+m13.2 <- ulam(
+    alist(
+        S ~ dbinom( N , p ) ,
+        logit(p) <- a[tank] ,
+        a[tank] ~ dnorm( a_bar , sigma ) ,
+        a_bar ~ dnorm( 0 , 1.5 ) ,
+             sigma ~ dexp( 1 )
+), data=dat_pred_sze , chains=4 , log_lik=TRUE ,cores=2) # cores=2 added by Kazu
+
+```
+
+
 
 # tank + pred
 ```{r}
@@ -108,28 +132,55 @@ m13.2.mod.tank.pred <- ulam(
 ```
 * error .... why??? Do not use "a.sigma". Use "a_sigma".
 * If I use data_pred_size there is an error: Why?
- <!-- SYNTAX ERROR, MESSAGE(S) FROM PARSER: -->
-<!-- Variable identifier (name) may not be reserved word -->
-<!--     found identifier=size -->
-<!-- Variable identifier (name) may not be reserved word -->
-<!--     found identifier=size -->
-<!--  error in 'model9a66097c2c3_44191844a02ecf95246d72c40b264e24' at line 2, column 7 -->
-<!--   ------------------------------------------------- -->
-<!--      1: data{ -->
-<!--      2:     int size[48]; -->
-<!--               ^ -->
-<!--      3:     int N[48]; -->
-<!--   ------------------------------------------------- -->
-<!-- PARSER EXPECTED: <identifier> -->
-<!-- Error in stanc(file = file, model_code = model_code, model_name = model_name,  :  -->
-<!--   failed to parse Stan model '44191844a02ecf95246d72c40b264e24' due to the above error. -->
+
+# tank + pred (using data_prez_size)
+```{r}
+m13.2.mod.tank.pred <- ulam(
+    alist(
+        S ~ dbinom( N , p ) ,
+        logit(p) <- a[tank] + b*pred,
+        a[tank] ~ dnorm( a_bar , a_sigma ) ,
+        a_bar ~ dnorm( 0 , 1.5 ) ,
+        a_sigma ~ dexp( 1 ),
+        b ~ dnorm(0, 1)
+), data=dat_pred_size , chains=4 , log_lik=TRUE ,cores=2,iter=2000) 
+```
+
+
+# tank + pred (using data_pred_sze)
+* no error! Do not use "size" in data list
+```{r}
+m13.2.mod.tank.pred <- ulam(
+    alist(
+        S ~ dbinom( N , p ) ,
+        logit(p) <- a[tank] + b*pred,
+        a[tank] ~ dnorm( a_bar , a_sigma ) ,
+        a_bar ~ dnorm( 0 , 1.5 ) ,
+        a_sigma ~ dexp( 1 ),
+        b ~ dnorm(0, 1)
+), data=dat_pred_sze , chains=4 , log_lik=TRUE ,cores=2,iter=2000) 
+```
 
 ```{r}
 precis( m13.2.mod.tank.pred , depth=2 )
 ```
 
+# tank + sze
+```{r}
+m13.2.mod.tank.sze <- ulam(
+    alist(
+        S ~ dbinom( N , p ) ,
+        logit(p) <- a[tank] + c*sze ,
+        a[tank] ~ dnorm( a_bar , a_sigma ) ,
+        a_bar ~ dnorm( 0 , 1.5 ) ,
+        a_sigma ~ dexp( 1 ),
+        c ~ dnorm(0, 1),
+        d ~ dnorm(0, 1)
+), data=dat_pred_sze , chains=4 , log_lik=TRUE ,cores=2,iter=2000) 
+```
 
 # tank + pred + size
+* error, why?
 ```{r}
 m13.2.mod.tank.pred.size <- ulam(
     alist(
@@ -140,26 +191,118 @@ m13.2.mod.tank.pred.size <- ulam(
         a_sigma ~ dexp( 1 ),
         b ~ dnorm(0, 1),
         c ~ dnorm(0, 1)
-), data=dat_pred_size , chains=4 , log_lik=TRUE ,cores=2) 
+), data=dat_pred_size , chains=4 , log_lik=TRUE ,cores=2,iter=2000) 
 ```
-* error. why?
 
 ```{r}
-precis( m13.2.mod.tank.pred.size , depth=2 )
+m13.2.mod.tank.pred.sze <- ulam(
+    alist(
+        S ~ dbinom( N , p ) ,
+        logit(p) <- a[tank] + b*pred + c*sze,
+        a[tank] ~ dnorm( a_bar , a_sigma ) ,
+        a_bar ~ dnorm( 0 , 1.5 ) ,
+        a_sigma ~ dexp( 1 ),
+        b ~ dnorm(0, 1),
+        c ~ dnorm(0, 1)
+), data=dat_pred_sze , chains=4 , log_lik=TRUE ,cores=2,iter=2000) 
+```
+* Do not use "size" as name in a data.
+
+
+```{r}
+precis( m13.2.mod.tank.pred.sze , depth=2 )
 ```
 
 
 
-* I forgot to how to deal with interaction terms...
+
+# tank + pred + sze + pred:sze
+```{r}
+m13.2.mod.tank.pred.sze <- ulam(
+    alist(
+        S ~ dbinom( N , p ) ,
+        logit(p) <- a[tank] + b*pred + c*sze + d*pred*sze,
+        a[tank] ~ dnorm( a_bar , a_sigma ) ,
+        a_bar ~ dnorm( 0 , 1.5 ) ,
+        a_sigma ~ dexp( 1 ),
+        b ~ dnorm(0, 1),
+        c ~ dnorm(0, 1),
+        d ~ dnorm(0, 1)
+), data=dat_pred_sze , chains=4 , log_lik=TRUE ,cores=2,iter=2000) 
+```
+
 
 
 # 12M2
+```{r}
+compare(m13.2,m13.2.mod.tank.pred,m13.2.mod.tank.sze,m13.2.mod.tank.pred.sze)
+```
+
+# 12M3
+* Re-estimate the basic Reedfrog varying intercept model,but now using a Cauchy distribution in place of the Gaussian distribution for the varying intercepts. That is, fit this model:
+
+```{r}
+m13.2.ex12M3.Cauchy <- ulam(
+    alist(
+        S ~ dbinom( N , p ) ,
+        logit(p) <- a[tank],
+        a[tank] ~ dcauchy( a_bar , a_sigma ) ,
+        a_bar ~ dnorm( 0 , 1) ,
+        a_sigma ~ dcauchy(0,1)
+ ), data=dat_pred_sze , chains=4 , log_lik=TRUE ,cores=2,iter=2000) 
+```
+
+# compare models
+```{r}
+precis(m13.2)
+precis(m13.2.ex12M3.Cauchy)
+compare(m13.2, m13.2.ex12M3.Cauchy)
+```
+
+# 
+```{r}
+prediction.original.Gaussian <- link(m13.2)
+prediction.Cauchy <- link(m13.2.ex12M3.Cauchy)
+```
+
+# 
+```{r}
+post.original.Gaussian<-extract.samples(m13.2)
+post.original.Cauchy<-extract.samples(m13.2.ex12M3.Cauchy)
+
+d$propsurv.est.Gaussian <- logistic( apply( post.original.Gaussian$a , 2 , mean ) ) # across 48 tanks
+d$propsurv.est.Cauchy <- logistic( apply( post.original.Cauchy$a , 2 , mean ) ) # across 48 tanks
+```
+# # plot mu of post and compare with raw data
+```{r}
+d %>% as_tibble() %>% select(tank,propsurv, propsurv.est.Gaussian,propsurv.est.Cauchy) %>% gather("key","value",-1) %>% ggplot(aes(x=tank,y=value,color=key)) + geom_point()
+
+```
+
 # 12H1
+```{r}
+data("bangladesh")
+d <- bangladesh
+d$district_id <- as.integer(as.factor(d$district))
+str(d)
+# relevel deucation level
+edu_levels <- c( 6 , 1 , 8 , 4 , 7 , 2 , 5 , 3 )
+d$edu_new <- edu_levels[ d$edu ]
+
+```
+
 ```{r}
 
 ```
 
+# 12H2
+* Return to the Trolley data, data(Trolley), from Chapter 12. Define and fit a varying intercepts model for these data. Cluster intercepts on individual participants, as indicated by the unique values in the id variable. Include action, intention, and contact as ordinary terms. Compare the varying intercepts model and a model that ignores individuals, using both WAIC and posterior predictions. What is the impact of individual variation in these data?
+```{r}
+data(Trolley)
+d <- Trolley
+levels(d$edu)
 
+```
 
 
 ```{r}

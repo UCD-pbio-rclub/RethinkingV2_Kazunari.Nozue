@@ -99,7 +99,7 @@ sim_tanks <- rnorm( 8000 , post$a_bar , post$sigma )
 dens( inv_logit(sim_tanks) , lwd=2 , adj=0.1 )
 ```
 
-# 13.2. Varyingeffectsandtheunderfitting/overfittingtrade-off
+# 13.2. Varying effects and the under fitting/overfitting trade-off
 * complete pooling vs partioal pooling
 ## 13.2.1. Themodel.
 ## 13.2.2. Assign values to the parameters.
@@ -132,7 +132,7 @@ class(c(1,2,3))
   dsim$p_nopool <- dsim$Si / dsim$Ni
 ```
 
-## 13.2.5. Computethepartial-poolingestimates. 
+## 13.2.5. Compute the partial-pooling estimates. 
 ```{r R code 13.13}
 dat <- list( Si=dsim$Si , Ni=dsim$Ni , pond=dsim$pond )
 m13.3 <- ulam(
@@ -144,24 +144,28 @@ m13.3 <- ulam(
         sigma ~ dexp( 1 )
     ), data=dat , chains=4, cores=2) # added cores=2
 ```
-
+* We’ve fit the basic varying intercept model above. You can take a look at the estimates for α ̄ and σ with the usual precis approach:
 ```{r}
 precis( m13.3 , depth=2 )
 ```
-
+* Now let’s compute the predicted survival proportions and add those proportions to our growing simulation data frame. To indicate that it contains the partial pooling estimates, I’ll call the column p_partpool.
 ```{r R code 13.15}
 post <- extract.samples(m13.3)
 dsim$p_partpool <- apply(inv_logit(post$a_pond),2,mean)
 ```
-
+* If we want to compare to the true per-pond survival probabilities used to generate the data, then we’ll also need to compute those, using the true_a column:
 ```{r}
 dsim$p_true <-inv_logit(dsim$true_a)
 ```
+
+* The last thing we need to do, before we can plot the results and realize the point of this lesson, is to compute the absolute error between the estimates and the true varying effects. This is easy enough, using the existing columns:
 
 ```{r}
 nopool_error <- abs( dsim$p_nopool - dsim$p_true )
 partpool_error <- abs( dsim$p_partpool - dsim$p_true )
 ```
+
+* Now we’re ready to plot. This is enough to get the basic display:
 
 ```{r}
 plot( 1:60 , nopool_error , xlab="pond" , ylab="absolute error" ,
@@ -169,10 +173,17 @@ plot( 1:60 , nopool_error , xlab="pond" , ylab="absolute error" ,
 points( 1:60 , partpool_error )
 ```
 
+* I’ve decorated this plot with some additional information, displayed in Figure 13.3. The filled blue points in Figure 13.3 display the no-pooling estimates. The black circles show the varying effect estimates. The horizontal axis is the pond index, from 1 through 60. The vertical axis is the distance between the mean estimated probability of survival and the ac- tual probability of survival. So points close to the bottom had low error, while those near the top had a large error, more than 20% off in some cases. The vertical lines divide the groups of ponds with different initial densities of tadpoles. And finally, the horizontal blue and black line segments show the average error of the no-pooling and partial pooling esti- mates, respectively, for each group of ponds with the same initial size. You can calculate these average error rates using aggregate:
+
 ```{r}
 nopool_avg <- aggregate(nopool_error,list(dsim$Ni),mean)
 partpool_avg <- aggregate(partpool_error,list(dsim$Ni),mean)
 ```
+* The first thing to notice about Figure 13.3 plot is that both kinds of estimates are much more accurate for larger ponds, on the right side. This arises because more data means better estimates, assuming there is no confounding. If there is confounding, more data may just makes things worse. But there is no confounding in this simulated example. In the small ponds, sample size is small, and neither no-pooling nor partial-pooling can work magic. Therefore, prediction suffers on the left side of the plot. Second, note that the blue line is always above or very close to the black dashed line. This indicates that the no-pool estimates, shown by the blue points, have higher average error in each group of ponds, except for the medium ponds. Partial pooling isn’t always better. It’s just better on average in the long run. Even though both kinds of estimates get worse as sample size decreases, the varying effect estimates have the advantage, on average. Third, the distance between the blue line and the black dashed line grows as ponds get smaller. So while both kinds of estimates suffer from reduced sample size, the partial pooling estimates suffer less.
+* The pattern displayed in the figure is representative, but only one random simulation. To see how to quickly re-run the model on newly simulated data, without re-compiling the model, see the Overthinking box at the end of this section.
+
+#  Overthinking: 
+* Repeating the pond simulation. This model samples pretty quickly. Compiling the model takes up most of the execution time. Luckily the compilation only has to be done once. Then you can pass new data to the compiled model and get new estimates. Once you’ve compiled m13.3 once, you can use this code to re-simulate ponds and sample from the new posterior, without waiting for the model to compile again:
 
 ```{r}
 a <- 1.5
@@ -184,7 +195,7 @@ dsim <- data.frame( pond=1:nponds , Ni=Ni , true_a=a_pond )
 dsim$Si <- rbinom( nponds,prob=inv_logit( dsim$true_a ),size=dsim$Ni )
 dsim$p_nopool <- dsim$Si / dsim$Ni
 newdat <- list(Si=dsim$Si,Ni=dsim$Ni,pond=1:nponds)
-m13.3new <- stan( fit=m13.3@stanfit , data=newdat , chains=4 )
+m13.3new <- stan( fit=m13.3@stanfit , data=newdat , chains=4 ) # ?
 post <- extract.samples( m13.3new )
 dsim$p_partpool <- apply( inv_logit(post$a_pond) , 2 , mean )
 dsim$p_true <- inv_logit( dsim$true_a )
