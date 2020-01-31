@@ -270,14 +270,20 @@ prediction.Cauchy <- link(m13.2.ex12M3.Cauchy)
 post.original.Gaussian<-extract.samples(m13.2)
 post.original.Cauchy<-extract.samples(m13.2.ex12M3.Cauchy)
 
-d$propsurv.est.Gaussian <- logistic( apply( post.original.Gaussian$a , 2 , mean ) ) # across 48 tanks
-d$propsurv.est.Cauchy <- logistic( apply( post.original.Cauchy$a , 2 , mean ) ) # across 48 tanks
+d$propsurv.est.Gaussian <- inv_logit( apply( post.original.Gaussian$a , 2 , mean ) ) # across 48 tanks
+d$propsurv.est.Cauchy <- inv_logit( apply( post.original.Cauchy$a , 2 , mean ) ) # across 48 tanks
 ```
 # # plot mu of post and compare with raw data
+* The raw data could not be true (only by chance).
+* Simulated data
+* split data for testing could be the way to go
 ```{r}
 d %>% as_tibble() %>% select(tank,propsurv, propsurv.est.Gaussian,propsurv.est.Cauchy) %>% gather("key","value",-1) %>% ggplot(aes(x=tank,y=value,color=key)) + geom_point()
 
 ```
+
+# 
+
 
 # 12H1
 ```{r}
@@ -285,12 +291,10 @@ data("bangladesh")
 d <- bangladesh
 d$district_id <- as.integer(as.factor(d$district))
 str(d)
-# relevel deucation level
-edu_levels <- c( 6 , 1 , 8 , 4 , 7 , 2 , 5 , 3 )
-d$edu_new <- edu_levels[ d$edu ]
 
 ```
 
+# 
 ```{r}
 
 ```
@@ -301,8 +305,47 @@ d$edu_new <- edu_levels[ d$edu ]
 data(Trolley)
 d <- Trolley
 levels(d$edu)
-
+# relevel deucation level
+#edu_levels <- c( 6 , 1 , 8 , 4 , 7 , 2 , 5 , 3 )
+# d$edu_new <- edu_levels[ d$edu ]
 ```
+
+# 
+```{r}
+dat <- list(
+    R = d$response,
+    A = d$action,
+    I = d$intention,
+    C = d$contact )
+m12.6 <- ulam(
+    alist(
+        R ~ dordlogit( phi , cutpoints ),
+        phi <- bA*A + bC*C + BI*I ,
+        BI <- bI + bIA*A + bIC*C ,
+        c(bA,bI,bC,bIA,bIC) ~ dnorm( 0 , 0.5 ),
+        cutpoints ~ dnorm( 0 , 1.5 )
+    ) , data=dat , chains=4 , cores=4 )
+precis( m12.6 )
+```
+
+# 
+```{r}
+m12.6.person <- ulam(
+    alist(
+        R ~ dordlogit( phi , cutpoints ),
+        phi <- person[id] + bA*A + bC*C + BI*I ,
+        BI <- bI + bIA*A + bIC*C ,
+        c(bA,bI,bC,bIA,bIC) ~ dnorm( 0 , 0.5 ),
+        cutpoints ~ dnorm( 0 , 1.5 )
+        person[id] ~ dnorm(0,0.5) 
+    ) , data=dat , chains=4 , cores=4 )
+```
+* J's suggetion for ESS low error (more iter)
+* diagnosis with pars
+* use small size data
+
+
+
 
 
 ```{r}
