@@ -2,7 +2,9 @@
 title: "Chap13_Jan31_2020_HW_Kazu"
 author: "Kazu"
 date: "1/31/2020"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 editor_options: 
   chunk_output_type: console
 ---
@@ -86,6 +88,7 @@ dat_list.Q1<- list(
     treatment = ifelse(F4phyE.day35.v3$treatment=="sun",1,2)) 
 # "sun" is 1, "shade" is 2
 dat_list.Q1
+str(dat_list.Q1error)
 str(dat_list.Q1)
 
 ```
@@ -101,6 +104,27 @@ F4phyE.day35.v3 %>% ggplot(aes(x=treatment, y=stem_length,color=treatment)) + ge
 
 # Q2) Fit 3 models, all of which include genotype and treatment
 a) do not include flat
+## ModelQ1zero
+$$
+stem_length_i \sim Normal(mu,sigma) \\
+mu = \theta + \alpha_{genotype} + \beta_{treatment} \\
+Kazu'Q: When\ logit\ should\ be\ used? \\
+\theta \sim Normal(0,1) \\
+\alpha_{group} \sim Normal(0, 1) \\
+\beta_{treatment} \sim Normal(0, 1)
+$$
+
+## ModelQ1a
+$$
+stem_length_i \sim Normal(0,p) \\
+logit(p) = \alpha_{genotype} + \beta_{treatment} \\
+Kazu'Q: When\ logit\ should\ be\ used? \\
+
+\alpha_{group} \sim Normal(0, 1) \\
+\beta_{treatment} \sim Normal(0, 1)
+$$
+
+
 ```{r}
 set.seed(15)
 # error
@@ -108,7 +132,7 @@ mQ1.a.error <- ulam(
     alist(
         stem_length ~ dnorm( 1 , p),
         logit(p) <- a[genotype] + b[treatment],
-        b[treatment] ~ dnorm( 0 , 0.5 ),
+        b[treatment] ~ dnorm( 0 , 1),
         a[genotype] ~ dnorm(0 , 1)
     ), data=dat_list.Q1error , chains=2 , cores=2 , log_lik=TRUE )
 # no error, why?
@@ -116,14 +140,28 @@ mQ1.a <- ulam(
     alist(
         stem_length ~ dnorm( 1 , p),
         logit(p) <- a[genotype] + b[treatment],
-        b[treatment] ~ dnorm( 0 , 0.5 ),
+        b[treatment] ~ dnorm( 0 , 1),
         a[genotype] ~ dnorm(0 , 1)
     ), data=dat_list.Q1 , chains=2 , cores=2 , log_lik=TRUE )
-# If I 
+# 
+mQ1.a2.error <- ulam(
+    alist(
+        stem_length ~ dnorm( 1 , p),
+        logit(p) <- a*genotype + b*treatment,
+        b ~ dnorm( 0 , 1),
+        a ~ dnorm(0 , 1)
+    ), data=dat_list.Q1error , chains=2 , cores=2 , log_lik=TRUE )
+# Do I need to have intercept? 
+
+
 coeftab(mQ1.a)
+coeftab(mQ1.a2.error)
+compare(mQ1.a, mQ1.a2.error) # why different?
+
 ```
 
 b) include flat without pooling
+* I feel I do understand what pooling is meant....
 ```{r eval=TRUE}
 set.seed(15)
 mQ1.b <- ulam(

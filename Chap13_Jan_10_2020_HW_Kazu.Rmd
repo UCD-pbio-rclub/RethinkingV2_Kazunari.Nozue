@@ -2,10 +2,11 @@
 title: "Chap13_Jan_10_2020"
 author: "Kazu"
 date: "1/10/2020"
-output: 
-  html_document: 
+output:
+  pdf_document: default
+  html_document:
     keep_md: yes
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 # 13. Models with memory
