@@ -29,7 +29,7 @@ F4phyE.day35 <- F4phyE %>% filter(day==35)
 summary(F4phyE.day35)
 ```
 
-## b) create a new column "stem_length" that is the sum of epi, int1, int2, and int3
+b) create a new column "stem_length" that is the sum of epi, int1, int2, and int3
 ```{r}
 F4phyE.day35.v2 <- F4phyE.day35 %>% mutate(stem_length=epi+int1+int2+int3) # %>% View()
 F4phyE.day35.v2
@@ -44,7 +44,8 @@ F4phyE.day35.v3
 
 Ultimately you want to know if any of the mutants have a different length from Moneymaker, in sun or in shade, or if the response to shade differs.
 ```{r}
-dat_list.Q1error<- list(
+# sun treatment is zero or one
+dat_list.Q1.zero.one<- list(
     stem_length = F4phyE.day35.v3$stem_length,
     genotype = as.integer(factor(F4phyE.day35.v3$genotype,levels=c("Moneymaker", 
                                             "phyB1", 
@@ -65,7 +66,8 @@ dat_list.Q1error<- list(
                                                             "sun_5",
                                                             "sun_6"))),
     treatment = ifelse(F4phyE.day35.v3$treatment=="sun",0,1)) 
-dat_list.Q1<- list(
+# sun treatment is 1 or 2.
+dat_list.Q1.one.two<- list(
     stem_length = F4phyE.day35.v3$stem_length,
     genotype = as.integer(factor(F4phyE.day35.v3$genotype,levels=c("Moneymaker", 
                                             "phyB1", 
@@ -87,9 +89,11 @@ dat_list.Q1<- list(
                                                             "sun_6"))),
     treatment = ifelse(F4phyE.day35.v3$treatment=="sun",1,2)) 
 # "sun" is 1, "shade" is 2
-dat_list.Q1
-str(dat_list.Q1error)
-str(dat_list.Q1)
+dat_list.Q1.zero.one
+
+# 
+str(ifelse(F4phyE.day35.v3$treatment=="sun",0,1)) # numeric
+str(ifelse(F4phyE.day35.v3$treatment=="sun",0L,1L)) # integer
 
 ```
 
@@ -99,122 +103,538 @@ str(F4phyE.day35.v3)
 F4phyE.day35.v3$treatment <-factor(F4phyE.day35.v3$treatment,levels=c("sun","shade"))
 F4phyE.day35.v3 %>% View()
 F4phyE.day35.v3 %>% ggplot(aes(x=treatment, y=stem_length,color=treatment)) + geom_jitter() + facet_grid(.~genotype)
+# sample numbers (pivot table, tidyverse way)
+F4phyE.day35.v3 %>% group_by(genotype,treatment,flat) %>% summarize(num=n()) %>% spread(flat,num)
+# incomplete block design
+with(F4phyE.day35.v3, table(genotype,flat,treatment)) # traditional way, creating list
+
 ```
+
 * Looks there are treatment effects are genotype effects.
 
 # Q2) Fit 3 models, all of which include genotype and treatment
-a) do not include flat
-## ModelQ1zero
-$$
-stem_length_i \sim Normal(mu,sigma) \\
-mu = \theta + \alpha_{genotype} + \beta_{treatment} \\
-Kazu'Q: When\ logit\ should\ be\ used? \\
-\theta \sim Normal(0,1) \\
-\alpha_{group} \sim Normal(0, 1) \\
-\beta_{treatment} \sim Normal(0, 1)
-$$
+* Data format depends on indexing or not.
 
-## ModelQ1a
+Q2: a) do not include flat
+
+## ModelQ1.a.wrong
+* Kazu'Q: When\ logit\ should\ be\ used? \\
+* Use logit when value is between 0 and 1, likely probability. (correct?)
+* So this is wrong
+
 $$
 stem_length_i \sim Normal(0,p) \\
 logit(p) = \alpha_{genotype} + \beta_{treatment} \\
-Kazu'Q: When\ logit\ should\ be\ used? \\
-
 \alpha_{group} \sim Normal(0, 1) \\
 \beta_{treatment} \sim Normal(0, 1)
 $$
 
-
+# wrong model with logit
 ```{r}
 set.seed(15)
 # error
-mQ1.a.error <- ulam(
+mQ2.a.zero.one <- ulam(
     alist(
         stem_length ~ dnorm( 1 , p),
         logit(p) <- a[genotype] + b[treatment],
         b[treatment] ~ dnorm( 0 , 1),
         a[genotype] ~ dnorm(0 , 1)
-    ), data=dat_list.Q1error , chains=2 , cores=2 , log_lik=TRUE )
+    ), data=dat_list.Q1.zero.one , chains=2 , cores=2 , log_lik=TRUE )
 # no error, why?
-mQ1.a <- ulam(
+mQ1.a.one.two <- ulam(
     alist(
         stem_length ~ dnorm( 1 , p),
         logit(p) <- a[genotype] + b[treatment],
         b[treatment] ~ dnorm( 0 , 1),
         a[genotype] ~ dnorm(0 , 1)
-    ), data=dat_list.Q1 , chains=2 , cores=2 , log_lik=TRUE )
+    ), data=dat_list.Q1,one.two , chains=2 , cores=2 , log_lik=TRUE )
+```
+
+# Use normal distribution with mu and sigma also intercept
+## # mQ1.a2  intercept two treatment (no interaction)
+* Is this correct formula?
+
+$$
+stem\_length \sim Normal(mu,sigma) \\
+mu_{genotype},_{treatment} = \alpha_{genotype} + \beta\_g_{genotype}*genotype + \beta\_t_{treatment}*treatment \\
+\alpha_{genotype} \sim Normal(140,50) , for\ genotype\\
+\beta\_g_{genotype} \sim Normal(0, 1) , for\ genotype\\
+\beta\_t_{treatment} \sim Normal(0, 1) , for\ treatment \\
+\sigma \sim Exponential(0,1)
+$$
+
+```{r}
+# estimate intercept using mean?. How to translate into ulam() format for alpha genotype? Using index is easy?
+F4phyE.day35.v3 %>% summarize(mean(stem_length),sd(stem_length)) # 141 48.5
+# this use common alpha
+mQ2.a2.nonindex.zero.one <- ulam(
+    alist(
+        stem_length ~ dnorm(mu , sigma),
+        mu <- alpha + b_g*genotype + b_t*treatment,
+        alpha ~ dnorm(140,50),
+        b_g ~ dnorm( 0 , 1),
+        b_t ~ dnorm(0 , 1),
+        sigma ~ dexp( 1 )
+    ), data=dat_list.Q1.zero.one , chains=2 , cores=2 , log_lik=TRUE )
+
+precis(mQ1.a2.nonindex.zero.one,depth=2)
+pairs(mQ1.a2.nonindex.zero.one)
+
+```
+
+```{r}
+mQ2.a2.index.one.two <- ulam(
+    alist(
+        stem_length ~ dnorm(mu , sigma),
+        mu <- alpha[genotype] + b_g*[genotype] + b_t*treatment,
+        alpha[genotype] ~ dnorm(140,50),
+        b_g~ dnorm( 0 , 1),
+        b_t ~ dnorm(0 , 1),
+        sigma ~ dexp( 1 )
+    ), data=dat_list.Q1.one.two , chains=2 , cores=2 , log_lik=TRUE )
+
+precis(mQ1.a2.nonindex.one.two,depth=2)
+
+```
+
 # 
-mQ1.a2.error <- ulam(
+
+$$
+stem\_length \sim Normal(mu,sigma) \\
+mu_{genotype},_{treatment} = \alpha + \beta\_g_{genotype}*genotype + \beta\_t_{treatment}*treatment \\
+\alpha \sim Normal(140,50) , common\\
+\beta\_g_{genotype} \sim Normal(0, 1) , for\ genotype\\
+\beta\_t_{treatment} \sim Normal(0, 1) , for\ treatment \\
+\sigma \sim Exponential(0,1)
+$$
+# 
+```{r}
+mQ2.a2.index.zero.one <- ulam(
     alist(
-        stem_length ~ dnorm( 1 , p),
-        logit(p) <- a*genotype + b*treatment,
-        b ~ dnorm( 0 , 1),
-        a ~ dnorm(0 , 1)
-    ), data=dat_list.Q1error , chains=2 , cores=2 , log_lik=TRUE )
-# Do I need to have intercept? 
+        stem_length ~ dnorm(mu , sigma),
+        mu <- alpha + b_g[genotype] + b_t*treatment,
+        alpha ~ dnorm(140,50),
+        b_g[genotype] ~ dnorm( 0 , 1),
+        b_t ~ dnorm(0 , 1),
+        sigma ~ dexp( 1 )
+    ), data=dat_list.Q1.zero.one , chains=2 , cores=2 , log_lik=TRUE )
+
+precis(mQ1.a2.index.zero.one,depth=2)
+compare(mQ1.a2.zero.one,mQ1.a2.index.zero.one)
+```
+
+```{r}
+mQ2.a2.index.one.two <- ulam(
+    alist(
+        stem_length ~ dnorm(mu , sigma),
+        mu <- alpha + b_g[genotype] + b_t*treatment,
+        alpha ~ dnorm(140,50),
+        b_g[genotype] ~ dnorm( 0 , 1),
+        b_t ~ dnorm(0 , 1),
+        sigma ~ dexp( 1 )
+    ), data=dat_list.Q1.one.two , chains=2 , cores=2 , log_lik=TRUE )
+
+precis(mQ1.a2.index.one.two,depth=2)
+```
+
+```{r}
+mQ2.a2.trtindex.zero.one <- ulam(
+    alist(
+        stem_length ~ dnorm(mu , sigma),
+        mu <- alpha + b_g*genotype + b_t[treatment],
+        alpha ~ dnorm(140,50),
+        b_g ~ dnorm( 0 , 1),
+        b_t[treatment] ~ dnorm(0 , 1),
+        sigma ~ dexp( 1 )
+    ), data=dat_list.Q1.zero.one , chains=2 , cores=2 , log_lik=TRUE )
+# error. "indexing" is not copatible with "0".
+precis(mQ1.a2.trtindex.zero.one,depth=2)
+```
+
+```{r}
+mQ2.a2.trtindex.one.two <- ulam(
+    alist(
+        stem_length ~ dnorm(mu , sigma),
+        mu <- alpha + b_g*genotype + b_t[treatment],
+        alpha ~ dnorm(140,50),
+        b_g ~ dnorm( 0 , 1),
+        b_t[treatment] ~ dnorm(0 , 1),
+        sigma ~ dexp( 1 )
+    ), data=dat_list.Q1.one.two , chains=2 , cores=2 , log_lik=TRUE )
+
+precis(mQ1.a2.trtindex.one.two,depth=2)
+```
+
+* indexing gt as well as treatment
+```{r}
+mQ1.a2.trtgtindex.one.two <- ulam(
+    alist(
+        stem_length ~ dnorm(mu , sigma),
+        mu <- alpha + b_g[genotype] + b_t[treatment],
+        alpha ~ dnorm(140,50),
+        b_g[genotype] ~ dnorm( 0 , 1),
+        b_t[treatment] ~ dnorm(0 , 1),
+        sigma ~ dexp( 1 )
+    ), data=dat_list.Q1.one.two , chains=2 , cores=2 , log_lik=TRUE )
+
+precis(mQ1.a2.trtgtindex.one.two,depth=2)
+```
 
 
-coeftab(mQ1.a)
-coeftab(mQ1.a2.error)
-compare(mQ1.a, mQ1.a2.error) # why different?
+
+# how about to no intercept?
+## # mQ1.a3  no intercept, two treatment (no interaction)
+
+$$
+stem\_length \sim Normal(mu,sigma) \\
+mu =   \beta\_g_{genotype} + \beta\_t_{treatment} \\
+\alpha \sim Normal(140,50) \\
+\beta\_g \sim Normal(0, 1) \\
+\beta\_t_ \sim Normal(0, 1) \\
+\sigma \sim Exponential(0,1)
+$$
+```{r}
+mQ2.a3.nonindex.zero.one <- ulam(
+    alist(
+        stem_length ~ dnorm(mu , sigma),
+        mu <- b_g*genotype + b_t*treatment,
+        b_g ~ dnorm( 0 , 1),
+        b_t ~ dnorm(0 , 1),
+        sigma ~ dexp( 1 )
+    ), data=dat_list.Q1.zero.one , chains=2 , cores=2 , log_lik=TRUE )
+
+precis(mQ1.a3.nonindex.zero.one,depth=2)
+pairs(mQ1.a3.nonindex.zero.one)
+compare(mQ1.a2.nonindex.zero.one,mQ1.a3.nonindex.zero.one)
+# no intercept is worse.
+```
+
+# interaction model
+* Is this correct model description? with no index way?
+
+$$
+stem\_length \sim Normal(mu,sigma) \\
+mu =  \alpha +  \beta\_g_{genotype} + \beta\_t_{treatment} + \beta\_gt_{genotype*treatment} \\
+\alpha \sim Normal(140,50) \\
+\beta\_g \sim Normal(0, 1) \\
+\beta\_t_ \sim Normal(0, 1) \\
+\beta\_gt_ \sim Normal(0, 1) \\
+\sigma \sim Exponential(0,1)
+$$
+```{r}
+mQ1.a4.nonindex.zero.one <- ulam(
+    alist(
+        stem_length ~ dnorm(mu , sigma),
+        mu <- alpha + b_g*genotype + b_t*treatment + b_gt*genotype*treatment,
+        alpha ~ dnorm(140,50),
+        b_g ~ dnorm( 0 , 1),
+        b_t ~ dnorm(0 , 1),
+        b_gt ~ dnorm(0, 1),
+        sigma ~ dexp( 1 )
+    ), data=dat_list.Q1.zero.one , chains=2 , cores=2 , log_lik=TRUE )
+
+precis(mQ1.a4.nonindex.zero.one,depth=2)
+compare(mQ1.a2.nonindex.zero.one,mQ1.a4.nonindex.zero.one)
+# little improvement
+pairs(mQ1.a4.nonindex.zero.one) # I could see negative correlation between alpha and b_g, but not b_gt.
+```
+
+
+# using index method for interaction model (only genotype is indexed)
+$$
+stem\_length \sim Normal(mu,sigma) \\
+mu =  \alpha_{genotype} +  \beta\_g_{genotype}*genotype + \beta\_t_{treatment}*treatment + \beta\_gt_{genotype*treatment}*genotype*treatment \\
+\alpha \sim Normal(140,50) \\
+\beta\_g \sim Normal(0, 1) \\
+\beta\_t_ \sim Normal(0, 1) \\
+\beta\_gt_ \sim Normal(0, 1) \\
+\sigma \sim Exponential(0,1)
+$$
+
+
+
+```{r}
+mQ1.a4.gtindex.one.two <- ulam(
+    alist(
+        stem_length ~ dnorm(mu , sigma),
+        mu <- alpha + b_g[genotype] + b_t*treatment + b_gt[genotype]*treatment,
+        alpha ~ dnorm(140,50),
+        b_g[genotype] ~ dnorm( 0 , 1),
+        b_t ~ dnorm(0 , 1),
+        b_gt[genotype] ~ dnorm (0,1),
+        sigma ~ dexp( 1 )
+    ), data=dat_list.Q1.one.two , chains=2 , cores=2 , log_lik=TRUE )
+# Julin's priors
+mQ2.a4.gtindex.one.two.2 <- ulam(
+    alist(
+        stem_length ~ dnorm(mu , sigma),
+        mu <- alpha + b_g[genotype] + b_t*treatment + b_gt[genotype]*treatment,
+        alpha ~ dnorm(125,50),
+        b_g[genotype] ~ dnorm( 0 , 50),
+        b_t ~ dnorm(0 , 50),
+        b_gt[genotype] ~ dnorm (0,50),
+        sigma ~ dexp( 1 )
+    ), data=dat_list.Q1.one.two , chains=2 , cores=2 , log_lik=TRUE )
+
+precis(mQ1.a4.gtindex.one.two.2,depth=2)
+compare(mQ1.a4.gtindex.one.two,mQ1.a4.gtindex.one.two.2) 
+pairs(mQ1.a4.gtindex.one.two.2) # different priors. Julin's priors gave me strong  negative correlation betweeen b_t and b_gts!!! And Julin's prior is better model!
+compare(mQ1.a4.gtindex.one.two.2,mQ1.a4.nonindex.zero.one.2) # gt index is better than nonindex.
 
 ```
 
-b) include flat without pooling
+# using index method for interaction model (only genotype is indexed). no intercept
+```{r}
+mQ2.a4.gtindex.one.two.nointercept <- ulam(
+    alist(
+        stem_length ~ dnorm(mu , sigma),
+        mu <- b_g[genotype] + b_t*treatment + b_gt[genotype]*treatment,
+        #alpha ~ dnorm(140,50),
+        b_g[genotype] ~ dnorm( 140 , 50),
+        b_t ~ dnorm(0 , 1),
+        b_gt[genotype] ~ dnorm (0,1),
+        sigma ~ dexp( 1 )
+    ), data=dat_list.Q1.one.two , chains=2 , cores=2 , log_lik=TRUE )
+
+compare(mQ1.a4.gtindex.one.two.2,mQ1.a4.nonindex.zero.one.2) # gt index is better than nonindex.
+
+```
+
+
+
+Q3) Compare the models, which is preferred?
+# model comparison
+```{r}
+compare(mQ2.a2.nonindex.zero.one,
+        mQ2.a2.index.zero.one,
+        mQ2.a2.nonindex.one.two,
+        mQ2.a2.index.one.two,
+        mQ2.a2.trtindex.one.two,
+        mQ2.a2.trtgtindex.one.two)
+```
+* All of the same.
+
+
+
+
+
+
+
+
+
+# Q to Julin: How did you chose your priors?
+
+
+######### under construction ##########
+Q2: b) include flat without pooling
 * I feel I do understand what pooling is meant....
-```{r eval=TRUE}
+* Model description
+
+$$
+stem\_length \sim Normal(mu,sigma) \\
+mu =   \beta\_g_{genotype} + \beta\_t_{treatment} + \beta\_f_{flat} \\
+\beta\_g \sim Normal(140,50) \\
+\beta\_t \sim Normal(0, 1) \\
+\beta\_f \sim Normal(0,1) \\
+\sigma \sim Exponential(0,1)
+$$
+
+
+
+```{r eval=FALSE}
 set.seed(15)
-mQ1.b <- ulam(
+mQ4.b1.gtindex.one.two <- ulam(
     alist(
-        stem_length ~ dnorm( 1 , p),
-        logit(p) <- a[genotype] + g[flat_id] + b[treatment],
-        b[treatment] ~ dnorm( 0 , sigma_b ),
-        a[genotype] ~ dnorm( a_bar , sigma_a ),
-        g[flat_id] ~ dnorm( 0 , 1 ),
-        a_bar ~ dnorm( 0 , 1.5 ),
-        sigma_a ~ dexp(1),
-        sigma_b ~ dexp(1)
-    ), data=dat_list.Q1 , chains=2 , cores=2 , log_lik=TRUE )
-coeftab(mQ1.b)
+        stem_length ~ dnorm(mu , sigma),
+        mu <- alpha + b_g[genotype] + b_t*treatment + b_gt[genotype]*treatment,
+        alpha ~ dnorm(125,50),
+        b_g[genotype] ~ dnorm( 0 , 50),
+        b_t ~ dnorm(0 , 50),
+        b_gt[genotype] ~ dnorm (0,50),
+        sigma ~ dexp( 1 )
+    ), data=dat_list.Q1.one.two , chains=2 , cores=2 , log_lik=TRUE )
+
 ```
 
-c) use a hierarchical model that allows partial pooling across flats
-```{r eval=TRUE}
-set.seed(15)
-mQ1.c <- ulam(
-    alist(
-        stem_length ~ dnorm( 1 , p),
-        logit(p) <- a[genotype] + g[flat_id] + b[treatment],
-        b[treatment] ~ dnorm( 0 , sigma_b ),
-        a[genotype] ~ dnorm( a_bar , sigma_a ),
-        g[flat_id] ~ dnorm( 0 , sigma_g ),
-        a_bar ~ dnorm( 0 , 1.5 ),
-        sigma_a ~ dexp(1),
-        sigma_g ~ dexp(1),
-        sigma_b ~ dexp(1)
-    ), data=dat_list.Q1 , chains=2 , cores=2 , log_lik=TRUE )
-coeftab(mQ1.c)
+
+Q2: c) use a hierarchical model that allows partial pooling across flats
+
+$$
+stem\_length[i] \sim Normal(mu,sigma) \\
+mu[i] =   \beta\_g_{genotype[i]} + \beta\_t_{treatment[i]} \\
+\alpha \sim Normal(140,50) \\
+\beta\_g \sim Normal(0, 1) \\
+\beta\_t \sim Normal(0, 1) \\
+\sigma \sim Exponential(0,1)
+$$
+
+```{r eval=FALSE}
+
 ```
 
 
 # Q3) Compare the models, which is preferred?
-```{r}
+```{r eval=FALSE}
 compare(mQ1.a,mQ1.b,mQ1.c)
+```
+
+######## work with Julin's model and come back above later ########
+```{r}
+data <- read_csv(file.path("..","figure4phyE.csv"))
+data35 <- data %>%
+  filter(day==35) %>%
+  mutate(stem_length=epi + int1 + int2 + int3,
+         flat2=as.integer(as.factor(str_c(treatment, flat))),
+         shade_i=ifelse(treatment=="sun", 0L, 1L),
+         g_i= as.integer(factor(genotype,
+                                   levels=c("Moneymaker", 
+                                            "phyB1", 
+                                            "phyB2", 
+                                            "phyB1/B2", 
+                                            "phyEami3", 
+                                            "phyEami7")))) %>%
+  select(genotype, treatment, g_i, shade_i, flat2, stem_length)
+data35
+datsmall <- data35 %>% select(stem_length, shade_i, g_i, flat2) # Julin's version
+# from my data
+#datsmall<-dat_list.Q1.zero.one %>%  bind_cols() %>% rename(shade_i=treatment, g_i=genotype,flat2=flat_id) 
+  # convert mine to Julin's version (not necessary to be list object)
+
+mq2c2 <- ulam(alist(stem_length ~ dnorm(mu,sigma),
+                  mu <- alpha[g_i] + b_shade[g_i]*shade_i + b_fl[flat2],
+                  alpha[g_i] ~ dnorm(125,50),
+                  b_shade[g_i] ~ dnorm(0, 50),
+                  b_fl[flat2] ~ dnorm(0,sigma_fl),
+                  sigma ~ dexp(1),
+                  sigma_fl ~ dcauchy(0,3)),
+            data=datsmall,
+            chains=4,
+            cores=2,
+            iter=4000,
+            log_lik = TRUE)
+precis(mq2c2, depth=2)
+traceplot(mq2c2, ask=FALSE)
+pairs(mq2c2) # Error in plot.new() : figure margins too large
+# alternate of pairs (by Julin)
+extract.samples(mq2c2) %>%
+  as.data.frame() %>%
+  cor() %>%
+  round(2)
 
 ```
 
 # Q4) Using the hierarchical model, make posterior predictions
 a) for average cluster
+```{r}
+post <- extract.samples(mq2c2) # n=1000 is default, but why 8000? coming fomr iter = 4000 in the model?
+names(post)
+str(post)
+```
+# predicted value function? (Julin)
+```{r}
+link_avg <- function(genotype, shade) {
+  with(post, alpha[,genotype] + shade*b_shade[,genotype])
+}
+```
+# create a data frame to hold the results (Julin)
+```{r}
+pred.df <- data35 %>% 
+  select(-stem_length, -flat2) %>% 
+  unique() %>%
+  mutate(treatment=factor(treatment, levels = c("sun", "shade")) ) # so the plot order is correct
+pred.df
+```
+
+# summary table of predicted value
+```{r}
+pred.df.avg <- pred.df %>%
+  mutate(average_response=map2(g_i, shade_i, link_avg),
+         pet_length=map_dbl(average_response, mean),
+         low.89=map_dbl(average_response, ~ HPDI(.)[1]),
+         high.89=map_dbl(average_response, ~ HPDI(.)[2]))
+pred.df.avg
+```
+
+# plot it
+```{r}
+pred.df.avg %>%
+  ggplot(aes(x=genotype, y=pet_length, ymin=low.89, ymax=high.89, fill=treatment)) +
+  geom_col(position = "dodge") +
+  geom_errorbar(width = .5, position = position_dodge(width=.9)) +
+  ggtitle("prediction averaged across flat")
+```
+
 b) for same clusters
+```{r}
+
+```
+
 c) showing the "marginal" from cluster
+```{r}
+
+```
+
 d) showing new clusters.
+```{r}
+
+```
 
 Q5) Reparameterize the model to help with divergent transitions (even if there aren't any)
+```{r}
+
+```
 
 Q6--optional)
 a) Which genotypes differ from MoneyMaker in Sun conditions?
+* (J's) We compare posterior estimates for alpha for Moneymaker vs the others and ask how often the difference is non-zero in a particular direction
+```{r}
+avg.MM.sun <- pred.df.avg %>%
+  filter(genotype=="Moneymaker", treatment=="sun") %>%
+  pull(average_response) %>% unlist()
+
+#can't get this to work with Map, unfortunately...
+post.MM.sun.contrasts <- pred.df.avg %>%
+  filter(genotype!="Moneymaker", treatment=="sun") %>%
+  pull(average_response) %>%
+  sapply(function(x) unlist(x) - avg.MM.sun) %>%
+  as.data.frame()
+
+colnames(post.MM.sun.contrasts) <- pred.df.avg  %>%
+  filter(genotype!="Moneymaker", treatment=="sun") %>%
+  pull(genotype)
+
+head(post.MM.sun.contrasts)
+precis(post.MM.shade.contrasts)
+plot(precis(post.MM.shade.contrasts))
+
+```
+
 b) Which genotypes differ from MoneyMaker in Shade conditions?
+```{r}
+avg.MM.shade <- pred.df.avg %>%
+  filter(genotype=="Moneymaker", treatment=="shade") %>%
+  pull(average_response) %>% unlist()
+
+#can't get this to work with Map, unfortunately...
+post.MM.shade.contrasts <- pred.df.avg %>%
+  filter(genotype!="Moneymaker", treatment=="shade") %>%
+  pull(average_response) %>%
+  sapply(function(x) unlist(x) - avg.MM.shade) %>%
+  as.data.frame()
+
+colnames(post.MM.shade.contrasts) <- pred.df.avg  %>%
+  filter(genotype!="Moneymaker", treatment=="shade") %>%
+  pull(genotype)
+
+head(post.MM.shade.contrasts)
+precis(post.MM.shade.contrasts)
+plot(precis(post.MM.shade.contrasts))
+```
+
 c) Which genotypes differ from MoneyMaker in their response to shade (difference in sun vs shade)?
+```{r}
+plot(precis(post.MM.shade.contrasts - post.MM.sun.contrasts))
+```
 
 # sessionInfo()
 ```{r}

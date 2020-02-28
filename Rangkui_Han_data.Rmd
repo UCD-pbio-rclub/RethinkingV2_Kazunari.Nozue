@@ -1,0 +1,209 @@
+---
+title: "Chap13_Feb27_Rangkui_Han_data"
+author: "Kazu"
+date: "2/27/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=TRUE)
+library(rethinking)
+#library(lme4);library(lmerTest);
+library(ggplot2);library(reshape2);library(tidyverse);library(readr)
+
+```
+
+Dear R club,
+
+Here is your much-awaited dataset for our upcoming meeting on the 21st of February, 2020. The data came fresh off the greenhouse on 2/8/2020 from a night break experiment. Thirty-two accessions from a lettuce F6 recombinant inbred line population were planted in the same greenhouse under 10hr light/14hr dark diurnal cycles. Three treatments are implemented: 
+
+1. "Nightbreak": the plants are grown on a bench surrounded by plastic blackout curtains. These plants receive a one-hour night break treatment at 12am every day (meaning the lights turn on in the middle of the night for an hour) in addition to the 10L/14D lighting. 
+
+2. "Control": the plants are grown on a bench surrounded by plastic blackout curtains. 10L/14D lighting. 
+
+3. "Control_NoCurtain": the plants are grown on a bench without any curtains. 10L/14D lighting. 
+
+The goals of the experiment are:
+a. to see if night break induces earlier flowering in lettuce;
+b. if so, do different lettuce genotypes respond to night breaks differently; and 
+c. which one(s) of the five candidate loci is/are associated with differential responses. 
+
+How to interpret the phenotype:
+Phenotype is recorded in the "Score" column. The different scores represent different developmental stages:
+1: rosette 
+2: bolted (elongation of the main stem)
+3: budding
+4: first flower
+5: first mature seed head
+
+Aaaaand finally here are your questions!
+Q1: 
+a. Load the dataset. Look for column "Score" for the response variable we are interested in. A developmental score of 1 or 2 indicates vegetative growth, while a score of 3, 4, or 5 indicates reproductive growth. Create a "Reproduction" column with values 0 and 1, where 0 indicates vegetative growth and 1 indicates reproductive growth. 
+
+# read data
+```{r}
+Nightbreak_R.Han_data<-read_csv(file.path("..","Nightbreak_02_08_20_Rclub.csv"))
+summary(Nightbreak_R.Han_data)
+str(Nightbreak_R.Han_data)
+table(Nightbreak_R.Han_data$Treatment)
+Nightbreak_R.Han_data %>% View()
+```
+# create Repdocution column
+```{r}
+Nightbreak_R.Han_data <- Nightbreak_R.Han_data %>% mutate(Reproduction=ifelse(Score<3,0,1)) # 0 = vegetative growth, 1 = reproductive growth
+# indexing 
+Nightbreak_R.Han_data.index <- Nightbreak_R.Han_data %>% mutate(trt_i=as.integer(as.factor(Treatment))) # 1=Control, 2=Control_NoCurtain, 3=NightBreak
+Nightbreak_R.Han_data.index <- Nightbreak_R.Han_data.index %>% 
+  mutate(
+  loc1_i=ifelse(loc1=="A",0,1),
+  loc2_i=ifelse(loc2=="A",0,1),
+  loc3_i=ifelse(loc3=="A",0,1),
+  loc4_i=ifelse(loc4=="A",0,1),
+  loc5_i=ifelse(loc5=="A",0,1)) %>% # 0=A,1=P 
+  dplyr::select(Reproduction, contains("_i"))
+
+
+```
+
+
+
+b. (optional) Take a look at columns "loc1" through "loc5". The levels "A" or "P" indicate which parental allele the RIL has inherited. Can you think of a reason why there are 32 lines in this experiment? 
+```{r}
+2^5 # loc1 (A or P) * loc2 (A or P) .... * loc5 (A or P), all combination of loc1 to loc5 to balance out each loc effect
+
+```
+
+Q2:
+Using the "Reproduction" column you created in Q1a as the response variable, fit a simple model with effects of genotype ("RIL") and treatment ("Treatment") on the rate of transitioning to reproductive growth by 2/8/20. (Things you might want to consider: appropriate likelihood function, intersection term). 
+
+
+
+Q3:
+Because we are more interested in the effects of individual loci than the performance of specific genotypes, fit a model with additive effects of the five loci and effect of treatment.  
+```{r}
+
+```
+
+Q4: 
+Now let's look at some interaction terms. Can you fit a model that takes into account interaction effects between treatment and allele types at the five loci? How do you interpret the output? (I built a somewhat "ugly" model for this question. I'm excited to see what y'all's models look like.)
+$$
+Reproduction \sim Binomial(1, p) \\
+logit(p) = \alpha + \beta_{1}*loc1 + \beta_{2}*loc2  + \beta_{2}*loc3 + \beta_{2}*loc4 + \beta_{2}*loc5 + \gamma_{treatment}treatment*loc1 + .... \\
+\alpha \sim Normal(140,50) , common\\
+\beta\_g_{genotype} \sim Normal(0, 1) , for\ genotype\\
+\beta\_t_{treatment} \sim Normal(0, 1) , for\ treatment \\
+\sigma \sim Exponential(0,1)
+$$
+
+```{r}
+m.RH.Q4.a <- ulam(alist(
+  Reproduction ~ dbinom(1,p),
+                  logit(p) <- a[trt_i] + b1*loc1_i + b2*loc2_i + b3*loc3_i + b4*loc4_i + b5*loc5_i + c1[trt_i]*loc1_i + c2[trt_i]*loc2_i +c3[trt_i]*loc3_i + c4[trt_i]*loc4_i + c5[trt_i]*loc5_i,
+                  a[trt_i]  ~ dnorm(0,1),
+                  b1 ~ dnorm(0, 1),
+                  b2 ~ dnorm(0, 1),
+                  b3 ~ dnorm(0, 1),
+                  b4 ~ dnorm(0, 1),
+                  b5 ~ dnorm(0, 1),
+                  c1[trt_i] ~ dnorm(0,1),
+                  c2[trt_i] ~ dnorm(0,1),
+                  c3[trt_i] ~ dnorm(0,1),
+                  c4[trt_i] ~ dnorm(0,1),
+                  c5[trt_i] ~ dnorm(0,1)),
+            data=Nightbreak_R.Han_data.index,
+            chains=4,
+            cores=2,
+            iter=1000,
+            log_lik = TRUE)
+  
+plot(m.RH.Q4.a, depth=2)
+```
+
+# general a (no trt effects)
+* Therea are errors, which matters???
+
+```{r}
+m.RH.Q4.b <- ulam(alist(
+  Reproduction ~ dbinom(1,p),
+                  logit(p) <- a + b1*loc1_i + b2*loc2_i + b3*loc3_i + b4*loc4_i + b5*loc5_i + c1[trt_i]*loc1_i + c2[trt_i]*loc2_i +c3[trt_i]*loc3_i + c4[trt_i]*loc4_i + c5[trt_i]*loc5_i,
+                  a  ~ dnorm(0,1),
+                  b1 ~ dnorm(0, 1),
+                  b2 ~ dnorm(0, 1),
+                  b3 ~ dnorm(0, 1),
+                  b4 ~ dnorm(0, 1),
+                  b5 ~ dnorm(0, 1),
+                  c1[trt_i] ~ dnorm(0,1),
+                  c2[trt_i] ~ dnorm(0,1),
+                  c3[trt_i] ~ dnorm(0,1),
+                  c4[trt_i] ~ dnorm(0,1),
+                  c5[trt_i] ~ dnorm(0,1)),
+            data=Nightbreak_R.Han_data.index,
+            chains=4,
+            cores=2,
+            iter=1000,
+            log_lik = TRUE)
+  
+plot(m.RH.Q4.b, depth=2)
+```
+
+compare
+```{r}
+compare(m.RH.Q4.a,m.RH.Q4.b)
+
+```
+* Similar? Treatment effects were absorbed in alpha[trt_i] in m.RH.Q4.a model. 
+* m.RH.Q4.b model forced to asign treatment effects on loci??? 
+* In m.RH.Q4.a model, loc1 has positive and loc2 has negative effects.
+* m.RH.Q4.2 model, loc1, 3, 4, 5 has positive effects.
+
+```
+
+Q5:
+By simplifying the developmental score phenotype into a binary variable that indicates whether a plant has entered reproductive growth, we run the risk of losing potentially important information. Re-fit your favorite model from Q4 with the ordered categorical outcome variable of "Score." Do you observe any changes in your results? If so, why do you think it happened?
+# A/P distribution by loci
+```{r}
+library(ggplot2)
+Nightbreak_R.Han_data %>% mutate(Rep=as.factor(Rep)) %>% dplyr::select(Treatment,Rep,loc1,loc2,loc3,loc4,loc5,Score) %>% 
+gather(loc,value,-Treatment, -Score,-Rep) %>% 
+ggplot( aes(x = value)) +
+  geom_histogram(aes(fill = Rep),stat="count") + facet_grid(loc~Score)
+
+```
+
+Q6:
+Each "Plot" # correspond to a specific spot on a bench. In other words, the same plot # indicates equivalent locations on their respective benches even across different treatments and replicates. Update your favorite model from Q4 or Q5 using hierarchical modeling that allow partial pooling across plots. Compare the models. What do they say and which model do you prefer?
+```{r}
+
+```
+
+Q7 (optional):
+a. What can we conclude regarding treatment effect?
+```{r}
+
+```
+
+b. What can we conclude regarding differential response to nightbreak treatment?
+```{r}
+
+```
+
+c. If we concluded that there are differential responses to nightbreak across genotypes, which genetic loci contributed to the differential responses, and which ones did not?
+```{r}
+
+```
+
+I hope you find these exercises interesting. Lemme know if you have any questions! See you all on Friday.
+Rongkui
+
+-- 
+Rongkui Han
+
+Ph.D. Candidate & NSF Graduate Research Fellow
+Michelmore Lab
+Plant Biology Graduate Group
+University of California, Davis
+
+
+
+
+
