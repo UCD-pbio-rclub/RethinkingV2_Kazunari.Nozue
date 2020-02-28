@@ -165,8 +165,8 @@ By simplifying the developmental score phenotype into a binary variable that ind
 library(ggplot2)
 Nightbreak_R.Han_data %>% mutate(Rep=as.factor(Rep)) %>% dplyr::select(Treatment,Rep,loc1,loc2,loc3,loc4,loc5,Score) %>% 
 gather(loc,value,-Treatment, -Score,-Rep) %>% 
-ggplot( aes(x = value)) +
-  geom_histogram(aes(fill = Rep),stat="count") + facet_grid(loc~Score)
+ggplot( aes(x = Score)) +
+  geom_histogram(aes(fill = value),stat="count") + facet_grid(loc~Treatment)
 
 ```
 
