@@ -202,37 +202,7 @@ m.RH.Q4.a <- ulam(alist(
             cores=2,
             iter=1000,
             log_lik = TRUE)
-```
-
-```
-## Trying to compile a simple C file
-```
-
-```
-## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-## clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -D_REENTRANT  -DBOOST_DISABLE_ASSERTS -DBOOST_PENDING_INTEGER_LOG2_HPP -include stan/math/prim/mat/fun/Eigen.hpp   "-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"  -fPIC  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -c foo.c -o foo.o
-## In file included from <built-in>:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:88:
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:1: error: unknown type name 'namespace'
-## namespace Eigen {
-## ^
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:16: error: expected ';' after top level declarator
-## namespace Eigen {
-##                ^
-##                ;
-## In file included from <built-in>:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-## #include <complex>
-##          ^~~~~~~~~
-## 3 errors generated.
-## make: *** [foo.o] Error 1
-```
-
-```r
+  
 plot(m.RH.Q4.a, depth=2)
 ```
 
@@ -262,37 +232,7 @@ m.RH.Q4.b <- ulam(alist(
             cores=2,
             iter=1000,
             log_lik = TRUE)
-```
-
-```
-## Trying to compile a simple C file
-```
-
-```
-## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-## clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -D_REENTRANT  -DBOOST_DISABLE_ASSERTS -DBOOST_PENDING_INTEGER_LOG2_HPP -include stan/math/prim/mat/fun/Eigen.hpp   "-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"  -fPIC  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -c foo.c -o foo.o
-## In file included from <built-in>:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:88:
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:1: error: unknown type name 'namespace'
-## namespace Eigen {
-## ^
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:16: error: expected ';' after top level declarator
-## namespace Eigen {
-##                ^
-##                ;
-## In file included from <built-in>:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-## #include <complex>
-##          ^~~~~~~~~
-## 3 errors generated.
-## make: *** [foo.o] Error 1
-```
-
-```r
+  
 plot(m.RH.Q4.b, depth=2)
 ```
 
@@ -305,9 +245,9 @@ compare(m.RH.Q4.a,m.RH.Q4.b)
 ```
 
 ```
-##               WAIC       SE   dWAIC      dSE    pWAIC      weight
-## m.RH.Q4.a 179.2045 12.22584 0.00000       NA 11.95412 0.991672006
-## m.RH.Q4.b 188.7641 13.83275 9.55954 6.633735 12.20823 0.008327994
+##               WAIC       SE    dWAIC      dSE    pWAIC      weight
+## m.RH.Q4.a 179.1417 12.22330 0.000000       NA 11.88038 0.992360877
+## m.RH.Q4.b 188.8754 13.86134 9.733608 6.568201 12.30037 0.007639123
 ```
 * Similar? Treatment effects were absorbed in alpha[trt_i] in m.RH.Q4.a model. 
 * m.RH.Q4.b model forced to asign treatment effects on loci??? 
@@ -385,29 +325,29 @@ sessionInfo()
 ##  [1] forcats_0.4.0        stringr_1.4.0        dplyr_0.8.4         
 ##  [4] purrr_0.3.3          readr_1.3.1          tidyr_1.0.2         
 ##  [7] tibble_2.1.3         tidyverse_1.3.0      reshape2_1.4.3      
-## [10] rethinking_1.95      dagitty_0.2-2        rstan_2.19.3        
+## [10] rethinking_1.95      dagitty_0.2-2        rstan_2.21.1        
 ## [13] ggplot2_3.2.1        StanHeaders_2.21.0-1
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] httr_1.4.1         jsonlite_1.6.1     modelr_0.1.6       assertthat_0.2.1  
-##  [5] stats4_3.6.2       cellranger_1.1.0   yaml_2.2.1         pillar_1.4.3      
-##  [9] backports_1.1.5    lattice_0.20-38    glue_1.3.1         digest_0.6.25     
-## [13] rvest_0.3.5        colorspace_1.4-1   htmltools_0.4.0    plyr_1.8.5        
-## [17] pkgconfig_2.0.3    broom_0.5.5        haven_2.2.0        mvtnorm_1.1-0     
-## [21] scales_1.1.0       processx_3.4.2     farver_2.0.3       generics_0.0.2    
-## [25] ellipsis_0.3.0     withr_2.1.2        lazyeval_0.2.2     cli_2.0.2         
-## [29] magrittr_1.5       crayon_1.3.4       readxl_1.3.1       evaluate_0.14     
-## [33] ps_1.3.2           fs_1.3.1           fansi_0.4.1        nlme_3.1-142      
-## [37] MASS_7.3-51.4      xml2_1.2.2         pkgbuild_1.0.6     tools_3.6.2       
-## [41] loo_2.2.0          prettyunits_1.1.1  hms_0.5.3          lifecycle_0.1.0   
-## [45] matrixStats_0.55.0 V8_3.0.1           munsell_0.5.0      reprex_0.3.0      
-## [49] callr_3.4.2        compiler_3.6.2     rlang_0.4.5        grid_3.6.2        
-## [53] rstudioapi_0.11    labeling_0.3       rmarkdown_2.1      boot_1.3-23       
-## [57] codetools_0.2-16   gtable_0.3.0       inline_0.3.15      DBI_1.1.0         
-## [61] curl_4.3           R6_2.4.1           gridExtra_2.3      lubridate_1.7.4   
-## [65] knitr_1.28         shape_1.4.4        stringi_1.4.6      Rcpp_1.0.3        
-## [69] vctrs_0.2.3        dbplyr_1.4.2       tidyselect_1.0.0   xfun_0.12         
-## [73] coda_0.19-3
+##  [1] httr_1.4.1         jsonlite_1.6.1     modelr_0.1.6       RcppParallel_4.4.4
+##  [5] assertthat_0.2.1   stats4_3.6.2       cellranger_1.1.0   yaml_2.2.1        
+##  [9] pillar_1.4.3       backports_1.1.5    lattice_0.20-38    glue_1.3.1        
+## [13] digest_0.6.25      rvest_0.3.5        colorspace_1.4-1   htmltools_0.4.0   
+## [17] plyr_1.8.5         pkgconfig_2.0.3    broom_0.5.5        haven_2.2.0       
+## [21] mvtnorm_1.1-0      scales_1.1.0       processx_3.4.2     farver_2.0.3      
+## [25] generics_0.0.2     ellipsis_0.3.0     withr_2.1.2        lazyeval_0.2.2    
+## [29] cli_2.0.2          magrittr_1.5       crayon_1.3.4       readxl_1.3.1      
+## [33] evaluate_0.14      ps_1.3.2           fs_1.3.1           fansi_0.4.1       
+## [37] nlme_3.1-142       MASS_7.3-51.4      xml2_1.2.2         pkgbuild_1.0.6    
+## [41] tools_3.6.2        loo_2.2.0          prettyunits_1.1.1  hms_0.5.3         
+## [45] lifecycle_0.1.0    matrixStats_0.55.0 V8_3.0.1           munsell_0.5.0     
+## [49] reprex_0.3.0       callr_3.4.2        compiler_3.6.2     rlang_0.4.5       
+## [53] grid_3.6.2         rstudioapi_0.11    labeling_0.3       rmarkdown_2.1     
+## [57] boot_1.3-23        gtable_0.3.0       codetools_0.2-16   inline_0.3.15     
+## [61] DBI_1.1.0          curl_4.3           R6_2.4.1           gridExtra_2.3     
+## [65] lubridate_1.7.4    knitr_1.28         shape_1.4.4        stringi_1.4.6     
+## [69] Rcpp_1.0.3         vctrs_0.2.3        dbplyr_1.4.2       tidyselect_1.0.0  
+## [73] xfun_0.12          coda_0.19-3
 ```
 
 
