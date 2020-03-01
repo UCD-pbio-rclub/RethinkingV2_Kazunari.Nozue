@@ -11,7 +11,9 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
 # install.packages("rstan", repos = "https://cloud.r-project.org/", dependencies = TRUE)
-# pkgbuild::has_build_tools(debug = TRUE)
+pkgbuild::has_build_tools(debug = TRUE) # FALSE (Mar 1, 2020) -> after next line, this became "TRUE"
+# system("open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg") # https://github.com/catboost/catboost/issues/137
+
 # library("rstan") 
 # options(mc.cores = parallel::detectCores())
 # rstan_options(auto_write = TRUE)

@@ -130,7 +130,7 @@ logit(p) = \alpha_{genotype} + \beta_{treatment} \\
 $$
 
 # wrong model with logit
-```{r}
+```{r eval=FALSE}
 set.seed(15)
 # error
 mQ2.a.zero.one <- ulam(
@@ -163,7 +163,7 @@ mu_{genotype},_{treatment} = \alpha_{genotype} + \beta\_g_{genotype}*genotype + 
 \sigma \sim Exponential(0,1)
 $$
 
-```{r}
+```{r eval=FALSE}
 # estimate intercept using mean?. How to translate into ulam() format for alpha genotype? Using index is easy?
 F4phyE.day35.v3 %>% summarize(mean(stem_length),sd(stem_length)) # 141 48.5
 # this use common alpha
@@ -182,7 +182,7 @@ pairs(mQ1.a2.nonindex.zero.one)
 
 ```
 
-```{r}
+```{r eval=FALSE}
 mQ2.a2.index.one.two <- ulam(
     alist(
         stem_length ~ dnorm(mu , sigma),
@@ -190,8 +190,7 @@ mQ2.a2.index.one.two <- ulam(
         alpha[genotype] ~ dnorm(140,50),
         b_g~ dnorm( 0 , 1),
         b_t ~ dnorm(0 , 1),
-        sigma ~ dexp( 1 )
-    ), data=dat_list.Q1.one.two , chains=2 , cores=2 , log_lik=TRUE )
+        sigma ~ dexp( 1 )), data=dat_list.Q1.one.two , chains=2 , cores=2 , log_lik=TRUE )
 
 precis(mQ1.a2.nonindex.one.two,depth=2)
 
@@ -208,7 +207,7 @@ mu_{genotype},_{treatment} = \alpha + \beta\_g_{genotype}*genotype + \beta\_t_{t
 \sigma \sim Exponential(0,1)
 $$
 # 
-```{r}
+```{r eval=FALSE}
 mQ2.a2.index.zero.one <- ulam(
     alist(
         stem_length ~ dnorm(mu , sigma),
@@ -223,7 +222,7 @@ precis(mQ1.a2.index.zero.one,depth=2)
 compare(mQ1.a2.zero.one,mQ1.a2.index.zero.one)
 ```
 
-```{r}
+```{r eval=FALSE}
 mQ2.a2.index.one.two <- ulam(
     alist(
         stem_length ~ dnorm(mu , sigma),
@@ -237,7 +236,7 @@ mQ2.a2.index.one.two <- ulam(
 precis(mQ1.a2.index.one.two,depth=2)
 ```
 
-```{r}
+```{r eval=FALSE}
 mQ2.a2.trtindex.zero.one <- ulam(
     alist(
         stem_length ~ dnorm(mu , sigma),
@@ -251,7 +250,7 @@ mQ2.a2.trtindex.zero.one <- ulam(
 precis(mQ1.a2.trtindex.zero.one,depth=2)
 ```
 
-```{r}
+```{r eval=FALSE}
 mQ2.a2.trtindex.one.two <- ulam(
     alist(
         stem_length ~ dnorm(mu , sigma),
@@ -266,7 +265,7 @@ precis(mQ1.a2.trtindex.one.two,depth=2)
 ```
 
 * indexing gt as well as treatment
-```{r}
+```{r eval=FALSE}
 mQ1.a2.trtgtindex.one.two <- ulam(
     alist(
         stem_length ~ dnorm(mu , sigma),
@@ -293,7 +292,7 @@ mu =   \beta\_g_{genotype} + \beta\_t_{treatment} \\
 \beta\_t_ \sim Normal(0, 1) \\
 \sigma \sim Exponential(0,1)
 $$
-```{r}
+```{r eval=FALSE}
 mQ2.a3.nonindex.zero.one <- ulam(
     alist(
         stem_length ~ dnorm(mu , sigma),
@@ -321,7 +320,7 @@ mu =  \alpha +  \beta\_g_{genotype} + \beta\_t_{treatment} + \beta\_gt_{genotype
 \beta\_gt_ \sim Normal(0, 1) \\
 \sigma \sim Exponential(0,1)
 $$
-```{r}
+```{r eval=FALSE}
 mQ1.a4.nonindex.zero.one <- ulam(
     alist(
         stem_length ~ dnorm(mu , sigma),
@@ -353,7 +352,7 @@ $$
 
 
 
-```{r}
+```{r eval=FALSE}
 mQ1.a4.gtindex.one.two <- ulam(
     alist(
         stem_length ~ dnorm(mu , sigma),
@@ -384,7 +383,7 @@ compare(mQ1.a4.gtindex.one.two.2,mQ1.a4.nonindex.zero.one.2) # gt index is bette
 ```
 
 # using index method for interaction model (only genotype is indexed). no intercept
-```{r}
+```{r eval=FALSE}
 mQ2.a4.gtindex.one.two.nointercept <- ulam(
     alist(
         stem_length ~ dnorm(mu , sigma),
@@ -404,7 +403,7 @@ compare(mQ1.a4.gtindex.one.two.2,mQ1.a4.nonindex.zero.one.2) # gt index is bette
 
 Q3) Compare the models, which is preferred?
 # model comparison
-```{r}
+```{r eval=FALSE}
 compare(mQ2.a2.nonindex.zero.one,
         mQ2.a2.index.zero.one,
         mQ2.a2.nonindex.one.two,

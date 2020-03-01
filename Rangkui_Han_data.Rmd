@@ -2,11 +2,13 @@
 title: "Chap13_Feb27_Rangkui_Han_data"
 author: "Kazu"
 date: "2/27/2020"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,error=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
 library(rethinking)
 #library(lme4);library(lmerTest);
 library(ggplot2);library(reshape2);library(tidyverse);library(readr)
@@ -89,7 +91,7 @@ Now let's look at some interaction terms. Can you fit a model that takes into ac
 $$
 Reproduction \sim Binomial(1, p) \\
 logit(p) = \alpha + \beta_{1}*loc1 + \beta_{2}*loc2  + \beta_{2}*loc3 + \beta_{2}*loc4 + \beta_{2}*loc5 + \gamma_{treatment}treatment*loc1 + .... \\
-\alpha \sim Normal(140,50) , common\\
+\alpha \sim Normal(0,1) , common\\
 \beta\_g_{genotype} \sim Normal(0, 1) , for\ genotype\\
 \beta\_t_{treatment} \sim Normal(0, 1) , for\ treatment \\
 \sigma \sim Exponential(0,1)
@@ -203,6 +205,10 @@ Michelmore Lab
 Plant Biology Graduate Group
 University of California, Davis
 
+sesssionInfo
+```{r}
+sessionInfo()
+```
 
 
 
