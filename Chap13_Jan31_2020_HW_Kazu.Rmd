@@ -460,10 +460,10 @@ Q2: c) use a hierarchical model that allows partial pooling across flats
 
 $$
 stem\_length[i] \sim Normal(mu,sigma) \\
-mu[i] =   \beta\_g_{genotype[i]} + \beta\_t_{treatment[i]} \\
+mu[i] =   \beta\_g_{genotype[i]} + \beta\_t_{treatment[i]} , i\ for\ flat\ 1\ to\ 12\\
 \alpha \sim Normal(140,50) \\
-\beta\_g \sim Normal(0, 1) \\
-\beta\_t \sim Normal(0, 1) \\
+\beta\_g[i] \sim Normal(0, 1) \\
+\beta\_t[i] \sim Normal(0, 1) \\
 \sigma \sim Exponential(0,1)
 $$
 

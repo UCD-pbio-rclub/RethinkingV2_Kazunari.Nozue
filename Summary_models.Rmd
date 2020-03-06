@@ -1,0 +1,188 @@
+---
+title: "Summary of models"
+output: html_notebook
+---
+
+# prepaå
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
+library(rethinking)
+library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
+```
+
+# Key words
+* no pooling, partial pooling, complete? pooling???
+* multilevel
+* 
+
+
+
+# multilevel tadpoles
+```{r}
+data(reedfrogs)
+d <- reedfrogs
+str(d)
+d
+# make the tank cluster variable
+d$tank <- 1:nrow(d)
+dat <- list(
+    S = d$surv,
+    N = d$density,
+    tank = d$tank )
+
+```
+
+* varying intercepts model (= simplelst kind of varying effects) 
+
+$$
+Si \sim Bionial(N_i,p_i) \\
+logit(p_i) \sim \alpha_{TANK[i]} \\
+\alpha_j \sim Normal(0,1.5),\ for\ j=1..48 \\
+$$
+
+```{r}
+m13.1 <- ulam(
+    alist(
+        S ~ dbinom( N , p ),
+        logit(p) <- a[tank],
+        a[tank] ~ dnorm( 0 , 1.5 )
+), data=dat, chains=4, log_lik=TRUE ,cores=2) # cores=2 added by Kazu
+
+```
+
+* multilevel model
+
+$$
+Si \sim Bionial(N_i,p_i) \\
+logit(p_i) \sim \alpha_{TANK[i]} \\
+\alpha_j \sim Normal(\bar\alpha,sigma) \\
+\bar\alpha \sim Normal(0,1.5) \\
+\sigma \sim Exponential(1)\\
+$$
+
+
+
+```{r}
+m13.2 <- ulam(
+    alist(
+        S ~ dbinom( N , p ) ,
+        logit(p) <- a[tank] ,
+        a[tank] ~ dnorm( a_bar , sigma ) ,
+        a_bar ~ dnorm( 0 , 1.5 ) ,
+             sigma ~ dexp( 1 )
+), data=dat, chains=4 , log_lik=TRUE ,cores=2) # cores=2 added by Kazu
+
+```
+
+
+
+
+# pooling BY POND (13.2.1)
+* No pooling: no information is shared across ponds. It's like assuming that the variation among ponds is infinite, so nothing you learn from one pond helps you predict another.
+## data fimulation
+
+```{r}
+a_bar <- 1.5; sigma <- 1.5; nponds <-60; Ni <- as.integer(rep(c(5,10,25,35),each=15))
+set.seed(5005)
+a_pond <- rnorm( nponds , mean=a_bar , sd=sigma )
+dsim <- data.frame(pond=1:nponds, Ni=Ni ,true_a=a_pond)
+dsim$Si <- rbinom(nponds, prob=logistic(dsim$true_a),size=dsim$Ni)
+```
+# no pooling
+```{r}
+dsim$p_nopool <- dsim$Si / dsim$Ni
+```
+
+
+* Partial pooling: 
+
+$$
+Si \sim Bionial(N_i,p_i) \\
+logit(p_i) \sim \alpha_{POND[i]} \\
+\alpha_j \sim Normal(\bar\alpha,sigma) \\
+\bar\alpha \sim Normal(0,1.5) \\
+\sigma \sim Exponential(1)\\
+$$
+$$\bar\alpha$$ is the average log-odds of survival in the entire population of ponds.
+$$\sigma$$ the standard deviation of the distribution of log-odds of survival among ponds
+$$\alpha$$, a vector of individual pond intercepts, one for each pond
+
+# 13.2.5 compute the partial-pooling estimates
+
+```{r}
+dat <- list(Si=dsim$Si,Ni=dsim$Ni,pond=dsim$pond)
+m13.3 <- ulam(
+    alist(
+        Si ~ dbinom( Ni , p ),
+        logit(p) <- a_pond[pond],
+        a_pond[pond] ~ dnorm( a_bar , sigma ),
+        a_bar ~ dnorm( 0 , 1.5 ),
+        sigma ~ dexp( 1 )
+    ), data=dat , chains=4 )
+precis( m13.3 , depth=2 )
+post <- extract.samples(m13.3)
+dsim$p_partpool <- apply(inv_logit(post$a_pond),2,mean)
+dsim$p_true <- inv_logit(dsim$true_a)
+nopool_error <- abs(dsim$p_nopool - dsim$p_true)
+partpool_error <- abs(dsim$p_partpool - dsim$p_true)
+plot(1:60, nopool_error,xlab="pond",ylab="absolute error",col=rangi2,pch=16)
+points(1:60,partpool_error) # did not work
+
+```
+
+# 13.3.1 Multilevel chimpanzes
+
+```{r}
+data(chimpanzees)
+d <- chimpanzees
+summary(d)
+d$treatment <- 1 + d$prosoc_left + 2*d$condition # see R code 11.2 for detailed explanation
+dat_list<- list(
+    pulled_left = d$pulled_left,
+    actor = d$actor,
+    block_id = d$block,
+    treatment = as.integer(d$treatment) )
+```
+
+
+
+$$
+L_i \sim Binomial(1,p_i) \\
+logit(p_i) =  \alpha_{ACTOR[i]} + \gamma_{BLOCK[i]} + \beta_{TREATMENT[i]} \\
+\beta_{j} \sim Normal(0,0.5)\ ,for\ j=1..4\\ 
+$$
+* there is four treatments
+
+#### a model description under construction ##
+
+$$
+\alpha_{j} \sim Normal(\bar\alpha,\sigma_\alpha)\ ,for\ j=1..4\\ 
+
+$$
+
+
+# m13.4 
+```{r R code 13.21}
+library(rethinking)
+data(chimpanzees)
+
+set.seed(13)
+m13.4 <- ulam(
+    alist(
+        pulled_left ~ dbinom( 1 , p ) ,
+        logit(p) <- a[actor] + g[block_id] + b[treatment] ,
+        b[treatment] ~ dnorm( 0 , 0.5 ),
+        # adaptive priors
+        a[actor] ~ dnorm( a_bar , sigma_a ),
+        g[block_id] ~ dnorm( 0 , sigma_g ),
+        # hyper-priors
+        a_bar ~ dnorm( 0 , 1.5 ),
+        sigma_a ~ dexp(1),
+        sigma_g ~ dexp(1)
+    ) , data=dat_list , chains=4 , cores=4 , log_lik=TRUE )
+```
+
+```{r}
+sessionInfo()
+```
+
