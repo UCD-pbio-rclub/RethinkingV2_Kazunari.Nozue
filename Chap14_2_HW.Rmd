@@ -15,6 +15,42 @@ library(rethinking)
 library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
 ```
 
+# test 
+# multilevel tadpoles
+```{r}
+data(reedfrogs)
+d <- reedfrogs
+str(d)
+d
+# make the tank cluster variable
+d$tank <- 1:nrow(d)
+dat <- list(
+    S = d$surv,
+    N = d$density,
+    tank = d$tank )
+
+```
+
+* varying intercepts model (= simplelst kind of varying effects) 
+
+$$
+Si \sim Bionial(N_i,p_i) \\
+logit(p_i) \sim \alpha_{TANK[i]} \\
+\alpha_j \sim Normal(0,1.5),\ for\ j=1..48 \\
+$$
+
+```{r}
+m13.1 <- ulam(
+    alist(
+        S ~ dbinom( N , p ),
+        logit(p) <- a[tank],
+        a[tank] ~ dnorm( 0 , 1.5 )
+), data=dat, chains=4, log_lik=TRUE ,cores=2) # cores=2 added by Kazu
+
+```
+
+# the end of test
+
 # problems
 ## 13M3. Re-estimate the varying slopes model for the UCBadmit data, now using a non-centered parameterization. Compare the efficiency of the forms of the model, using n_eff. Which is better? Which chain sampled faster?
 
