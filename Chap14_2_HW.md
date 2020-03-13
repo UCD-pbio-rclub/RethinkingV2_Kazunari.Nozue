@@ -104,31 +104,58 @@ m13.1 <- ulam(
         logit(p) <- a[tank],
         a[tank] ~ dnorm( 0 , 1.5 )
 ), data=dat, chains=4, log_lik=TRUE ,cores=2) # cores=2 added by Kazu
+precis( m13.1 , depth=2 )
 ```
 
-    ## Trying to compile a simple C file
-
-    ## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-    ## clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -include stan/math/prim/mat/fun/Eigen.hpp  -D_REENTRANT  "-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"  -fPIC  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -c foo.c -o foo.o
-    ## In file included from <built-in>:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:88:
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:1: error: unknown type name 'namespace'
-    ## namespace Eigen {
-    ## ^
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:16: error: expected ';' after top level declarator
-    ## namespace Eigen {
-    ##                ^
-    ##                ;
-    ## In file included from <built-in>:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-    ## #include <complex>
-    ##          ^~~~~~~~~
-    ## 3 errors generated.
-    ## make: *** [foo.o] Error 1
+    ##              mean        sd        5.5%       94.5%    n_eff     Rhat4
+    ## a[1]   1.71162109 0.7805870  0.53850206  3.02335672 5890.928 0.9996131
+    ## a[2]   2.41357979 0.9087782  1.05664232  3.90742197 4119.387 1.0003599
+    ## a[3]   0.75738800 0.6257051 -0.19096741  1.80621355 4926.437 0.9989029
+    ## a[4]   2.40260088 0.8699920  1.11636725  3.84850151 4343.292 0.9985329
+    ## a[5]   1.71461336 0.7444676  0.56986319  2.96456475 5007.211 0.9990207
+    ## a[6]   1.71812635 0.8311876  0.47233762  3.11959746 4734.213 0.9988811
+    ## a[7]   2.40920627 0.9375493  1.01849282  3.95624055 3379.251 0.9990725
+    ## a[8]   1.71753687 0.7572272  0.57753169  2.99514619 3895.205 0.9992208
+    ## a[9]  -0.37890800 0.6201957 -1.40171478  0.57516802 6177.242 0.9985557
+    ## a[10]  1.70243367 0.7588801  0.58615080  2.94777132 4235.528 0.9989951
+    ## a[11]  0.76051033 0.6357525 -0.26492475  1.84626268 5356.679 0.9986576
+    ## a[12]  0.35957544 0.6083007 -0.57817738  1.34891097 5260.384 0.9984896
+    ## a[13]  0.77468891 0.6494445 -0.19854732  1.82842787 4422.006 0.9984664
+    ## a[14] -0.01099823 0.6010364 -0.96620875  0.93912494 6113.480 0.9984808
+    ## a[15]  1.69369669 0.7601172  0.54820202  2.96542156 3887.811 0.9986455
+    ## a[16]  1.71450502 0.7569883  0.57068830  2.99590526 5712.353 0.9986089
+    ## a[17]  2.55366285 0.6743282  1.55529752  3.70036446 3520.979 0.9988325
+    ## a[18]  2.13788428 0.5898346  1.25548952  3.13735290 3128.000 1.0001689
+    ## a[19]  1.80233624 0.5296216  1.01579425  2.69387274 4689.359 0.9999101
+    ## a[20]  3.08112277 0.7827435  1.98873441  4.44107313 3213.785 1.0001969
+    ## a[21]  2.13086419 0.5944489  1.21979524  3.11764872 5872.031 0.9988298
+    ## a[22]  2.15196171 0.6162636  1.23754544  3.16092863 4219.205 0.9985266
+    ## a[23]  2.16506085 0.6268884  1.22165768  3.17835428 3621.384 0.9988431
+    ## a[24]  1.52639417 0.5033810  0.79356141  2.34165695 5290.042 0.9989566
+    ## a[25] -1.09981597 0.4492411 -1.84239128 -0.39769849 4559.790 0.9990827
+    ## a[26]  0.07299872 0.3803417 -0.53063289  0.68299693 4809.723 0.9983355
+    ## a[27] -1.54509632 0.5110021 -2.40546948 -0.77266165 4476.869 0.9986419
+    ## a[28] -0.56665452 0.4225155 -1.26493903  0.10454105 4629.345 0.9986116
+    ## a[29]  0.07841264 0.3958108 -0.56734234  0.71977925 4880.402 0.9990958
+    ## a[30]  1.30788932 0.4817720  0.59231808  2.09306280 4836.194 0.9985865
+    ## a[31] -0.72081052 0.4177083 -1.39138723 -0.07213573 5780.464 0.9995584
+    ## a[32] -0.39713649 0.3957373 -1.04174240  0.21427544 6216.343 0.9989252
+    ## a[33]  2.82609754 0.6343408  1.88854091  3.89857057 3857.645 0.9992902
+    ## a[34]  2.45651459 0.5844352  1.57380481  3.44315438 4049.012 0.9982932
+    ## a[35]  2.46129662 0.5692681  1.61773074  3.41971842 3680.876 1.0007181
+    ## a[36]  1.91734980 0.4727699  1.20093253  2.72788777 3763.201 0.9994719
+    ## a[37]  1.90375881 0.4919558  1.17237804  2.72039817 4588.074 0.9982084
+    ## a[38]  3.36215692 0.7790680  2.22563279  4.67481203 2943.696 0.9991846
+    ## a[39]  2.47520197 0.5777906  1.61323138  3.43073436 3859.536 0.9990733
+    ## a[40]  2.16018299 0.5087453  1.40891479  3.00561993 3784.764 0.9985693
+    ## a[41] -1.90106779 0.4768062 -2.67400476 -1.19781616 3394.257 0.9995841
+    ## a[42] -0.63034206 0.3472291 -1.19605361 -0.08362308 5972.959 0.9988837
+    ## a[43] -0.50510971 0.3454303 -1.06625993  0.06064687 4197.083 0.9992110
+    ## a[44] -0.39432692 0.3357893 -0.94372291  0.13026454 4151.761 0.9992621
+    ## a[45]  0.51817575 0.3527819 -0.03087545  1.07374264 5748.180 0.9986630
+    ## a[46] -0.63275994 0.3403313 -1.18526168 -0.10702546 5509.373 0.9990598
+    ## a[47]  1.91489718 0.5046534  1.14002049  2.75647388 4736.907 0.9988548
+    ## a[48] -0.06136391 0.3260838 -0.57089626  0.45648127 5950.351 0.9985406
 
 # the end of test
 
@@ -167,45 +194,18 @@ m11.8.ulam <- ulam(
         a[gid] ~ dnorm( 0 , 1.5 ) ,
         delta[did] ~ dnorm( 0 , 1.5 )
     ) , data=dat,chains=4,cores=2,iter=4000,log_lik=TRUE)
-```
-
-    ## Trying to compile a simple C file
-
-    ## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-    ## clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -include stan/math/prim/mat/fun/Eigen.hpp  -D_REENTRANT  "-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"  -fPIC  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -c foo.c -o foo.o
-    ## In file included from <built-in>:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:88:
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:1: error: unknown type name 'namespace'
-    ## namespace Eigen {
-    ## ^
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:16: error: expected ';' after top level declarator
-    ## namespace Eigen {
-    ##                ^
-    ##                ;
-    ## In file included from <built-in>:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-    ## #include <complex>
-    ##          ^~~~~~~~~
-    ## 3 errors generated.
-    ## make: *** [foo.o] Error 1
-
-``` r
 precis( m11.8.ulam , depth=2 )
 ```
 
     ##                mean        sd       5.5%      94.5%    n_eff    Rhat4
-    ## a[1]     -0.5757211 0.5350527 -1.4270152  0.2836949 611.9735 1.000902
-    ## a[2]     -0.4785611 0.5365328 -1.3265517  0.3838958 614.0224 1.000853
-    ## delta[1]  1.1565952 0.5379881  0.2829745  2.0090522 619.7225 1.000762
-    ## delta[2]  1.1131554 0.5403540  0.2487516  1.9796943 623.6869 1.001080
-    ## delta[3] -0.1036900 0.5394389 -0.9762103  0.7603851 616.1843 1.000893
-    ## delta[4] -0.1356350 0.5390928 -1.0036596  0.7263490 617.1764 1.000778
-    ## delta[5] -0.5801026 0.5389542 -1.4509705  0.2833608 622.2192 1.000975
-    ## delta[6] -2.1335407 0.5526464 -3.0225530 -1.2501634 634.8975 1.000791
+    ## a[1]     -0.5483191 0.5016602 -1.3327749  0.2783357 657.1990 1.006194
+    ## a[2]     -0.4516842 0.5030971 -1.2390711  0.3696182 660.7883 1.005988
+    ## delta[1]  1.1291552 0.5046935  0.2969050  1.9213021 663.7386 1.005784
+    ## delta[2]  1.0853259 0.5068881  0.2493052  1.8787809 671.6900 1.005963
+    ## delta[3] -0.1305684 0.5036780 -0.9461940  0.6587598 662.6862 1.006189
+    ## delta[4] -0.1627117 0.5057496 -0.9914115  0.6312114 672.1569 1.006090
+    ## delta[5] -0.6055754 0.5072805 -1.4443009  0.1897006 672.8114 1.006184
+    ## delta[6] -2.1605985 0.5189105 -3.0259662 -1.3508785 710.7250 1.005835
 
 ``` r
 plot(m11.8.ulam , depth=2)
@@ -226,49 +226,22 @@ m.practice13M3.a <- ulam(
           a[did] ~ dnorm( 0 , 1.5 ) ,
           delta[did] ~ dnorm(0,1.5) 
         ) , data=dat , chains=4 , cores=2 , iter=4000,log_lik=TRUE )
-```
-
-    ## Trying to compile a simple C file
-
-    ## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-    ## clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -include stan/math/prim/mat/fun/Eigen.hpp  -D_REENTRANT  "-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"  -fPIC  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -c foo.c -o foo.o
-    ## In file included from <built-in>:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:88:
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:1: error: unknown type name 'namespace'
-    ## namespace Eigen {
-    ## ^
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:16: error: expected ';' after top level declarator
-    ## namespace Eigen {
-    ##                ^
-    ##                ;
-    ## In file included from <built-in>:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-    ## #include <complex>
-    ##          ^~~~~~~~~
-    ## 3 errors generated.
-    ## make: *** [foo.o] Error 1
-
-``` r
 precis(m.practice13M3.a, depth=2)
 ```
 
     ##                 mean        sd       5.5%       94.5%    n_eff     Rhat4
-    ## a[1]     -0.52546530 0.2767856 -0.9652584 -0.08547143 7012.678 0.9997754
-    ## a[2]      0.28399808 0.4364918 -0.4288475  0.96403322 7543.220 1.0000216
-    ## a[3]     -0.40192643 0.2396105 -0.7863570 -0.01378114 7868.002 1.0000228
-    ## a[4]     -0.76708677 0.2275678 -1.1335661 -0.40230373 6899.088 0.9997915
-    ## a[5]     -0.73421914 0.3354490 -1.2649110 -0.19961668 7733.333 1.0001114
-    ## a[6]     -2.69068513 0.4501433 -3.4220210 -1.96927853 7696.717 1.0002538
-    ## delta[1]  1.02270343 0.2499594  0.6244771  1.42152284 6797.912 0.9997523
-    ## delta[2]  0.24860720 0.4125581 -0.3977209  0.92819069 7513.228 1.0000932
-    ## delta[3] -0.13053862 0.1396194 -0.3540557  0.09265955 7872.920 0.9998774
-    ## delta[4]  0.06972912 0.1456684 -0.1627005  0.30034291 6941.333 0.9997977
-    ## delta[5] -0.21490839 0.1957965 -0.5272449  0.09680907 7744.554 1.0000570
-    ## delta[6]  0.01547691 0.2891586 -0.4511507  0.47354338 7558.273 1.0001401
+    ## a[1]     -0.53111766 0.2799896 -0.9891971 -0.09487201 7055.233 0.9998016
+    ## a[2]      0.28297952 0.4433290 -0.4263190  0.97804624 7069.115 0.9998011
+    ## a[3]     -0.40297554 0.2416928 -0.7862328 -0.01136879 7016.047 0.9998172
+    ## a[4]     -0.76924166 0.2306172 -1.1371300 -0.40107401 7241.190 1.0002288
+    ## a[5]     -0.73367140 0.3397747 -1.2738141 -0.19867787 6570.192 1.0001901
+    ## a[6]     -2.68682826 0.4514701 -3.4208927 -1.98196139 7414.424 1.0001483
+    ## delta[1]  1.02814636 0.2534692  0.6348017  1.44325700 6991.050 0.9998732
+    ## delta[2]  0.25089389 0.4188186 -0.4044067  0.91949736 7134.772 0.9997884
+    ## delta[3] -0.12972091 0.1417555 -0.3586003  0.09718284 7100.696 0.9998212
+    ## delta[4]  0.07127332 0.1476549 -0.1641288  0.30611663 7149.737 1.0000623
+    ## delta[5] -0.21453602 0.1977294 -0.5244854  0.10100858 6412.064 1.0003648
+    ## delta[6]  0.01386019 0.2888755 -0.4409104  0.47606071 7496.870 1.0000308
 
 ``` r
 plot(m.practice13M3.a,depth=2)
@@ -293,30 +266,6 @@ m.practice13M3.b <- ulam(
         Rho ~ lkj_corr(2)
     ) , data=dat , chains=4 , cores=2 , iter=4000,log_lik=TRUE)
 ```
-
-    ## Trying to compile a simple C file
-
-    ## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-    ## clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -include stan/math/prim/mat/fun/Eigen.hpp  -D_REENTRANT  "-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"  -fPIC  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -c foo.c -o foo.o
-    ## In file included from <built-in>:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:88:
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:1: error: unknown type name 'namespace'
-    ## namespace Eigen {
-    ## ^
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:16: error: expected ';' after top level declarator
-    ## namespace Eigen {
-    ##                ^
-    ##                ;
-    ## In file included from <built-in>:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-    ## #include <complex>
-    ##          ^~~~~~~~~
-    ## 3 errors generated.
-    ## make: *** [foo.o] Error 1
 
     ## Warning in .local(object, ...): some chains had errors; consider specifying
     ## chains = 1 to debug
@@ -368,30 +317,6 @@ m.practice13M3.c <- ulam(
 ```
 
     ## recompiling to avoid crashing R session
-
-    ## Trying to compile a simple C file
-
-    ## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-    ## clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -include stan/math/prim/mat/fun/Eigen.hpp  -D_REENTRANT  "-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"  -fPIC  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -c foo.c -o foo.o
-    ## In file included from <built-in>:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:88:
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:1: error: unknown type name 'namespace'
-    ## namespace Eigen {
-    ## ^
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:16: error: expected ';' after top level declarator
-    ## namespace Eigen {
-    ##                ^
-    ##                ;
-    ## In file included from <built-in>:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-    ## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-    ## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-    ## #include <complex>
-    ##          ^~~~~~~~~
-    ## 3 errors generated.
-    ## make: *** [foo.o] Error 1
 
     ## Warning in .local(object, ...): some chains had errors; consider specifying
     ## chains = 1 to debug

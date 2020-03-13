@@ -46,6 +46,7 @@ m13.1 <- ulam(
         logit(p) <- a[tank],
         a[tank] ~ dnorm( 0 , 1.5 )
 ), data=dat, chains=4, log_lik=TRUE ,cores=2) # cores=2 added by Kazu
+precis( m13.1 , depth=2 )
 
 ```
 
