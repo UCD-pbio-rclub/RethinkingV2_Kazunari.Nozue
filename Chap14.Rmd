@@ -213,6 +213,7 @@ R ~ LKJcorr(2)
 
 
 * I gave up... 
+
 $$
 y_i \sim Normal(\mu_i, \ sigma) \\
 \mu_i = \alpha_{GROUP[i]} + \beta x_i \\
@@ -243,6 +244,62 @@ X = \begin{bmatrix}1 & x_{1}\\
 
 S = \begin{pmatrix}a & b\\\ c & d\end{pmatrix} \\
 $$
+
+
+* Julin's answer
+
+$$
+y_i \sim Normal(\mu_i, \alpha) \\
+\mu_i = \alpha_{group[i]} + \beta_{group[i]} X_i \\
+$$
+
+
+
+$$
+\left[
+\begin{array}{c}
+\alpha_{Group} \\
+\beta_{Group}
+\end{array}
+\right]
+\sim MVNormal
+\left(
+\left[
+\begin{array}{c}
+\alpha\\
+\beta 
+\end{array}
+\right]
+,S
+\right) \\
+$$
+$$
+S = \left(
+\begin{array}{cc} 
+\sigma_\alpha & 0 \\
+0 & \sigma_\alpha
+\end{array}
+\right) 
+\mathbf{R}
+\left(
+\begin{array}{cc} 
+\sigma_\alpha & 0 \\
+0 & \sigma_\alpha
+\end{array}
+\right) \\
+$$
+
+
+
+$$
+\alpha \sim Normal(0, 10) \\
+\beta \sim Normal(0,1) \\
+\sigma \sim HalfCauchy(0, 2) \\
+\sigma_\alpha \sim HalfCauchy(0,2) \\
+\sigma_\beta \sim HalfCauchy(0,2) \\
+\mathbf{R} \sim LKJcorr(2)
+$$
+
 
 
 14E2 Think up a context in which varying intercepts will be positively correlated with varying
@@ -352,7 +409,9 @@ i αcafé ∼ Normal(α, σα)
 ```{r}
 # I do not understand how to use HalfCauchy distribution function
 library(extraDistr)
-dhcauchy(0,1) # errr
+dhcauchy(0,1) # error
+# dcauchy() is automatically translated into HalfCauchy distribution (by Julin)
+# HalfCauchy is positive side of Cauchy distribution. 
 
 m14.1.problemM2 <- ulam(
     alist(
@@ -375,5 +434,10 @@ plot( precis(m14.1.problemM2,depth=2) )
 compare(m14.1,m14.1.problemM2)
 compare(m14.1,m14.1.rhozero,m14.1.problemM2)
 
+```
+
+# sessionInfo()
+```{r}
+sessionInfo()
 ```
 

@@ -1,0 +1,95 @@
+---
+title: "Chap14_2_HW"
+author: "Kazu"
+date: "3/13/2020"
+output:
+  github_document:
+    pandoc_args: --webtex
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
+library(rethinking)
+library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
+```
+
+# problems
+## 13M3. Re-estimate the varying slopes model for the UCBadmit data, now using a non-centered parameterization. Compare the efficiency of the forms of the model, using n_eff. Which is better? Which chain sampled faster?
+
+* modified original m11.8 quad version into ulam
+```{r}
+data(UCBadmit)
+d <- UCBadmit
+dat <- list( A=d$admit , N=d$applications , gid=ifelse( d$applicant.gender=="male" , 1 , 2 ),did=rep(1:6,each=2))
+dat
+m11.8.ulam <- ulam(
+    alist(
+        A ~ dbinom(N, p),
+        logit(p) <- a[gid] + delta[did] ,
+        a[gid] ~ dnorm( 0 , 1.5 ) ,
+        delta[did] ~ dnorm( 0 , 1.5 )
+    ) , data=dat,chains=4,cores=2,iter=4000,log_lik=TRUE)
+precis( m11.8.ulam , depth=2 )
+plot(m11.8.ulam , depth=2)
+```
+
+* multitire? partial pooling model? 
+```{r}
+m.practice13M3.a <- ulam(
+    alist(
+        A ~ dbinom(N , p ) ,
+        ## partial pooling model?
+        logit(p) <- a[did] + delta[did]*gid,
+          a[did] ~ dnorm( 0 , 1.5 ) ,
+          delta[did] ~ dnorm(0,1.5) 
+        ) , data=dat , chains=4 , cores=2 , iter=4000,log_lik=TRUE )
+precis(m.practice13M3.a, depth=2)
+plot(m.practice13M3.a,depth=2)
+```
+
+* the varying slopes model. a_did and b_did are related (correct wording?)
+```{r}
+m.practice13M3.b <- ulam(
+    alist(
+        A ~ dbinom(N,p),
+        p <- a_did[did] + b_did[did]*gid,
+        c(a_did,b_did)[did] ~ multi_normal( c(a,b) , Rho , sigma_did ),
+        a ~ normal(0,1.5),
+        b ~ normal(0,1.5),
+        sigma_did ~ exponential(1),
+        Rho ~ lkj_corr(2)
+    ) , data=dat , chains=4 , cores=2 , iter=4000,log_lik=TRUE)
+# error... why?
+precis(m.practice13M3.b, depth=2)
+plot(m.practice13M3.b,depth=2)
+```
+# normal? dnorm?
+```{r}
+m.practice13M3.c <- ulam(
+    alist(
+        A ~ dbinom(N,p),
+        p <- a_did[did] + b_did[did]*gid,
+        c(a_did,b_did)[did] ~ multi_normal( c(a,b) , Rho , sigma_did ),
+        a ~ dnorm(0,1.5),
+        b ~ dnorm(0,1.5),
+        sigma_did ~ exponential(1),
+        Rho ~ lkj_corr(2)
+    ) , data=dat , chains=4 , cores=2 , iter=4000,log_lik=TRUE)
+# error why?
+precis(m.practice13M3.c, depth=2)
+plot(m.practice13M3.c,depth=2)
+```
+
+* compare
+```{r}
+compare(m11.8.ulam,m.practice13M3.a,m.practice13M3.b,m.practice13M3.c)
+```
+
+
+# sessionInfo()
+```{r}
+sessionInfo()
+```
+

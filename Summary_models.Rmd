@@ -1,9 +1,11 @@
 ---
 title: "Summary of models"
-output: html_notebook
+output:
+  github_document:
+    pandoc_args: --webtex
 ---
 
-# prepaå
+# prep
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
 library(rethinking)

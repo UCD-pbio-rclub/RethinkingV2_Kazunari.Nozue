@@ -159,34 +159,6 @@ m14.1 <- ulam(
 ```
 
 ```
-## Trying to compile a simple C file
-```
-
-```
-## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-## clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -include stan/math/prim/mat/fun/Eigen.hpp  -D_REENTRANT  "-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"  -fPIC  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -c foo.c -o foo.o
-## In file included from <built-in>:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:88:
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:1: error: unknown type name 'namespace'
-## namespace Eigen {
-## ^
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:16: error: expected ';' after top level declarator
-## namespace Eigen {
-##                ^
-##                ;
-## In file included from <built-in>:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-## #include <complex>
-##          ^~~~~~~~~
-## 3 errors generated.
-## make: *** [foo.o] Error 1
-```
-
-```
 ## Warning: The largest R-hat is NA, indicating chains have not mixed.
 ## Running the chains for more iterations may help. See
 ## http://mc-stan.org/misc/warnings.html#r-hat
@@ -446,34 +418,6 @@ m14.1.rhozero <- ulam(
 ```
 
 ```
-## Trying to compile a simple C file
-```
-
-```
-## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-## clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -include stan/math/prim/mat/fun/Eigen.hpp  -D_REENTRANT  "-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"  -fPIC  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -c foo.c -o foo.o
-## In file included from <built-in>:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:88:
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:1: error: unknown type name 'namespace'
-## namespace Eigen {
-## ^
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:16: error: expected ';' after top level declarator
-## namespace Eigen {
-##                ^
-##                ;
-## In file included from <built-in>:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-## #include <complex>
-##          ^~~~~~~~~
-## 3 errors generated.
-## make: *** [foo.o] Error 1
-```
-
-```
 ## Warning: The largest R-hat is NA, indicating chains have not mixed.
 ## Running the chains for more iterations may help. See
 ## http://mc-stan.org/misc/warnings.html#r-hat
@@ -556,7 +500,7 @@ library(extraDistr)
 ```
 
 ```r
-dhcauchy(0,1) # errr
+dhcauchy(0,1) # error
 ```
 
 ```
@@ -564,6 +508,9 @@ dhcauchy(0,1) # errr
 ```
 
 ```r
+# dcauchy() is automatically translated into HalfCauchy distribution (by Julin)
+# HalfCauchy is positive side of Cauchy distribution. 
+
 m14.1.problemM2 <- ulam(
     alist(
         wait ~ normal( mu , sigma ),
@@ -576,87 +523,57 @@ m14.1.problemM2 <- ulam(
         sigma_alpha ~ exponential(1),
         sigma_beta ~ exponential(1)
     ) , data=d , chains=4 , cores=2,iter=2000,log_lik=TRUE)
-```
 
-```
-## Trying to compile a simple C file
-```
-
-```
-## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-## clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -include stan/math/prim/mat/fun/Eigen.hpp  -D_REENTRANT  "-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"  -fPIC  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -c foo.c -o foo.o
-## In file included from <built-in>:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:88:
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:1: error: unknown type name 'namespace'
-## namespace Eigen {
-## ^
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:16: error: expected ';' after top level declarator
-## namespace Eigen {
-##                ^
-##                ;
-## In file included from <built-in>:1:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-## In file included from /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
-## /Library/Frameworks/R.framework/Versions/3.6/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-## #include <complex>
-##          ^~~~~~~~~
-## 3 errors generated.
-## make: *** [foo.o] Error 1
-```
-
-```r
 precis(m14.1.problemM2, depth=2 )
 ```
 
 ```
-##                    mean         sd       5.5%      94.5%    n_eff     Rhat4
-## a[1]         4.32543266 0.19726957  4.0104249  4.6460835 4925.125 0.9997026
-## a[2]         2.22750138 0.19587923  1.9204640  2.5440586 4265.912 0.9998496
-## a[3]         4.55686180 0.19227583  4.2559454  4.8674893 4247.460 1.0006239
-## a[4]         3.32733333 0.19506236  3.0214761  3.6385727 4945.059 0.9994401
-## a[5]         1.93088520 0.19657493  1.6220143  2.2450067 4312.239 1.0008209
-## a[6]         4.24287995 0.19787409  3.9205983  4.5587212 5186.567 1.0005489
-## a[7]         3.77502087 0.19120556  3.4661693  4.0834095 4811.669 0.9990859
-## a[8]         4.11190954 0.20440554  3.7848808  4.4353575 5190.906 0.9995600
-## a[9]         3.91791159 0.20046850  3.5983638  4.2379147 5287.481 1.0003835
-## a[10]        3.46491309 0.19989377  3.1379740  3.7850194 4858.090 1.0005619
-## a[11]        1.95210744 0.19981737  1.6359651  2.2701244 5007.014 0.9996058
-## a[12]        3.97974206 0.19444984  3.6679419  4.2970941 6004.319 0.9994699
-## a[13]        4.14485691 0.19623193  3.8322319  4.4616315 3943.860 0.9998969
-## a[14]        3.31351943 0.20414214  2.9890329  3.6451962 5239.064 0.9996964
-## a[15]        4.62459753 0.20470312  4.2933672  4.9524123 4711.872 1.0004136
-## a[16]        3.49528481 0.20098925  3.1743792  3.8129197 5358.308 0.9999610
-## a[17]        4.12525288 0.19771640  3.8056117  4.4407049 4675.100 0.9995775
-## a[18]        5.58774248 0.20741568  5.2489656  5.9230953 5225.017 0.9997547
-## a[19]        3.07427023 0.20758410  2.7428244  3.4121043 5228.439 0.9999748
-## a[20]        3.72928631 0.19546249  3.4094819  4.0374693 5223.706 0.9992371
-## b[1]        -0.97618221 0.26742819 -1.3970486 -0.5489573 5006.126 1.0002050
-## b[2]        -1.57746758 0.26609983 -2.0046341 -1.1541837 4286.352 1.0001141
-## b[3]        -1.74522912 0.26367730 -2.1688959 -1.3283677 4347.964 1.0007301
-## b[4]        -1.39979187 0.26467918 -1.8289937 -0.9703711 4943.787 0.9997277
-## b[5]        -0.86354183 0.26734059 -1.3025311 -0.4404565 4258.487 1.0001812
-## b[6]        -1.02948326 0.26537997 -1.4568702 -0.6049628 5196.716 0.9994735
-## b[7]        -1.07100344 0.26096474 -1.4967804 -0.6601880 4957.777 0.9995414
-## b[8]        -1.65257559 0.27854928 -2.0954736 -1.2055854 5134.069 0.9998221
-## b[9]        -1.10558771 0.27058782 -1.5348146 -0.6787887 4768.255 1.0007541
-## b[10]       -0.84992951 0.27101486 -1.2796787 -0.4161975 4651.065 1.0008342
-## b[11]       -0.94754646 0.26514153 -1.3688458 -0.5222981 4680.906 0.9993881
-## b[12]       -1.07739514 0.26428402 -1.4945714 -0.6553154 5534.104 0.9996183
-## b[13]       -1.81449942 0.27321768 -2.2462803 -1.3733189 4553.931 1.0006808
-## b[14]       -1.08805398 0.28138528 -1.5277370 -0.6355024 4905.427 1.0000854
-## b[15]       -2.06844986 0.28727633 -2.5293914 -1.6092264 4862.474 0.9997882
-## b[16]       -1.14966199 0.26934757 -1.5712208 -0.7049368 4863.568 1.0001264
-## b[17]       -0.83909333 0.26269909 -1.2615912 -0.4207932 4518.212 0.9995774
-## b[18]        0.13739160 0.28707920 -0.3203204  0.6026217 4495.587 1.0005042
-## b[19]       -0.05241899 0.28285970 -0.5087397  0.3969994 4322.660 0.9997551
-## b[20]       -0.94269585 0.26855164 -1.3686458 -0.5135893 5723.015 0.9995917
-## alpha        3.70687234 0.21993955  3.3624027  4.0513728 5562.584 0.9994738
-## beta        -1.10063352 0.14943669 -1.3385067 -0.8643272 4523.655 0.9997927
-## sigma        0.47326046 0.02678971  0.4316997  0.5182863 3535.835 0.9998809
-## sigma_alpha  0.96549412 0.16714428  0.7331166  1.2620720 4413.891 0.9995238
-## sigma_beta   0.62038069 0.13012262  0.4371902  0.8473852 3953.735 0.9996891
+##                    mean        sd       5.5%      94.5%    n_eff     Rhat4
+## a[1]         4.32383493 0.2057626  4.0016589  4.6622845 4815.219 0.9994965
+## a[2]         2.23353585 0.2127919  1.8957890  2.5745189 4603.678 1.0000386
+## a[3]         4.56099336 0.1993459  4.2544588  4.8839630 4768.068 0.9995841
+## a[4]         3.32418846 0.1891173  3.0251677  3.6234603 4849.763 1.0000515
+## a[5]         1.92955266 0.1993806  1.6104981  2.2537180 5175.779 1.0000052
+## a[6]         4.24490653 0.1950837  3.9263337  4.5523380 4486.532 0.9994765
+## a[7]         3.77266325 0.1931684  3.4689584  4.0828240 5118.554 1.0008046
+## a[8]         4.11224332 0.1960890  3.7989532  4.4261539 4656.715 0.9993401
+## a[9]         3.92256826 0.1990179  3.6047758  4.2394630 5469.763 0.9997337
+## a[10]        3.47282382 0.1987858  3.1514344  3.7941946 4621.719 0.9994132
+## a[11]        1.95448811 0.1942968  1.6535403  2.2657820 4463.451 0.9995925
+## a[12]        3.97817407 0.1976537  3.6571833  4.2940823 5098.428 0.9993518
+## a[13]        4.14653121 0.2050061  3.8204156  4.4749801 4982.694 0.9992597
+## a[14]        3.31374078 0.1938699  2.9996824  3.6194752 4990.961 1.0001555
+## a[15]        4.62405738 0.2017570  4.3037880  4.9435107 4781.017 0.9998649
+## a[16]        3.49514374 0.1976854  3.1831331  3.8113945 5380.109 0.9994572
+## a[17]        4.12293115 0.1969943  3.8071972  4.4422818 5038.053 1.0006083
+## a[18]        5.58335988 0.2032869  5.2482869  5.9001017 5130.965 1.0004083
+## a[19]        3.06742337 0.1988947  2.7473456  3.3881522 5166.928 0.9993062
+## a[20]        3.72841315 0.1983271  3.4098323  4.0390688 5188.779 0.9996915
+## b[1]        -0.97090254 0.2737914 -1.4075015 -0.5246190 5072.131 0.9994502
+## b[2]        -1.57761368 0.2836201 -2.0316039 -1.1191342 4742.608 0.9995416
+## b[3]        -1.75310272 0.2773892 -2.2000821 -1.3104664 4970.475 0.9998661
+## b[4]        -1.39618547 0.2602057 -1.8183720 -0.9852053 5061.215 1.0005054
+## b[5]        -0.87109678 0.2718296 -1.3072232 -0.4358831 5199.684 0.9994339
+## b[6]        -1.03478868 0.2615789 -1.4481840 -0.6233032 4669.573 0.9995076
+## b[7]        -1.06684129 0.2641996 -1.4830406 -0.6363228 4673.618 1.0002262
+## b[8]        -1.65541124 0.2664706 -2.0872984 -1.2318125 5123.655 0.9993202
+## b[9]        -1.10804456 0.2640198 -1.5366879 -0.6761175 5152.047 0.9998547
+## b[10]       -0.85920140 0.2679369 -1.2905990 -0.4373979 4710.548 0.9993241
+## b[11]       -0.94770133 0.2625119 -1.3738157 -0.5281791 4316.507 1.0001743
+## b[12]       -1.07004226 0.2656469 -1.4872950 -0.6500193 5303.704 0.9995131
+## b[13]       -1.82103333 0.2807604 -2.2646200 -1.3653786 5129.938 0.9996190
+## b[14]       -1.08927501 0.2632139 -1.5185599 -0.6718524 5250.315 0.9996986
+## b[15]       -2.07236884 0.2750110 -2.5116018 -1.6407004 4491.003 0.9993629
+## b[16]       -1.15117412 0.2670557 -1.5825927 -0.7245982 5689.994 0.9992432
+## b[17]       -0.83761759 0.2662691 -1.2608433 -0.4080036 4874.410 1.0006753
+## b[18]        0.14223679 0.2858798 -0.3222434  0.6010392 4719.535 0.9993358
+## b[19]       -0.04774817 0.2784860 -0.4984521  0.3930392 4550.479 0.9995606
+## b[20]       -0.94202251 0.2634137 -1.3555503 -0.5318449 5156.285 1.0000665
+## alpha        3.70384354 0.2226834  3.3454578  4.0512897 5006.151 1.0001623
+## beta        -1.09555173 0.1430438 -1.3229090 -0.8680850 4936.193 0.9994802
+## sigma        0.47376843 0.0270135  0.4321984  0.5183974 4190.887 1.0002411
+## sigma_alpha  0.96134726 0.1637217  0.7364343  1.2515297 4488.579 0.9992691
+## sigma_beta   0.61768134 0.1254920  0.4413349  0.8298169 3467.014 0.9994575
 ```
 
 ```r
@@ -672,8 +589,8 @@ compare(m14.1,m14.1.problemM2)
 
 ```
 ##                     WAIC       SE     dWAIC      dSE    pWAIC    weight
-## m14.1           305.1088 17.69952 0.0000000       NA 32.86415 0.6159582
-## m14.1.problemM2 306.0537 17.88892 0.9448554 1.799699 33.64101 0.3840418
+## m14.1           305.0882 17.69755 0.0000000       NA 32.83119 0.5201975
+## m14.1.problemM2 305.2499 17.72616 0.1616679 1.685932 33.08853 0.4798025
 ```
 
 ```r
@@ -681,9 +598,68 @@ compare(m14.1,m14.1.rhozero,m14.1.problemM2)
 ```
 
 ```
-##                     WAIC       SE      dWAIC       dSE    pWAIC    weight
-## m14.1.rhozero   305.0193 17.70145 0.00000000        NA 33.11804 0.3917877
-## m14.1           305.1088 17.69952 0.08954483 1.8347230 32.86415 0.3746333
-## m14.1.problemM2 306.0537 17.88892 1.03440019 0.5247523 33.64101 0.2335789
+##                     WAIC       SE     dWAIC      dSE    pWAIC    weight
+## m14.1           305.0882 17.69755 0.0000000       NA 32.83119 0.3698475
+## m14.1.problemM2 305.2499 17.72616 0.1616679 1.685932 33.08853 0.3411277
+## m14.1.rhozero   305.5814 17.68275 0.4931567 1.853522 33.31024 0.2890248
+```
+
+# sessionInfo()
+
+```r
+sessionInfo()
+```
+
+```
+## R version 3.6.2 (2019-12-12)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS Mojave 10.14.6
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] parallel  stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+##  [1] extraDistr_1.8.11    ellipse_0.4.1        MASS_7.3-51.5       
+##  [4] forcats_0.5.0        stringr_1.4.0        dplyr_0.8.4         
+##  [7] purrr_0.3.3          readr_1.3.1          tidyr_1.0.2         
+## [10] tibble_2.1.3         tidyverse_1.3.0      reshape2_1.4.3      
+## [13] lmerTest_3.1-1       lme4_1.1-21          Matrix_1.2-18       
+## [16] rethinking_1.95      dagitty_0.2-2        rstan_2.21.1        
+## [19] ggplot2_3.3.0        StanHeaders_2.21.0-1
+## 
+## loaded via a namespace (and not attached):
+##  [1] nlme_3.1-145        matrixStats_0.55.0  fs_1.3.1           
+##  [4] lubridate_1.7.4     httr_1.4.1          numDeriv_2016.8-1.1
+##  [7] tools_3.6.2         backports_1.1.5     R6_2.4.1           
+## [10] DBI_1.1.0           colorspace_1.4-1    withr_2.1.2        
+## [13] tidyselect_1.0.0    gridExtra_2.3       prettyunits_1.1.1  
+## [16] processx_3.4.2      curl_4.3            compiler_3.6.2     
+## [19] cli_2.0.2           rvest_0.3.5         xml2_1.2.2         
+## [22] scales_1.1.0        mvtnorm_1.1-0       callr_3.4.2        
+## [25] digest_0.6.25       minqa_1.2.4         rmarkdown_2.1      
+## [28] pkgconfig_2.0.3     htmltools_0.4.0     dbplyr_1.4.2       
+## [31] rlang_0.4.5         readxl_1.3.1        rstudioapi_0.11    
+## [34] shape_1.4.4         generics_0.0.2      jsonlite_1.6.1     
+## [37] inline_0.3.15       magrittr_1.5        loo_2.2.0          
+## [40] Rcpp_1.0.3          munsell_0.5.0       fansi_0.4.1        
+## [43] lifecycle_0.2.0     stringi_1.4.6       yaml_2.2.1         
+## [46] pkgbuild_1.0.6      plyr_1.8.6          grid_3.6.2         
+## [49] crayon_1.3.4        lattice_0.20-40     haven_2.2.0        
+## [52] splines_3.6.2       hms_0.5.3           knitr_1.28         
+## [55] ps_1.3.2            pillar_1.4.3        boot_1.3-24        
+## [58] codetools_0.2-16    stats4_3.6.2        reprex_0.3.0       
+## [61] glue_1.3.1          evaluate_0.14       V8_3.0.1           
+## [64] RcppParallel_4.4.4  modelr_0.1.6        vctrs_0.2.3        
+## [67] nloptr_1.2.1        cellranger_1.1.0    gtable_0.3.0       
+## [70] assertthat_0.2.1    xfun_0.12           broom_0.5.5        
+## [73] coda_0.19-3
 ```
 
