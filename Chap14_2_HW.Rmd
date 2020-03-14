@@ -184,6 +184,8 @@ plot(m.practice13M3.a,depth=2)
 ```
 
 * the varying slopes model. a_did and b_did are related (correct wording?)
+* I modified m14.1 in the book, but does not work. Why? Even Rho ~ lkj_corr(4) instead of Rho ~ lkj_corr(2)
+
 ```{r}
 m.practice13M3.b <- ulam(
     alist(
@@ -193,12 +195,30 @@ m.practice13M3.b <- ulam(
         a ~ normal(0,1.5),
         b ~ normal(0,1.5),
         sigma_did ~ exponential(1),
-        Rho ~ lkj_corr(2)
+        Rho ~ lkj_corr(4)
     ) , data=dat , chains=4 , cores=2 , iter=4000,log_lik=TRUE)
 # error... why?
 precis(m.practice13M3.b, depth=2)
 plot(m.practice13M3.b,depth=2)
 ```
+
+# chain =1 based on error message.
+```{r}
+m.practice13M3.b.chain1 <- ulam(
+    alist(
+        A ~ dbinom(N,p),
+        p <- a_did[did] + b_did[did]*gid,
+        c(a_did,b_did)[did] ~ multi_normal( c(a,b) , Rho , sigma_did ),
+        a ~ normal(0,1.5),
+        b ~ normal(0,1.5),
+        sigma_did ~ exponential(1),
+        Rho ~ lkj_corr(4)
+    ) , data=dat , chains=1 , cores=2 , iter=4000,log_lik=TRUE)
+# error... why?
+precis(m.practice13M3.b, depth=2)
+plot(m.practice13M3.b,depth=2)
+```
+
 # normal? dnorm?
 ```{r}
 m.practice13M3.c <- ulam(
@@ -216,9 +236,72 @@ precis(m.practice13M3.c, depth=2)
 plot(m.practice13M3.c,depth=2)
 ```
 
+* centered
+* This way (modified from m14.2) looks work with error "Warning: There were 272 divergent transitions after warmup.".
+```{r}
+mpractice13M3.centered <- ulam(
+    alist(
+      A ~ dbinom(N, p),
+      logit(p) <- a[did] + beta[gid, did],
+      # adaptive prior
+      vector[6]:beta[gid] ~ multi_normal(0, Rho_gid, sigma_gid),
+      # fixed priors
+      a[did] ~ dnorm(0, 1),
+      sigma_gid ~ dexp(1),
+      Rho_gid ~ dlkjcorr(4)
+    ),
+    data = dat,
+    chains = 4,
+    cores = 4,
+    iter = 5000,
+    log_lik = T
+  )
+precis(mpractice13M3.centered,depth=3)
+```
+
+* non centered
+```{r}
+mpractice13M3.noncentered <- ulam(
+    alist(
+      A ~ dbinom(N, p),
+      logit(p) <- a[did] + beta[gid, did],
+      # adaptive prior
+      #vector[6]:beta[gid] ~ multi_normal(0, Rho_gid, sigma_gid),
+      transpars> matrix[gid,6]:beta <-
+                compose_noncentered( sigma_gid , L_Rho_gid , z_gid ),
+          matrix[6,gid]:z_gid ~ normal( 0 , 1 ),
+      # fixed priors
+      a[did] ~ dnorm(0, 1),
+        vector[6]:sigma_gid ~ dexp(1),
+        cholesky_factor_corr[6]:L_Rho_gid ~ lkj_corr_cholesky(2),
+      # compute ordinary correlation matrixes from Cholesky factors
+        gq> matrix[6,6]:Rho_gid <<- multiply_lower_tri_self_transpose(L_Rho_gid)
+    ),
+    data = dat,
+    chains = 4,
+    cores = 4,
+    iter = 5000,
+    log_lik = T
+  )
+precis(mpractice13M3.noncentered,depth=3)
+```
+
+
 * compare
 ```{r}
-compare(m11.8.ulam,m.practice13M3.a,m.practice13M3.b,m.practice13M3.c)
+compare(m11.8.ulam,m.practice13M3.a,mpractice13M3.centered,mpractice13M3.noncentered)
+```
+
+* n_eff
+"n_eff is a crude estimate of the number of independent sam- ples you managed to get" (book, pg 287). Smaller is better?
+```{r}
+# extract n_eff values for each model
+neff_nc <- precis(mpractice13M3.noncentered,3,pars=c("a","beta"))$n_eff
+neff_c <- precis(mpractice13M3.centered,3,pars=c("a","beta"))$n_eff
+plot( neff_c , neff_nc , xlab="centered (default)" ,
+    ylab="non-centered (cholesky)" , lwd=1.5 )
+abline(a=0,b=1,lty=2)
+
 ```
 
 
