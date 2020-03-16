@@ -107,55 +107,55 @@ m13.1 <- ulam(
 precis( m13.1 , depth=2 )
 ```
 
-    ##                mean        sd        5.5%       94.5%    n_eff     Rhat4
-    ## a[1]   1.7227766403 0.7874061  0.52570593  3.05202890 3608.807 1.0000215
-    ## a[2]   2.4038888833 0.8707304  1.11033048  3.86206962 3213.317 0.9985733
-    ## a[3]   0.7502645685 0.6367965 -0.21823386  1.78180528 4945.450 0.9986296
-    ## a[4]   2.4040953013 0.8658013  1.15125061  3.83370485 4447.014 0.9986961
-    ## a[5]   1.7496037307 0.7809917  0.57138583  3.06879233 3268.709 0.9998181
-    ## a[6]   1.7448760204 0.7665672  0.58157926  3.03541862 3964.797 0.9996902
-    ## a[7]   2.3846956600 0.8825959  1.05459402  3.85138367 3793.283 0.9994958
-    ## a[8]   1.7077885358 0.7993224  0.49014302  2.98254475 5115.199 0.9988845
-    ## a[9]  -0.3735279689 0.6087137 -1.35950471  0.56286260 5466.327 0.9990362
-    ## a[10]  1.7131815039 0.7711596  0.54279966  2.98027412 3848.112 0.9987695
-    ## a[11]  0.7658223999 0.6016453 -0.13667079  1.76229045 4173.555 0.9987310
-    ## a[12]  0.3555907377 0.6297476 -0.66933389  1.36234469 4457.303 0.9989950
-    ## a[13]  0.7437094333 0.6238369 -0.19580035  1.79127664 3442.756 0.9989069
-    ## a[14] -0.0003716258 0.6168298 -0.96376109  0.97971723 5405.171 0.9991415
-    ## a[15]  1.7144857039 0.7363202  0.60420771  2.96542693 4339.718 0.9982539
-    ## a[16]  1.7319733172 0.7241534  0.62154347  2.92968376 3716.152 0.9998861
-    ## a[17]  2.5485897512 0.7000282  1.52383072  3.72241991 3955.734 0.9986364
-    ## a[18]  2.1261381563 0.5987664  1.24670675  3.13760621 3061.972 0.9999473
-    ## a[19]  1.8085585987 0.5389811  0.96477003  2.72534941 5926.893 0.9983821
-    ## a[20]  3.1075379265 0.8461413  1.83455637  4.55119066 3525.152 0.9989624
-    ## a[21]  2.1285891947 0.5921951  1.24969333  3.15227317 3758.796 0.9992455
-    ## a[22]  2.1349944016 0.5995130  1.25783986  3.12290055 3986.829 0.9985842
-    ## a[23]  2.1594653162 0.6200367  1.23010030  3.21138722 2719.952 0.9991790
-    ## a[24]  1.5352181024 0.5121910  0.72900127  2.37576423 4759.212 0.9986683
-    ## a[25] -1.0977576142 0.4461510 -1.82338476 -0.41115434 3859.615 0.9986144
-    ## a[26]  0.0711942949 0.3916441 -0.54228888  0.68993104 4729.724 0.9986426
-    ## a[27] -1.5390118135 0.4811469 -2.32778750 -0.81688833 4750.025 0.9986520
-    ## a[28] -0.5572122382 0.3862145 -1.16284849  0.04113348 4627.939 0.9982250
-    ## a[29]  0.0794008873 0.3809995 -0.52669329  0.70282109 5086.873 1.0001770
-    ## a[30]  1.3003455566 0.4381071  0.63576392  2.01380304 4954.076 0.9983381
-    ## a[31] -0.7102337866 0.4140713 -1.38935480 -0.06959790 4785.912 0.9998109
-    ## a[32] -0.3956403443 0.4122265 -1.06086777  0.25798527 4605.770 0.9990605
-    ## a[33]  2.8400425727 0.6563509  1.87428485  3.93131297 4714.030 0.9983040
-    ## a[34]  2.4735338319 0.5982720  1.58620173  3.48539565 3645.647 0.9990133
-    ## a[35]  2.4509849296 0.5694955  1.59682405  3.38753759 3858.337 0.9983313
-    ## a[36]  1.9253976028 0.5065549  1.19737193  2.74512448 3738.177 0.9998331
-    ## a[37]  1.8990183272 0.4708604  1.20392314  2.67051396 5052.952 0.9995386
-    ## a[38]  3.3454221883 0.7358839  2.24790359  4.59859135 3735.081 0.9987140
-    ## a[39]  2.4600894227 0.5701323  1.62282288  3.41976537 3461.779 0.9990152
-    ## a[40]  2.1578603153 0.5176710  1.41022438  3.05727914 3029.869 0.9996061
-    ## a[41] -1.9034366867 0.4783083 -2.69032368 -1.18882042 4205.090 0.9985251
-    ## a[42] -0.6357495584 0.3593631 -1.21020470 -0.09178001 4699.680 0.9985649
-    ## a[43] -0.5073623374 0.3512413 -1.08224751  0.04429274 5045.370 0.9997300
-    ## a[44] -0.4002045198 0.3431734 -0.95730237  0.13751889 3377.094 0.9995426
-    ## a[45]  0.5159163887 0.3351043 -0.01777461  1.06485717 6372.462 0.9988294
-    ## a[46] -0.6294445281 0.3596182 -1.20592300 -0.07620785 4121.144 0.9982689
-    ## a[47]  1.9010872586 0.4855435  1.17123101  2.73123562 4050.443 0.9989217
-    ## a[48] -0.0428057464 0.3377451 -0.58138202  0.49843106 6602.060 0.9988182
+    ##               mean        sd         5.5%       94.5%    n_eff     Rhat4
+    ## a[1]   1.708740068 0.7589682  0.607404208  3.02132690 5426.614 0.9993093
+    ## a[2]   2.397726332 0.9026657  1.072162716  3.94401766 4934.175 0.9994700
+    ## a[3]   0.757520068 0.6285603 -0.227600473  1.76162472 4772.626 0.9992043
+    ## a[4]   2.419775785 0.8866030  1.065593303  3.88723056 3097.287 0.9985155
+    ## a[5]   1.725621337 0.7748725  0.554050871  3.00394522 4345.191 0.9988180
+    ## a[6]   1.703397561 0.7500470  0.599898302  2.90373283 3989.438 0.9982468
+    ## a[7]   2.427090656 0.9032844  1.101335159  4.01903331 4143.980 0.9990188
+    ## a[8]   1.713461939 0.7637467  0.548265418  2.95871217 5608.232 0.9983835
+    ## a[9]  -0.386944173 0.5997969 -1.343051439  0.56731235 4628.584 0.9991269
+    ## a[10]  1.714917468 0.7420950  0.566633024  2.94992010 4178.554 0.9998125
+    ## a[11]  0.760586936 0.6562297 -0.233540963  1.78296721 4112.146 0.9988415
+    ## a[12]  0.367814221 0.6188845 -0.617976545  1.37056749 4235.985 0.9989360
+    ## a[13]  0.746321777 0.6368427 -0.277406753  1.74231328 3930.313 0.9996781
+    ## a[14]  0.001110675 0.6331203 -0.958790142  0.98660331 4305.996 0.9984337
+    ## a[15]  1.707764306 0.7637980  0.573774962  3.00121621 4195.260 0.9988837
+    ## a[16]  1.731197853 0.7853879  0.623957599  2.99129960 3411.275 0.9994061
+    ## a[17]  2.529071642 0.6814040  1.532766539  3.68214986 3622.928 0.9985048
+    ## a[18]  2.135595198 0.5914406  1.254213287  3.11730027 3538.002 0.9997790
+    ## a[19]  1.811441455 0.5465091  0.991883379  2.70879784 4606.652 0.9992160
+    ## a[20]  3.097562798 0.7820776  1.943966599  4.46887856 4665.010 0.9985182
+    ## a[21]  2.143548752 0.5904932  1.250346633  3.14991097 3643.548 0.9989704
+    ## a[22]  2.143646339 0.5676617  1.296655830  3.09689706 3538.975 0.9991828
+    ## a[23]  2.144328274 0.6423425  1.189854964  3.23629550 4017.178 0.9986233
+    ## a[24]  1.536489920 0.5029051  0.786520038  2.39178279 4324.678 0.9988172
+    ## a[25] -1.098764823 0.4455410 -1.817825583 -0.40659766 4636.045 0.9984795
+    ## a[26]  0.069453818 0.3793688 -0.546751342  0.66227975 4391.479 0.9983003
+    ## a[27] -1.529123587 0.4994881 -2.358122509 -0.76099141 4182.646 0.9992285
+    ## a[28] -0.552262075 0.4107358 -1.210691978  0.07352745 6245.997 0.9987166
+    ## a[29]  0.084819006 0.3975209 -0.547517767  0.70200439 5009.265 0.9989923
+    ## a[30]  1.317078436 0.4819546  0.579915153  2.10724216 4101.381 0.9985946
+    ## a[31] -0.724045561 0.4329949 -1.430303915 -0.03688864 4142.926 0.9986588
+    ## a[32] -0.401724962 0.4076169 -1.066896348  0.23861802 6122.975 0.9989615
+    ## a[33]  2.863941301 0.6779563  1.881362588  4.01287458 3414.415 0.9987645
+    ## a[34]  2.460539301 0.5786905  1.590682901  3.45400618 3824.142 0.9991896
+    ## a[35]  2.455589982 0.5770036  1.591102967  3.42046842 3655.789 0.9994424
+    ## a[36]  1.910711505 0.4873934  1.174590630  2.73792418 5142.561 0.9996826
+    ## a[37]  1.902398106 0.4908305  1.156267083  2.71121873 5135.216 0.9986337
+    ## a[38]  3.367521149 0.7894129  2.224397383  4.75670083 2675.858 0.9993736
+    ## a[39]  2.467045709 0.5937521  1.561012999  3.47067955 5015.406 0.9984814
+    ## a[40]  2.181379299 0.5499333  1.367204432  3.12303391 3795.627 0.9987409
+    ## a[41] -1.917436590 0.4831884 -2.724450228 -1.17984656 3590.936 0.9989671
+    ## a[42] -0.631514975 0.3506358 -1.195441068 -0.07243797 5407.544 0.9984292
+    ## a[43] -0.502300668 0.3355325 -1.040893797  0.01549010 4576.999 0.9988678
+    ## a[44] -0.403599804 0.3497819 -0.967752226  0.14945862 6001.669 0.9999639
+    ## a[45]  0.522452711 0.3383568 -0.009815342  1.07098856 4754.596 0.9984989
+    ## a[46] -0.635659116 0.3296008 -1.185902965 -0.11876162 6039.609 0.9986512
+    ## a[47]  1.910841993 0.4726199  1.183981346  2.70881531 3761.088 0.9991894
+    ## a[48] -0.058755845 0.3293634 -0.578717031  0.44531143 4576.101 0.9987512
 
 # the end of test1
 
@@ -463,10 +463,15 @@ plot(m11.8.ulam , depth=2)
 ![](Chap14_2_HW_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
   - multitire? partial pooling model?
+  - note: This model is called an interaction non-pooling
+model.
 
 <!-- end list -->
 
 ``` r
+# for non-indexed factor (in this cae gender; gid), use zero and 1. For indexed factor, zero is not addlowed (such as did in this case)
+dat2 <- list( A=d$admit , N=d$applications , g=ifelse( d$applicant.gender=="male" , 0 , 1 ),did=rep(1:6,each=2))
+# wrong by using data=dat
 m.practice13M3.a <- ulam(
     alist(
         A ~ dbinom(N , p ) ,
@@ -475,6 +480,61 @@ m.practice13M3.a <- ulam(
           a[did] ~ dnorm( 0 , 1.5 ) ,
           delta[did] ~ dnorm(0,1.5) 
         ) , data=dat , chains=4 , cores=2 , iter=4000,log_lik=TRUE )
+precis(m.practice13M3.a, depth=2)
+```
+
+    ##                 mean        sd       5.5%       94.5%    n_eff     Rhat4
+    ## a[1]     -0.52700878 0.2764616 -0.9781664 -0.08802630 8257.448 0.9998392
+    ## a[2]      0.28745967 0.4261727 -0.4233378  0.95638786 8647.392 0.9999589
+    ## a[3]     -0.40354885 0.2440833 -0.7981437 -0.02147179 6981.161 0.9999536
+    ## a[4]     -0.76749117 0.2315105 -1.1363017 -0.39917383 8199.402 1.0002415
+    ## a[5]     -0.73066158 0.3324031 -1.2621439 -0.20580076 7666.869 1.0000738
+    ## a[6]     -2.69651559 0.4412311 -3.4169811 -1.99765379 7957.199 0.9999250
+    ## delta[1]  1.02407004 0.2506693  0.6313589  1.43011159 8109.125 0.9998922
+    ## delta[2]  0.24655203 0.4039962 -0.3842757  0.92002530 8499.839 1.0001546
+    ## delta[3] -0.12935520 0.1426979 -0.3564129  0.09840573 6863.010 0.9999249
+    ## delta[4]  0.06994649 0.1486767 -0.1712544  0.30626484 8329.959 1.0004295
+    ## delta[5] -0.21671370 0.1927833 -0.5238982  0.09263528 7917.989 1.0000205
+    ## delta[6]  0.01911844 0.2827066 -0.4358511  0.47575199 7979.741 1.0000237
+
+``` r
+plot(m.practice13M3.a,depth=2)
+# correct bny using data=dat2
+m.practice13M3.a2 <- ulam(
+    alist(
+        A ~ dbinom(N , p ) ,
+        ## partial pooling model?
+        logit(p) <- a[did] + delta[did]*gid,
+          a[did] ~ dnorm( 0 , 1.5 ) ,
+          delta[did] ~ dnorm(0,1.5) 
+        ) , data=dat2 , chains=4 , cores=2 , iter=4000,log_lik=TRUE )
+```
+
+    ## SYNTAX ERROR, MESSAGE(S) FROM PARSER:
+
+    ## Variable "gid" does not exist.
+
+    ##  error in 'model49a853d7c888_eb35c5fbb774db282e809c84f5a6a55b' at line 16, column 46
+
+    ##   -------------------------------------------------
+
+    ##     14:     a ~ normal( 0 , 1.5 );
+
+    ##     15:     for ( i in 1:12 ) {
+
+    ##     16:         p[i] = a[did[i]] + delta[did[i]] * gid;
+
+    ##                                                      ^
+
+    ##     17:         p[i] = inv_logit(p[i]);
+
+    ##   -------------------------------------------------
+
+    ## 
+
+    ## Error in stanc(file = file, model_code = model_code, model_name = model_name, : failed to parse Stan model 'eb35c5fbb774db282e809c84f5a6a55b' due to the above error.
+
+``` r
 precis(m.practice13M3.a, depth=2)
 ```
 
@@ -541,6 +601,44 @@ m.practice13M3.b <- ulam(
 
 ``` r
 # error... why?
+m.practice13M3.b2 <- ulam(
+    alist(
+        A ~ dbinom(N,p),
+        p <- a_did[did] + b_did[did]*gid,
+        c(a_did,b_did)[did] ~ multi_normal( c(a,b) , Rho , sigma_did ),
+        a ~ normal(0,1.5),
+        b ~ normal(0,1.5),
+        sigma_did ~ exponential(1),
+        Rho ~ lkj_corr(4)
+    ) , data=dat2 , chains=4 , cores=2 , iter=4000,log_lik=TRUE)
+```
+
+    ## SYNTAX ERROR, MESSAGE(S) FROM PARSER:
+
+    ## Variable "gid" does not exist.
+
+    ##  error in 'model49a814877ca1_fa96e75a3be0e179b7b018a85d146c40' at line 29, column 50
+
+    ##   -------------------------------------------------
+
+    ##     27:     }
+
+    ##     28:     for ( i in 1:12 ) {
+
+    ##     29:         p[i] = a_did[did[i]] + b_did[did[i]] * gid;
+
+    ##                                                          ^
+
+    ##     30:     }
+
+    ##   -------------------------------------------------
+
+    ## 
+
+    ## Error in stanc(file = file, model_code = model_code, model_name = model_name, : failed to parse Stan model 'fa96e75a3be0e179b7b018a85d146c40' due to the above error.
+
+``` r
+# error... why?
 precis(m.practice13M3.b, depth=2)
 ```
 
@@ -573,403 +671,403 @@ m.practice13M3.b.chain1 <- ulam(
     ## SAMPLING FOR MODEL '7f6fdee5a6afd06e8cc022bb283dbb63' NOW (CHAIN 1).
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.5047, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.5047, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.93371, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.93371, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.351137, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.351137, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.44541, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.44541, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.0278331, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.0278331, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.393956, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.393956, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.70825, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.70825, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.23744, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.23744, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is -0.629867, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is -0.629867, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.72923, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.72923, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.55115, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.55115, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -1.39527, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -1.39527, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.72072, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.72072, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[4] is 1.87797, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[4] is 1.87797, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.35254, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.35254, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is 3.19822, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is 3.19822, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.118738, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.118738, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.87696, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.87696, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.0581, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.0581, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.946671, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.946671, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.88111, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.88111, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.39331, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.39331, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.83541, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.83541, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -3.14227, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -3.14227, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.550647, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.550647, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 3.7901, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 3.7901, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is -2.67023, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is -2.67023, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.74924, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.74924, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.370673, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.370673, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -3.06779, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -3.06779, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.00117207, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.00117207, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.83564, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.83564, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.9451, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.9451, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.540793, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.540793, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.14912, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.14912, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.623244, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.623244, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.241652, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.241652, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.419792, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.419792, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.86921, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.86921, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.64384, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.64384, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.166701, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.166701, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.2978, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.2978, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.51379, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.51379, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is 1.08197, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is 1.08197, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -3.12094, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -3.12094, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.538363, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.538363, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.4533, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.4533, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.32103, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.32103, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.563865, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.563865, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.42503, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.42503, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.65885, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.65885, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.71079, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.71079, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.372662, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.372662, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.38612, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.38612, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.40257, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.40257, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.777909, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.777909, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.74692, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.74692, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.6645, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.6645, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.50591, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.50591, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.80729, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.80729, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.36997, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.36997, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.65865, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.65865, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.49203, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.49203, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.101222, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.101222, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.956195, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.956195, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.68577, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.68577, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.0126588, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.0126588, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is -0.925118, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is -0.925118, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.3819, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.3819, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.176587, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.176587, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.68209, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.68209, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.284732, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.284732, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.55751, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.55751, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is 2.11341, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is 2.11341, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is -3.00495, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is -3.00495, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.96101, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.96101, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.11287, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.11287, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.12883, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.12883, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.53904, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.53904, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.39375, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.39375, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.70768, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.70768, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.5126, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.5126, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -1.28959, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -1.28959, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.705409, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.705409, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.13051, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.13051, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.300738, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.300738, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.683016, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.683016, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.52913, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.52913, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.04308, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.04308, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.233142, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.233142, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.73177, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.73177, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.253962, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.253962, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.0975557, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.0975557, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.343924, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.343924, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.97382, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.97382, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.856303, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.856303, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.354017, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.354017, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.73128, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.73128, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.0971, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.0971, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: Rejecting initial value:
     ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is 1.67005, but must be in the interval [0, 1]  (in 'model22f74f9e8a58_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
+    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is 1.67005, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
     ## 
     ## Chain 1: 
     ## Chain 1: Initialization between (-2, 2) failed after 100 attempts. 

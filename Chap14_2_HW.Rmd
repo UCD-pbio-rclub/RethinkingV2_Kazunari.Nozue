@@ -158,6 +158,7 @@ data(UCBadmit)
 d <- UCBadmit
 dat <- list( A=d$admit , N=d$applications , gid=ifelse( d$applicant.gender=="male" , 1 , 2 ),did=rep(1:6,each=2))
 dat
+
 m11.8.ulam <- ulam(
     alist(
         A ~ dbinom(N, p),
@@ -167,10 +168,17 @@ m11.8.ulam <- ulam(
     ) , data=dat,chains=4,cores=2,iter=4000,log_lik=TRUE)
 precis( m11.8.ulam , depth=2 )
 plot(m11.8.ulam , depth=2)
+
+
+
 ```
 
 * multitire? partial pooling model? 
+* note: This model is called an interaction non-pooling model.
 ```{r}
+# for non-indexed factor (in this cae gender; gid), use zero and 1. For indexed factor, zero is not addlowed (such as did in this case)
+dat2 <- list( A=d$admit , N=d$applications , g=ifelse( d$applicant.gender=="male" , 0 , 1 ),did=rep(1:6,each=2))
+# wrong by using data=dat
 m.practice13M3.a <- ulam(
     alist(
         A ~ dbinom(N , p ) ,
@@ -179,6 +187,17 @@ m.practice13M3.a <- ulam(
           a[did] ~ dnorm( 0 , 1.5 ) ,
           delta[did] ~ dnorm(0,1.5) 
         ) , data=dat , chains=4 , cores=2 , iter=4000,log_lik=TRUE )
+precis(m.practice13M3.a, depth=2)
+plot(m.practice13M3.a,depth=2)
+# correct bny using data=dat2
+m.practice13M3.a2 <- ulam(
+    alist(
+        A ~ dbinom(N , p ) ,
+        ## partial pooling model?
+        logit(p) <- a[did] + delta[did]*gid,
+          a[did] ~ dnorm( 0 , 1.5 ) ,
+          delta[did] ~ dnorm(0,1.5) 
+        ) , data=dat2 , chains=4 , cores=2 , iter=4000,log_lik=TRUE )
 precis(m.practice13M3.a, depth=2)
 plot(m.practice13M3.a,depth=2)
 ```
@@ -197,6 +216,17 @@ m.practice13M3.b <- ulam(
         sigma_did ~ exponential(1),
         Rho ~ lkj_corr(4)
     ) , data=dat , chains=4 , cores=2 , iter=4000,log_lik=TRUE)
+# error... why?
+m.practice13M3.b2 <- ulam(
+    alist(
+        A ~ dbinom(N,p),
+        p <- a_did[did] + b_did[did]*gid,
+        c(a_did,b_did)[did] ~ multi_normal( c(a,b) , Rho , sigma_did ),
+        a ~ normal(0,1.5),
+        b ~ normal(0,1.5),
+        sigma_did ~ exponential(1),
+        Rho ~ lkj_corr(4)
+    ) , data=dat2 , chains=4 , cores=2 , iter=4000,log_lik=TRUE)
 # error... why?
 precis(m.practice13M3.b, depth=2)
 plot(m.practice13M3.b,depth=2)
