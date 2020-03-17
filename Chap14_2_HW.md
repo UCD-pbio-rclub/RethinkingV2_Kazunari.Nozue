@@ -107,55 +107,55 @@ m13.1 <- ulam(
 precis( m13.1 , depth=2 )
 ```
 
-    ##               mean        sd         5.5%       94.5%    n_eff     Rhat4
-    ## a[1]   1.708740068 0.7589682  0.607404208  3.02132690 5426.614 0.9993093
-    ## a[2]   2.397726332 0.9026657  1.072162716  3.94401766 4934.175 0.9994700
-    ## a[3]   0.757520068 0.6285603 -0.227600473  1.76162472 4772.626 0.9992043
-    ## a[4]   2.419775785 0.8866030  1.065593303  3.88723056 3097.287 0.9985155
-    ## a[5]   1.725621337 0.7748725  0.554050871  3.00394522 4345.191 0.9988180
-    ## a[6]   1.703397561 0.7500470  0.599898302  2.90373283 3989.438 0.9982468
-    ## a[7]   2.427090656 0.9032844  1.101335159  4.01903331 4143.980 0.9990188
-    ## a[8]   1.713461939 0.7637467  0.548265418  2.95871217 5608.232 0.9983835
-    ## a[9]  -0.386944173 0.5997969 -1.343051439  0.56731235 4628.584 0.9991269
-    ## a[10]  1.714917468 0.7420950  0.566633024  2.94992010 4178.554 0.9998125
-    ## a[11]  0.760586936 0.6562297 -0.233540963  1.78296721 4112.146 0.9988415
-    ## a[12]  0.367814221 0.6188845 -0.617976545  1.37056749 4235.985 0.9989360
-    ## a[13]  0.746321777 0.6368427 -0.277406753  1.74231328 3930.313 0.9996781
-    ## a[14]  0.001110675 0.6331203 -0.958790142  0.98660331 4305.996 0.9984337
-    ## a[15]  1.707764306 0.7637980  0.573774962  3.00121621 4195.260 0.9988837
-    ## a[16]  1.731197853 0.7853879  0.623957599  2.99129960 3411.275 0.9994061
-    ## a[17]  2.529071642 0.6814040  1.532766539  3.68214986 3622.928 0.9985048
-    ## a[18]  2.135595198 0.5914406  1.254213287  3.11730027 3538.002 0.9997790
-    ## a[19]  1.811441455 0.5465091  0.991883379  2.70879784 4606.652 0.9992160
-    ## a[20]  3.097562798 0.7820776  1.943966599  4.46887856 4665.010 0.9985182
-    ## a[21]  2.143548752 0.5904932  1.250346633  3.14991097 3643.548 0.9989704
-    ## a[22]  2.143646339 0.5676617  1.296655830  3.09689706 3538.975 0.9991828
-    ## a[23]  2.144328274 0.6423425  1.189854964  3.23629550 4017.178 0.9986233
-    ## a[24]  1.536489920 0.5029051  0.786520038  2.39178279 4324.678 0.9988172
-    ## a[25] -1.098764823 0.4455410 -1.817825583 -0.40659766 4636.045 0.9984795
-    ## a[26]  0.069453818 0.3793688 -0.546751342  0.66227975 4391.479 0.9983003
-    ## a[27] -1.529123587 0.4994881 -2.358122509 -0.76099141 4182.646 0.9992285
-    ## a[28] -0.552262075 0.4107358 -1.210691978  0.07352745 6245.997 0.9987166
-    ## a[29]  0.084819006 0.3975209 -0.547517767  0.70200439 5009.265 0.9989923
-    ## a[30]  1.317078436 0.4819546  0.579915153  2.10724216 4101.381 0.9985946
-    ## a[31] -0.724045561 0.4329949 -1.430303915 -0.03688864 4142.926 0.9986588
-    ## a[32] -0.401724962 0.4076169 -1.066896348  0.23861802 6122.975 0.9989615
-    ## a[33]  2.863941301 0.6779563  1.881362588  4.01287458 3414.415 0.9987645
-    ## a[34]  2.460539301 0.5786905  1.590682901  3.45400618 3824.142 0.9991896
-    ## a[35]  2.455589982 0.5770036  1.591102967  3.42046842 3655.789 0.9994424
-    ## a[36]  1.910711505 0.4873934  1.174590630  2.73792418 5142.561 0.9996826
-    ## a[37]  1.902398106 0.4908305  1.156267083  2.71121873 5135.216 0.9986337
-    ## a[38]  3.367521149 0.7894129  2.224397383  4.75670083 2675.858 0.9993736
-    ## a[39]  2.467045709 0.5937521  1.561012999  3.47067955 5015.406 0.9984814
-    ## a[40]  2.181379299 0.5499333  1.367204432  3.12303391 3795.627 0.9987409
-    ## a[41] -1.917436590 0.4831884 -2.724450228 -1.17984656 3590.936 0.9989671
-    ## a[42] -0.631514975 0.3506358 -1.195441068 -0.07243797 5407.544 0.9984292
-    ## a[43] -0.502300668 0.3355325 -1.040893797  0.01549010 4576.999 0.9988678
-    ## a[44] -0.403599804 0.3497819 -0.967752226  0.14945862 6001.669 0.9999639
-    ## a[45]  0.522452711 0.3383568 -0.009815342  1.07098856 4754.596 0.9984989
-    ## a[46] -0.635659116 0.3296008 -1.185902965 -0.11876162 6039.609 0.9986512
-    ## a[47]  1.910841993 0.4726199  1.183981346  2.70881531 3761.088 0.9991894
-    ## a[48] -0.058755845 0.3293634 -0.578717031  0.44531143 4576.101 0.9987512
+    ##               mean        sd        5.5%        94.5%    n_eff     Rhat4
+    ## a[1]   1.710457364 0.7621788  0.57084617  2.984981711 4795.800 0.9983073
+    ## a[2]   2.399176113 0.8561607  1.13976956  3.856030278 2774.342 0.9988315
+    ## a[3]   0.760553979 0.6616389 -0.24122753  1.817346603 5143.454 0.9996355
+    ## a[4]   2.423974400 0.8864056  1.11835310  3.931777796 3932.523 0.9989076
+    ## a[5]   1.711155669 0.7492056  0.60982997  3.031439347 3193.234 0.9982432
+    ## a[6]   1.711639952 0.7779980  0.57793027  3.059875743 2744.728 0.9994410
+    ## a[7]   2.408252399 0.8557728  1.16728913  3.929941610 3748.759 0.9985324
+    ## a[8]   1.698201922 0.7539587  0.55465653  2.944017006 4789.931 0.9986465
+    ## a[9]  -0.375596718 0.6020956 -1.33376373  0.564520009 4126.910 0.9982467
+    ## a[10]  1.739613137 0.8048374  0.55209105  3.077508872 3512.071 0.9993766
+    ## a[11]  0.743155318 0.6393243 -0.25569143  1.778887689 5000.059 0.9987007
+    ## a[12]  0.376479824 0.6074053 -0.58413372  1.365807381 6073.707 0.9983760
+    ## a[13]  0.753682253 0.6181886 -0.19625231  1.730744105 4192.439 0.9988245
+    ## a[14] -0.005137827 0.5902994 -0.94685508  0.963553926 4363.317 0.9983475
+    ## a[15]  1.730287471 0.7678347  0.56503610  3.017949330 3184.971 0.9997824
+    ## a[16]  1.711836396 0.7635432  0.56129564  2.999332594 4680.746 0.9984284
+    ## a[17]  2.558038385 0.7011559  1.52235511  3.783840860 3114.577 0.9987210
+    ## a[18]  2.131590031 0.5835895  1.27382358  3.104131903 3135.756 0.9984550
+    ## a[19]  1.807066391 0.5500307  0.97318332  2.738329704 4271.292 0.9986729
+    ## a[20]  3.106031721 0.7926248  1.93422640  4.461945776 3238.683 0.9987035
+    ## a[21]  2.137766659 0.6008768  1.26744838  3.108859056 3444.306 0.9994325
+    ## a[22]  2.140167609 0.6045515  1.21379962  3.151664216 3808.592 0.9985186
+    ## a[23]  2.148663693 0.5987677  1.25834807  3.146536569 3946.182 0.9994478
+    ## a[24]  1.538093165 0.5028874  0.77562377  2.393430843 4295.013 0.9990303
+    ## a[25] -1.091537418 0.4490832 -1.84179860 -0.392157845 5268.057 0.9987233
+    ## a[26]  0.065424804 0.3873723 -0.55310121  0.688599537 6401.731 0.9983154
+    ## a[27] -1.552457591 0.5186708 -2.42155729 -0.760852553 4300.486 0.9982814
+    ## a[28] -0.555657643 0.4081118 -1.21463405  0.071436977 4961.210 0.9983505
+    ## a[29]  0.078387592 0.4006907 -0.55052326  0.708014047 4372.957 0.9985787
+    ## a[30]  1.321341159 0.4829801  0.57140888  2.111365741 4512.342 0.9983662
+    ## a[31] -0.721771840 0.4230700 -1.41087467 -0.043038326 5001.094 0.9989966
+    ## a[32] -0.386869629 0.3948280 -1.03851770  0.236275812 5095.119 0.9984054
+    ## a[33]  2.844265710 0.6483854  1.91267765  3.935067195 2862.483 0.9985071
+    ## a[34]  2.458114681 0.5831343  1.58034087  3.502908304 4448.033 0.9989905
+    ## a[35]  2.465551603 0.5874283  1.61446091  3.439792249 4000.377 0.9988354
+    ## a[36]  1.905794542 0.4801440  1.17114121  2.689832408 3822.969 0.9989766
+    ## a[37]  1.909036931 0.4757247  1.21718690  2.720170143 2887.693 0.9996107
+    ## a[38]  3.365149165 0.7994039  2.20367526  4.721962119 2805.711 0.9997339
+    ## a[39]  2.467561039 0.5823048  1.63531188  3.479703771 2943.507 0.9993695
+    ## a[40]  2.149431271 0.4975083  1.39469084  2.946469726 4400.983 0.9985135
+    ## a[41] -1.902270067 0.4825156 -2.74028742 -1.147614919 4668.960 0.9984307
+    ## a[42] -0.639838449 0.3533653 -1.20332883 -0.079019590 3562.489 0.9992309
+    ## a[43] -0.520746382 0.3391228 -1.06863566 -0.001071738 4413.104 0.9986484
+    ## a[44] -0.389126438 0.3309635 -0.94151873  0.127033309 5351.523 0.9987117
+    ## a[45]  0.505923609 0.3391171 -0.03272247  1.049033455 5124.083 0.9986692
+    ## a[46] -0.634743771 0.3407480 -1.17786127 -0.104311353 5311.712 0.9986159
+    ## a[47]  1.907754925 0.4709798  1.17342909  2.695614847 5164.188 0.9999656
+    ## a[48] -0.056671876 0.3303697 -0.58263666  0.461907964 4719.598 0.9995639
 
 # the end of test1
 
@@ -499,64 +499,42 @@ precis(m.practice13M3.a, depth=2)
 
 ``` r
 plot(m.practice13M3.a,depth=2)
-# correct bny using data=dat2
+```
+
+![](Chap14_2_HW_files/figure-gfm/unnamed-chunk-15-1.png)<!-- --> \#
+correct using data=dat2
+
+``` r
 m.practice13M3.a2 <- ulam(
     alist(
         A ~ dbinom(N , p ) ,
         ## partial pooling model?
-        logit(p) <- a[did] + delta[did]*gid,
+        logit(p) <- a[did] + delta[did]*g,
           a[did] ~ dnorm( 0 , 1.5 ) ,
           delta[did] ~ dnorm(0,1.5) 
         ) , data=dat2 , chains=4 , cores=2 , iter=4000,log_lik=TRUE )
+precis(m.practice13M3.a2, depth=2)
 ```
 
-    ## SYNTAX ERROR, MESSAGE(S) FROM PARSER:
-
-    ## Variable "gid" does not exist.
-
-    ##  error in 'model49a853d7c888_eb35c5fbb774db282e809c84f5a6a55b' at line 16, column 46
-
-    ##   -------------------------------------------------
-
-    ##     14:     a ~ normal( 0 , 1.5 );
-
-    ##     15:     for ( i in 1:12 ) {
-
-    ##     16:         p[i] = a[did[i]] + delta[did[i]] * gid;
-
-    ##                                                      ^
-
-    ##     17:         p[i] = inv_logit(p[i]);
-
-    ##   -------------------------------------------------
-
-    ## 
-
-    ## Error in stanc(file = file, model_code = model_code, model_name = model_name, : failed to parse Stan model 'eb35c5fbb774db282e809c84f5a6a55b' due to the above error.
+    ##                 mean         sd       5.5%       94.5%     n_eff     Rhat4
+    ## a[1]      0.49463876 0.07223014  0.3789913  0.61026163 10596.728 0.9997131
+    ## a[2]      0.53467024 0.08784840  0.3945423  0.67611082 10643.041 0.9997693
+    ## a[3]     -0.53272671 0.11352906 -0.7115293 -0.34956070  6803.712 0.9995925
+    ## a[4]     -0.70211069 0.10199954 -0.8663114 -0.53892891  8021.062 0.9998719
+    ## a[5]     -0.95385520 0.16140736 -1.2136933 -0.70221545  6464.825 1.0005631
+    ## a[6]     -2.72980926 0.20922395 -3.0709007 -2.40573012  8268.182 1.0006439
+    ## delta[1]  1.03806130 0.25973777  0.6317311  1.46403019 10540.219 0.9999252
+    ## delta[2]  0.22945333 0.43599142 -0.4480477  0.92392692 10279.906 0.9996506
+    ## delta[3] -0.12860470 0.14155415 -0.3581811  0.09986836  6605.320 0.9997420
+    ## delta[4]  0.07884497 0.14922688 -0.1656936  0.31613964  7911.545 0.9998019
+    ## delta[5] -0.20315386 0.19955137 -0.5144558  0.11700941  7030.301 1.0004730
+    ## delta[6]  0.12424438 0.29504450 -0.3437182  0.59667926  7924.435 1.0003452
 
 ``` r
-precis(m.practice13M3.a, depth=2)
+plot(m.practice13M3.a2,depth=2)
 ```
 
-    ##                 mean        sd       5.5%       94.5%    n_eff     Rhat4
-    ## a[1]     -0.52700878 0.2764616 -0.9781664 -0.08802630 8257.448 0.9998392
-    ## a[2]      0.28745967 0.4261727 -0.4233378  0.95638786 8647.392 0.9999589
-    ## a[3]     -0.40354885 0.2440833 -0.7981437 -0.02147179 6981.161 0.9999536
-    ## a[4]     -0.76749117 0.2315105 -1.1363017 -0.39917383 8199.402 1.0002415
-    ## a[5]     -0.73066158 0.3324031 -1.2621439 -0.20580076 7666.869 1.0000738
-    ## a[6]     -2.69651559 0.4412311 -3.4169811 -1.99765379 7957.199 0.9999250
-    ## delta[1]  1.02407004 0.2506693  0.6313589  1.43011159 8109.125 0.9998922
-    ## delta[2]  0.24655203 0.4039962 -0.3842757  0.92002530 8499.839 1.0001546
-    ## delta[3] -0.12935520 0.1426979 -0.3564129  0.09840573 6863.010 0.9999249
-    ## delta[4]  0.06994649 0.1486767 -0.1712544  0.30626484 8329.959 1.0004295
-    ## delta[5] -0.21671370 0.1927833 -0.5238982  0.09263528 7917.989 1.0000205
-    ## delta[6]  0.01911844 0.2827066 -0.4358511  0.47575199 7979.741 1.0000237
-
-``` r
-plot(m.practice13M3.a,depth=2)
-```
-
-![](Chap14_2_HW_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](Chap14_2_HW_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
   - the varying slopes model. a\_did and b\_did are related (correct
     wording?)
@@ -601,10 +579,15 @@ m.practice13M3.b <- ulam(
 
 ``` r
 # error... why?
+```
+
+# non index gender (g in dat2)
+
+``` r
 m.practice13M3.b2 <- ulam(
     alist(
         A ~ dbinom(N,p),
-        p <- a_did[did] + b_did[did]*gid,
+        p <- a_did[did] + b_did[did]*g,
         c(a_did,b_did)[did] ~ multi_normal( c(a,b) , Rho , sigma_did ),
         a ~ normal(0,1.5),
         b ~ normal(0,1.5),
@@ -613,32 +596,29 @@ m.practice13M3.b2 <- ulam(
     ) , data=dat2 , chains=4 , cores=2 , iter=4000,log_lik=TRUE)
 ```
 
-    ## SYNTAX ERROR, MESSAGE(S) FROM PARSER:
+    ## Warning in .local(object, ...): some chains had errors; consider specifying
+    ## chains = 1 to debug
 
-    ## Variable "gid" does not exist.
+    ## here are whatever error messages were returned
 
-    ##  error in 'model49a814877ca1_fa96e75a3be0e179b7b018a85d146c40' at line 29, column 50
-
-    ##   -------------------------------------------------
-
-    ##     27:     }
-
-    ##     28:     for ( i in 1:12 ) {
-
-    ##     29:         p[i] = a_did[did[i]] + b_did[did[i]] * gid;
-
-    ##                                                          ^
-
-    ##     30:     }
-
-    ##   -------------------------------------------------
-
+    ## [[1]]
+    ## Stan model 'b27b0d8e6ef0d0b243655b5d4c8684ea' does not contain samples.
     ## 
+    ## [[2]]
+    ## Stan model 'b27b0d8e6ef0d0b243655b5d4c8684ea' does not contain samples.
+    ## 
+    ## [[3]]
+    ## Stan model 'b27b0d8e6ef0d0b243655b5d4c8684ea' does not contain samples.
+    ## 
+    ## [[4]]
+    ## Stan model 'b27b0d8e6ef0d0b243655b5d4c8684ea' does not contain samples.
+    ## 
+    ## Stan model 'b27b0d8e6ef0d0b243655b5d4c8684ea' does not contain samples.
 
-    ## Error in stanc(file = file, model_code = model_code, model_name = model_name, : failed to parse Stan model 'fa96e75a3be0e179b7b018a85d146c40' due to the above error.
+    ## Error in validObject(.Object): invalid class "ulam" object: invalid object for slot "coef" in class "ulam": got class "NULL", should be or extend class "numeric"
 
 ``` r
-# error... why?
+# error... why? becasue p has to be logit
 precis(m.practice13M3.b, depth=2)
 ```
 
@@ -650,449 +630,69 @@ plot(m.practice13M3.b,depth=2)
 
     ## Error in plot(m.practice13M3.b, depth = 2): object 'm.practice13M3.b' not found
 
-# chain =1 based on error message.
+# logit(p): no error\!
 
 ``` r
-m.practice13M3.b.chain1 <- ulam(
+m.practice13M3.b3 <- ulam(
     alist(
         A ~ dbinom(N,p),
-        p <- a_did[did] + b_did[did]*gid,
+        logit(p) <- a_did[did] + b_did[did]*g,
         c(a_did,b_did)[did] ~ multi_normal( c(a,b) , Rho , sigma_did ),
         a ~ normal(0,1.5),
         b ~ normal(0,1.5),
         sigma_did ~ exponential(1),
         Rho ~ lkj_corr(4)
-    ) , data=dat , chains=1 , cores=2 , iter=4000,log_lik=TRUE)
+    ) , data=dat2 , chains=4 , cores=2 , iter=4000,log_lik=TRUE)
 ```
 
-    ## recompiling to avoid crashing R session
+    ## Warning: There were 36 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See
+    ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
 
-    ## 
-    ## SAMPLING FOR MODEL '7f6fdee5a6afd06e8cc022bb283dbb63' NOW (CHAIN 1).
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.5047, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.93371, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.351137, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.44541, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.0278331, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.393956, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.70825, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.23744, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is -0.629867, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.72923, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.55115, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -1.39527, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.72072, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[4] is 1.87797, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.35254, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is 3.19822, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.118738, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.87696, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.0581, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.946671, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.88111, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.39331, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.83541, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -3.14227, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.550647, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 3.7901, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is -2.67023, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.74924, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.370673, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -3.06779, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.00117207, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.83564, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.9451, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.540793, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.14912, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.623244, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.241652, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.419792, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.86921, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.64384, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.166701, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.2978, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.51379, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is 1.08197, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -3.12094, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.538363, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.4533, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.32103, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.563865, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.42503, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.65885, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.71079, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.372662, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.38612, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.40257, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.777909, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.74692, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.6645, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.50591, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.80729, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.36997, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.65865, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.49203, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.101222, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.956195, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.68577, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.0126588, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is -0.925118, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.3819, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -0.176587, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.68209, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.284732, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.55751, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is 2.11341, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[3] is -3.00495, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.96101, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.11287, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.12883, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.53904, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.39375, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -2.70768, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.5126, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is -1.28959, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.705409, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.13051, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.300738, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.683016, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.52913, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 2.04308, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.233142, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -1.73177, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.253962, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.0975557, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.343924, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.97382, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.856303, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is -0.354017, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.73128, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[1] is 1.0971, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: Rejecting initial value:
-    ## Chain 1:   Error evaluating the log probability at the initial value.
-    ## Chain 1: Exception: binomial_lpmf: Probability parameter[2] is 1.67005, but must be in the interval [0, 1]  (in 'model49a859516c6c_7f6fdee5a6afd06e8cc022bb283dbb63' at line 31)
-    ## 
-    ## Chain 1: 
-    ## Chain 1: Initialization between (-2, 2) failed after 100 attempts. 
-    ## Chain 1:  Try specifying initial values, reducing ranges of constrained values, or reparameterizing the model.
-    ## Error in sampler$call_sampler(args_list[[i]]) : Initialization failed.
-    ## character(0)
+    ## Warning: Examine the pairs() plot to diagnose sampling problems
 
-    ## error occurred during calling the sampler; sampling not done
+    ## Warning: The largest R-hat is NA, indicating chains have not mixed.
+    ## Running the chains for more iterations may help. See
+    ## http://mc-stan.org/misc/warnings.html#r-hat
 
-    ## Stan model '7f6fdee5a6afd06e8cc022bb283dbb63' does not contain samples.
+    ## Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+    ## Running the chains for more iterations may help. See
+    ## http://mc-stan.org/misc/warnings.html#bulk-ess
 
-    ## Error in validObject(.Object): invalid class "ulam" object: invalid object for slot "coef" in class "ulam": got class "NULL", should be or extend class "numeric"
+    ## Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
+    ## Running the chains for more iterations may help. See
+    ## http://mc-stan.org/misc/warnings.html#tail-ess
 
 ``` r
-# error... why?
-precis(m.practice13M3.b, depth=2)
+precis(m.practice13M3.b3, depth=3)
 ```
 
-    ## Error in precis(m.practice13M3.b, depth = 2): object 'm.practice13M3.b' not found
+    ##                     mean           sd       5.5%      94.5%    n_eff     Rhat4
+    ## b_did[1]      0.80973410 2.714927e-01  0.3702470  1.2484684 2728.871 1.0009061
+    ## b_did[2]      0.24609222 3.295791e-01 -0.2635087  0.7849884 8322.096 0.9998836
+    ## b_did[3]     -0.07974449 1.374739e-01 -0.2978069  0.1406515 5907.870 0.9998617
+    ## b_did[4]      0.09309900 1.389416e-01 -0.1265654  0.3141740 7100.947 1.0002723
+    ## b_did[5]     -0.12378268 1.882319e-01 -0.4268371  0.1719086 5709.624 1.0001200
+    ## b_did[6]      0.08911368 2.613380e-01 -0.3265177  0.5061999 6294.692 0.9999508
+    ## a_did[1]      0.51166273 7.122904e-02  0.3974528  0.6242902 7605.692 0.9999968
+    ## a_did[2]      0.52867124 8.607110e-02  0.3907300  0.6644111 9292.529 1.0000190
+    ## a_did[3]     -0.56619610 1.104451e-01 -0.7455398 -0.3909191 6575.350 0.9997259
+    ## a_did[4]     -0.71127472 9.874717e-02 -0.8682452 -0.5550108 6688.772 1.0002981
+    ## a_did[5]     -1.00939406 1.561354e-01 -1.2598444 -0.7601737 6470.407 0.9996488
+    ## a_did[6]     -2.69911219 1.998799e-01 -3.0247598 -2.3863961 6817.231 1.0001201
+    ## a            -0.58430749 5.116577e-01 -1.3938342  0.2254712 7371.411 0.9997203
+    ## b             0.18281290 2.481807e-01 -0.1727330  0.5629441 3170.130 1.0013238
+    ## sigma_did[1]  1.30790443 4.236426e-01  0.7972052  2.0728711 5693.391 0.9999259
+    ## sigma_did[2]  0.48745357 2.436322e-01  0.2026790  0.9166642 2357.884 1.0014548
+    ## Rho[1,1]      1.00000000 0.000000e+00  1.0000000  1.0000000      NaN       NaN
+    ## Rho[1,2]      0.16189169 2.903733e-01 -0.3269330  0.6120819 7871.896 1.0001267
+    ## Rho[2,1]      0.16189169 2.903733e-01 -0.3269330  0.6120819 7871.896 1.0001267
+    ## Rho[2,2]      1.00000000 8.942852e-17  1.0000000  1.0000000 7394.579 0.9994999
 
 ``` r
-plot(m.practice13M3.b,depth=2)
+plot(m.practice13M3.b3,depth=3)
 ```
 
-    ## Error in plot(m.practice13M3.b, depth = 2): object 'm.practice13M3.b' not found
+![](Chap14_2_HW_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 # normal? dnorm?
 
@@ -1100,48 +700,63 @@ plot(m.practice13M3.b,depth=2)
 m.practice13M3.c <- ulam(
     alist(
         A ~ dbinom(N,p),
-        p <- a_did[did] + b_did[did]*gid,
+        logit(p) <- a_did[did] + b_did[did]*g,
         c(a_did,b_did)[did] ~ multi_normal( c(a,b) , Rho , sigma_did ),
         a ~ dnorm(0,1.5),
         b ~ dnorm(0,1.5),
         sigma_did ~ exponential(1),
         Rho ~ lkj_corr(2)
-    ) , data=dat , chains=4 , cores=2 , iter=4000,log_lik=TRUE)
+    ) , data=dat2 , chains=4 , cores=2 , iter=4000,log_lik=TRUE)
 ```
 
-    ## Warning in .local(object, ...): some chains had errors; consider specifying
-    ## chains = 1 to debug
+    ## Warning: There were 9 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See
+    ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
 
-    ## here are whatever error messages were returned
+    ## Warning: Examine the pairs() plot to diagnose sampling problems
 
-    ## [[1]]
-    ## Stan model '5e55aaf279cf3a37fa83158a9b84caf2' does not contain samples.
-    ## 
-    ## [[2]]
-    ## Stan model '5e55aaf279cf3a37fa83158a9b84caf2' does not contain samples.
-    ## 
-    ## [[3]]
-    ## Stan model '5e55aaf279cf3a37fa83158a9b84caf2' does not contain samples.
-    ## 
-    ## [[4]]
-    ## Stan model '5e55aaf279cf3a37fa83158a9b84caf2' does not contain samples.
-    ## 
-    ## Stan model '5e55aaf279cf3a37fa83158a9b84caf2' does not contain samples.
+    ## Warning: The largest R-hat is NA, indicating chains have not mixed.
+    ## Running the chains for more iterations may help. See
+    ## http://mc-stan.org/misc/warnings.html#r-hat
 
-    ## Error in validObject(.Object): invalid class "ulam" object: invalid object for slot "coef" in class "ulam": got class "NULL", should be or extend class "numeric"
+    ## Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+    ## Running the chains for more iterations may help. See
+    ## http://mc-stan.org/misc/warnings.html#bulk-ess
+
+    ## Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
+    ## Running the chains for more iterations may help. See
+    ## http://mc-stan.org/misc/warnings.html#tail-ess
 
 ``` r
-# error why?
-precis(m.practice13M3.c, depth=2)
+precis(m.practice13M3.c, depth=3)
 ```
 
-    ## Error in precis(m.practice13M3.c, depth = 2): object 'm.practice13M3.c' not found
+    ##                     mean           sd       5.5%      94.5%    n_eff     Rhat4
+    ## b_did[1]      0.81266404 2.710403e-01  0.3892886  1.2480686 3952.430 1.0015612
+    ## b_did[2]      0.27105124 3.337424e-01 -0.2495432  0.8198540 7076.242 1.0001714
+    ## b_did[3]     -0.07842165 1.344089e-01 -0.2935614  0.1363987 4980.545 0.9999763
+    ## b_did[4]      0.09278469 1.387274e-01 -0.1279521  0.3176504 6781.974 0.9999511
+    ## b_did[5]     -0.12657203 1.870634e-01 -0.4284744  0.1634493 5473.076 0.9999925
+    ## b_did[6]      0.05355878 2.666889e-01 -0.3715640  0.4796989 5937.801 1.0000785
+    ## a_did[1]      0.51098931 7.405405e-02  0.3931237  0.6301056 9050.338 1.0000301
+    ## a_did[2]      0.52673888 8.523439e-02  0.3921084  0.6627466 8727.173 0.9997758
+    ## a_did[3]     -0.56756469 1.100076e-01 -0.7431903 -0.3933741 4997.425 1.0001954
+    ## a_did[4]     -0.71085376 1.013977e-01 -0.8729285 -0.5484297 6912.916 1.0001431
+    ## a_did[5]     -1.00745173 1.544471e-01 -1.2486420 -0.7621264 5958.269 0.9998322
+    ## a_did[6]     -2.67652125 1.996009e-01 -3.0071005 -2.3645997 6488.504 1.0000890
+    ## a            -0.57857370 5.205591e-01 -1.3786457  0.2565868 6043.837 0.9999758
+    ## b             0.17412783 2.450097e-01 -0.1901462  0.5540219 4416.877 1.0008304
+    ## sigma_did[1]  1.31505773 4.360256e-01  0.7981572  2.0908753 5660.244 1.0002202
+    ## sigma_did[2]  0.49737877 2.509180e-01  0.2064653  0.9380547 3545.897 1.0004960
+    ## Rho[1,1]      1.00000000 0.000000e+00  1.0000000  1.0000000      NaN       NaN
+    ## Rho[1,2]      0.25318005 3.458951e-01 -0.3468064  0.7579095 5812.038 1.0003210
+    ## Rho[2,1]      0.25318005 3.458951e-01 -0.3468064  0.7579095 5812.038 1.0003210
+    ## Rho[2,2]      1.00000000 8.405471e-17  1.0000000  1.0000000 7655.304 0.9994999
 
 ``` r
-plot(m.practice13M3.c,depth=2)
+plot(m.practice13M3.c,depth=3)
 ```
 
-    ## Error in plot(m.practice13M3.c, depth = 2): object 'm.practice13M3.c' not found
+![](Chap14_2_HW_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
   - centered
   - This way (modified from m14.2) looks work with error “Warning: There
@@ -1169,8 +784,11 @@ mpractice13M3.centered <- ulam(
   )
 ```
 
-    ## Warning: There were 236 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See
+    ## Warning: There were 650 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See
     ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
+
+    ## Warning: There were 2396 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
+    ## http://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded
 
     ## Warning: Examine the pairs() plot to diagnose sampling problems
 
@@ -1191,126 +809,126 @@ precis(mpractice13M3.centered,depth=3)
 ```
 
     ##                       mean           sd        5.5%       94.5%     n_eff
-    ## beta[1,1]    -1.553325e-01 6.067265e-01 -1.01009473  0.90711982  3179.233
-    ## beta[1,2]     3.218807e-02 3.787594e-01 -0.49990937  0.68262886  2103.029
-    ## beta[1,3]    -1.499216e-02 3.109441e-01 -0.50877396  0.37064190  1255.727
-    ## beta[1,4]    -9.232546e-02 3.200682e-01 -0.65894082  0.26617782  1408.082
-    ## beta[1,5]    -5.106381e-02 3.725039e-01 -0.71739210  0.39004421  1750.886
-    ## beta[1,6]    -7.744543e-01 9.163447e-01 -2.58583893  0.11270638  1651.660
-    ## beta[2,1]     8.028805e-01 6.437583e-01 -0.06646720  1.95409684  2978.217
-    ## beta[2,2]     1.228842e-01 4.132982e-01 -0.39232022  0.87484342  2449.736
-    ## beta[2,3]    -9.721728e-02 3.183071e-01 -0.62823972  0.26230228  1260.523
-    ## beta[2,4]    -3.916426e-02 3.130370e-01 -0.57212761  0.33268280  1424.685
-    ## beta[2,5]    -1.797806e-01 3.910164e-01 -0.91263018  0.23456173  1693.863
-    ## beta[2,6]    -6.434287e-01 8.839947e-01 -2.40570085  0.21659327  1671.628
-    ## a[1]          6.539759e-01 6.057965e-01 -0.41529638  1.50219643  3125.895
-    ## a[2]          5.037852e-01 3.823309e-01 -0.14473778  1.04460669  2125.445
-    ## a[3]         -5.480297e-01 3.156519e-01 -0.91598860 -0.02486606  1295.609
-    ## a[4]         -5.950623e-01 3.189119e-01 -0.96320523 -0.04702807  1418.400
-    ## a[5]         -9.469421e-01 3.848563e-01 -1.38379432 -0.23941865  1680.335
-    ## a[6]         -1.936757e+00 8.825806e-01 -2.84650823 -0.18908881  1675.045
-    ## sigma_gid[1]  1.035292e+00 6.560250e-01  0.35253843  2.22886384  5169.229
-    ## sigma_gid[2]  4.744051e-01 5.043618e-01  0.03811246  1.41512391  3097.389
-    ## sigma_gid[3]  3.592633e-01 4.347800e-01  0.02156101  1.14854941  2274.112
-    ## sigma_gid[4]  3.579150e-01 4.471466e-01  0.02171020  1.16945842  2443.401
-    ## sigma_gid[5]  4.453969e-01 5.141408e-01  0.02857623  1.38494405  2584.597
-    ## sigma_gid[6]  9.459301e-01 9.295981e-01  0.05306171  2.74473511  1976.577
-    ## Rho_gid[1,1]  1.000000e+00 0.000000e+00  1.00000000  1.00000000       NaN
-    ## Rho_gid[1,2]  1.443397e-02 2.747011e-01 -0.42729451  0.45890915  8955.139
-    ## Rho_gid[1,3] -2.704719e-02 2.724105e-01 -0.45854671  0.40971827 10367.230
-    ## Rho_gid[1,4]  7.708544e-03 2.747960e-01 -0.43378808  0.44833970 10668.841
-    ## Rho_gid[1,5] -3.056756e-02 2.742111e-01 -0.46911456  0.41170406 10389.434
-    ## Rho_gid[1,6] -1.604429e-02 2.750662e-01 -0.44666787  0.43372082  8950.307
-    ## Rho_gid[2,1]  1.443397e-02 2.747011e-01 -0.42729451  0.45890915  8955.139
-    ## Rho_gid[2,2]  1.000000e+00 9.176437e-17  1.00000000  1.00000000  9930.592
-    ## Rho_gid[2,3] -5.054534e-03 2.794221e-01 -0.45703618  0.43747416  8313.187
-    ## Rho_gid[2,4]  6.209149e-05 2.816450e-01 -0.45139586  0.45383385  9490.546
-    ## Rho_gid[2,5] -2.285323e-03 2.728963e-01 -0.44073718  0.43881245  9191.305
-    ## Rho_gid[2,6] -8.077836e-04 2.814515e-01 -0.45404290  0.45543989  8248.634
-    ## Rho_gid[3,1] -2.704719e-02 2.724105e-01 -0.45854671  0.40971827 10367.230
-    ## Rho_gid[3,2] -5.054534e-03 2.794221e-01 -0.45703618  0.43747416  8313.187
-    ## Rho_gid[3,3]  1.000000e+00 1.008216e-16  1.00000000  1.00000000  5304.843
-    ## Rho_gid[3,4] -4.253999e-04 2.850740e-01 -0.46072083  0.45782037  7552.308
-    ## Rho_gid[3,5]  7.437688e-03 2.810124e-01 -0.45119626  0.45555276  8291.886
-    ## Rho_gid[3,6]  3.244288e-03 2.829499e-01 -0.44875956  0.46011311  7946.100
-    ## Rho_gid[4,1]  7.708544e-03 2.747960e-01 -0.43378808  0.44833970 10668.841
-    ## Rho_gid[4,2]  6.209149e-05 2.816450e-01 -0.45139586  0.45383385  9490.546
-    ## Rho_gid[4,3] -4.253999e-04 2.850740e-01 -0.46072083  0.45782037  7552.308
-    ## Rho_gid[4,4]  1.000000e+00 1.122151e-16  1.00000000  1.00000000  7989.898
-    ## Rho_gid[4,5] -1.238456e-02 2.792649e-01 -0.46195113  0.43563344  7295.011
-    ## Rho_gid[4,6]  1.386656e-02 2.756105e-01 -0.43331152  0.44839708  7642.154
-    ## Rho_gid[5,1] -3.056756e-02 2.742111e-01 -0.46911456  0.41170406 10389.434
-    ## Rho_gid[5,2] -2.285323e-03 2.728963e-01 -0.44073718  0.43881245  9191.305
-    ## Rho_gid[5,3]  7.437688e-03 2.810124e-01 -0.45119626  0.45555276  8291.886
-    ## Rho_gid[5,4] -1.238456e-02 2.792649e-01 -0.46195113  0.43563344  7295.011
-    ## Rho_gid[5,5]  1.000000e+00 1.126591e-16  1.00000000  1.00000000  4852.369
-    ## Rho_gid[5,6]  1.084982e-02 2.837828e-01 -0.44318728  0.46749051  7074.554
-    ## Rho_gid[6,1] -1.604429e-02 2.750662e-01 -0.44666787  0.43372082  8950.307
-    ## Rho_gid[6,2] -8.077836e-04 2.814515e-01 -0.45404290  0.45543989  8248.634
-    ## Rho_gid[6,3]  3.244288e-03 2.829499e-01 -0.44875956  0.46011311  7946.100
-    ## Rho_gid[6,4]  1.386656e-02 2.756105e-01 -0.43331152  0.44839708  7642.154
-    ## Rho_gid[6,5]  1.084982e-02 2.837828e-01 -0.44318728  0.46749051  7074.554
-    ## Rho_gid[6,6]  1.000000e+00 1.202437e-16  1.00000000  1.00000000  6753.645
+    ## beta[1,1]    -0.1537910837 5.937456e-01 -1.01490072  0.86494379 2894.7472
+    ## beta[1,2]     0.0504376794 3.875934e-01 -0.51047723  0.67825295  685.8478
+    ## beta[1,3]    -0.0007366611 2.866282e-01 -0.45443882  0.40149402 2331.6305
+    ## beta[1,4]    -0.0848683494 3.136195e-01 -0.64969740  0.30634452  548.6758
+    ## beta[1,5]    -0.0854121979 4.111110e-01 -0.91543265  0.39609537  361.5368
+    ## beta[1,6]    -0.7885300734 9.944561e-01 -2.85587785  0.11527310  191.6628
+    ## beta[2,1]     0.8090476970 6.353883e-01 -0.05749060  1.91000975 2300.8755
+    ## beta[2,2]     0.1698392028 4.556634e-01 -0.38982705  1.05415775  263.2306
+    ## beta[2,3]    -0.0883558523 2.948519e-01 -0.58262606  0.27599442 2009.7137
+    ## beta[2,4]    -0.0328007110 3.082194e-01 -0.54092732  0.36989506  679.3492
+    ## beta[2,5]    -0.2168263003 4.363433e-01 -1.13356275  0.23636016  315.1635
+    ## beta[2,6]    -0.6560700906 9.464596e-01 -2.66028415  0.21186306  199.7720
+    ## a[1]          0.6528455049 5.944277e-01 -0.36728749  1.50817470 2851.0444
+    ## a[2]          0.4879318345 3.888191e-01 -0.13963380  1.05212897  940.7734
+    ## a[3]         -0.5574568385 2.922638e-01 -0.94136040 -0.07847095 2192.5511
+    ## a[4]         -0.6047426077 3.117012e-01 -0.99534735 -0.10257187  679.7116
+    ## a[5]         -0.9126267431 4.270739e-01 -1.37161416  0.01664119  338.0405
+    ## a[6]         -1.9248347314 9.623590e-01 -2.85208640  0.05460004  178.2199
+    ## sigma_gid[1]  1.0563375429 6.704253e-01  0.34369010  2.26706643 1158.9906
+    ## sigma_gid[2]  0.4997226221 5.243082e-01  0.03421003  1.44395001 2503.0367
+    ## sigma_gid[3]  0.3551386954 4.373255e-01  0.01637971  1.17130018 2263.6422
+    ## sigma_gid[4]  0.3562890492 4.340023e-01  0.01773206  1.13444120 1254.2069
+    ## sigma_gid[5]  0.4719094095 5.161905e-01  0.02249113  1.45578036  433.5270
+    ## sigma_gid[6]  0.9205067106 9.398288e-01  0.02972516  2.82763219  312.0036
+    ## Rho_gid[1,1]  1.0000000000 0.000000e+00  1.00000000  1.00000000       NaN
+    ## Rho_gid[1,2]  0.0324767751 2.776346e-01 -0.41532673  0.45326347  997.5493
+    ## Rho_gid[1,3] -0.0153383142 2.805125e-01 -0.45019326  0.44006603  487.5020
+    ## Rho_gid[1,4]  0.0223188454 2.686252e-01 -0.42223259  0.43357734 2137.8713
+    ## Rho_gid[1,5] -0.0400711704 2.754369e-01 -0.47812688  0.40121033 1975.2842
+    ## Rho_gid[1,6] -0.0260385519 2.727170e-01 -0.44427173  0.41825960  782.9323
+    ## Rho_gid[2,1]  0.0324767751 2.776346e-01 -0.41532673  0.45326347  997.5493
+    ## Rho_gid[2,2]  1.0000000000 9.093446e-17  1.00000000  1.00000000 6405.9600
+    ## Rho_gid[2,3]  0.0092053912 2.973339e-01 -0.45965269  0.50407372  304.8008
+    ## Rho_gid[2,4]  0.0047874977 2.854090e-01 -0.47876498  0.45552255  387.9537
+    ## Rho_gid[2,5] -0.0090081928 2.779743e-01 -0.45017814  0.43631413 1495.0010
+    ## Rho_gid[2,6] -0.0189409349 2.795178e-01 -0.45438635  0.44013138 2760.2307
+    ## Rho_gid[3,1] -0.0153383142 2.805125e-01 -0.45019326  0.44006603  487.5020
+    ## Rho_gid[3,2]  0.0092053912 2.973339e-01 -0.45965269  0.50407372  304.8008
+    ## Rho_gid[3,3]  1.0000000000 9.959762e-17  1.00000000  1.00000000 6899.1818
+    ## Rho_gid[3,4] -0.0033862579 2.817449e-01 -0.44646013  0.44253732 1241.3880
+    ## Rho_gid[3,5]  0.0231651411 2.856398e-01 -0.42935185  0.50361978  535.5581
+    ## Rho_gid[3,6]  0.0050378414 2.735114e-01 -0.43074748  0.44691399 4401.4290
+    ## Rho_gid[4,1]  0.0223188454 2.686252e-01 -0.42223259  0.43357734 2137.8713
+    ## Rho_gid[4,2]  0.0047874977 2.854090e-01 -0.47876498  0.45552255  387.9537
+    ## Rho_gid[4,3] -0.0033862579 2.817449e-01 -0.44646013  0.44253732 1241.3880
+    ## Rho_gid[4,4]  1.0000000000 1.118354e-16  1.00000000  1.00000000 4960.1213
+    ## Rho_gid[4,5]  0.0043882228 2.783466e-01 -0.44169357  0.44841195  809.1456
+    ## Rho_gid[4,6] -0.0058676452 2.824984e-01 -0.44296131  0.45070436  665.5399
+    ## Rho_gid[5,1] -0.0400711704 2.754369e-01 -0.47812688  0.40121033 1975.2842
+    ## Rho_gid[5,2] -0.0090081928 2.779743e-01 -0.45017814  0.43631413 1495.0010
+    ## Rho_gid[5,3]  0.0231651411 2.856398e-01 -0.42935185  0.50361978  535.5581
+    ## Rho_gid[5,4]  0.0043882228 2.783466e-01 -0.44169357  0.44841195  809.1456
+    ## Rho_gid[5,5]  1.0000000000 1.102870e-16  1.00000000  1.00000000 5180.6008
+    ## Rho_gid[5,6]  0.0089144952 2.709446e-01 -0.43121493  0.44678953 4833.6112
+    ## Rho_gid[6,1] -0.0260385519 2.727170e-01 -0.44427173  0.41825960  782.9323
+    ## Rho_gid[6,2] -0.0189409349 2.795178e-01 -0.45438635  0.44013138 2760.2307
+    ## Rho_gid[6,3]  0.0050378414 2.735114e-01 -0.43074748  0.44691399 4401.4290
+    ## Rho_gid[6,4] -0.0058676452 2.824984e-01 -0.44296131  0.45070436  665.5399
+    ## Rho_gid[6,5]  0.0089144952 2.709446e-01 -0.43121493  0.44678953 4833.6112
+    ## Rho_gid[6,6]  1.0000000000 1.177262e-16  1.00000000  1.00000000 3674.8366
     ##                  Rhat4
-    ## beta[1,1]    1.0014695
-    ## beta[1,2]    1.0024244
-    ## beta[1,3]    1.0039648
-    ## beta[1,4]    1.0018441
-    ## beta[1,5]    1.0007732
-    ## beta[1,6]    1.0004501
-    ## beta[2,1]    1.0019373
-    ## beta[2,2]    1.0015715
-    ## beta[2,3]    1.0033521
-    ## beta[2,4]    1.0016966
-    ## beta[2,5]    1.0007670
-    ## beta[2,6]    1.0006447
-    ## a[1]         1.0016236
-    ## a[2]         1.0024555
-    ## a[3]         1.0030559
-    ## a[4]         1.0015133
-    ## a[5]         1.0005897
-    ## a[6]         1.0004678
-    ## sigma_gid[1] 0.9999624
-    ## sigma_gid[2] 1.0004284
-    ## sigma_gid[3] 1.0009965
-    ## sigma_gid[4] 1.0004600
-    ## sigma_gid[5] 1.0002229
-    ## sigma_gid[6] 1.0006510
+    ## beta[1,1]    1.0006577
+    ## beta[1,2]    1.0153156
+    ## beta[1,3]    1.0022161
+    ## beta[1,4]    1.0055374
+    ## beta[1,5]    1.0157497
+    ## beta[1,6]    1.0088982
+    ## beta[2,1]    1.0006315
+    ## beta[2,2]    1.0358918
+    ## beta[2,3]    1.0023094
+    ## beta[2,4]    1.0048615
+    ## beta[2,5]    1.0127035
+    ## beta[2,6]    1.0099154
+    ## a[1]         1.0004263
+    ## a[2]         1.0130993
+    ## a[3]         1.0021427
+    ## a[4]         1.0037753
+    ## a[5]         1.0135033
+    ## a[6]         1.0107486
+    ## sigma_gid[1] 1.0005377
+    ## sigma_gid[2] 1.0027517
+    ## sigma_gid[3] 1.0060805
+    ## sigma_gid[4] 1.0018956
+    ## sigma_gid[5] 1.0072124
+    ## sigma_gid[6] 1.0028398
     ## Rho_gid[1,1]       NaN
-    ## Rho_gid[1,2] 1.0001905
-    ## Rho_gid[1,3] 0.9999254
-    ## Rho_gid[1,4] 1.0000158
-    ## Rho_gid[1,5] 1.0001616
-    ## Rho_gid[1,6] 1.0000343
-    ## Rho_gid[2,1] 1.0001905
+    ## Rho_gid[1,2] 1.0076286
+    ## Rho_gid[1,3] 1.0015249
+    ## Rho_gid[1,4] 1.0063042
+    ## Rho_gid[1,5] 1.0014741
+    ## Rho_gid[1,6] 1.0068119
+    ## Rho_gid[2,1] 1.0076286
     ## Rho_gid[2,2] 0.9995999
-    ## Rho_gid[2,3] 0.9999855
-    ## Rho_gid[2,4] 0.9999628
-    ## Rho_gid[2,5] 1.0001880
-    ## Rho_gid[2,6] 0.9999985
-    ## Rho_gid[3,1] 0.9999254
-    ## Rho_gid[3,2] 0.9999855
+    ## Rho_gid[2,3] 1.0074230
+    ## Rho_gid[2,4] 1.0006164
+    ## Rho_gid[2,5] 1.0003790
+    ## Rho_gid[2,6] 1.0039546
+    ## Rho_gid[3,1] 1.0015249
+    ## Rho_gid[3,2] 1.0074230
     ## Rho_gid[3,3] 0.9995999
-    ## Rho_gid[3,4] 0.9998515
-    ## Rho_gid[3,5] 1.0003010
-    ## Rho_gid[3,6] 0.9998536
-    ## Rho_gid[4,1] 1.0000158
-    ## Rho_gid[4,2] 0.9999628
-    ## Rho_gid[4,3] 0.9998515
+    ## Rho_gid[3,4] 1.0013967
+    ## Rho_gid[3,5] 1.0089593
+    ## Rho_gid[3,6] 1.0002562
+    ## Rho_gid[4,1] 1.0063042
+    ## Rho_gid[4,2] 1.0006164
+    ## Rho_gid[4,3] 1.0013967
     ## Rho_gid[4,4] 0.9995999
-    ## Rho_gid[4,5] 1.0000554
-    ## Rho_gid[4,6] 1.0001339
-    ## Rho_gid[5,1] 1.0001616
-    ## Rho_gid[5,2] 1.0001880
-    ## Rho_gid[5,3] 1.0003010
-    ## Rho_gid[5,4] 1.0000554
+    ## Rho_gid[4,5] 1.0026273
+    ## Rho_gid[4,6] 1.0172926
+    ## Rho_gid[5,1] 1.0014741
+    ## Rho_gid[5,2] 1.0003790
+    ## Rho_gid[5,3] 1.0089593
+    ## Rho_gid[5,4] 1.0026273
     ## Rho_gid[5,5] 0.9995999
-    ## Rho_gid[5,6] 1.0004984
-    ## Rho_gid[6,1] 1.0000343
-    ## Rho_gid[6,2] 0.9999985
-    ## Rho_gid[6,3] 0.9998536
-    ## Rho_gid[6,4] 1.0001339
-    ## Rho_gid[6,5] 1.0004984
+    ## Rho_gid[5,6] 1.0016143
+    ## Rho_gid[6,1] 1.0068119
+    ## Rho_gid[6,2] 1.0039546
+    ## Rho_gid[6,3] 1.0002562
+    ## Rho_gid[6,4] 1.0172926
+    ## Rho_gid[6,5] 1.0016143
     ## Rho_gid[6,6] 0.9995999
 
   - non centered
@@ -1342,7 +960,7 @@ mpractice13M3.noncentered <- ulam(
   )
 ```
 
-    ## Warning: There were 10 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See
+    ## Warning: There were 4 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See
     ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
 
     ## Warning: Examine the pairs() plot to diagnose sampling problems
@@ -1363,224 +981,224 @@ mpractice13M3.noncentered <- ulam(
 precis(mpractice13M3.noncentered,depth=3)
 ```
 
-    ##                         mean           sd        5.5%       94.5%     n_eff
-    ## z_gid[1,1]     -0.2871263568 6.819351e-01 -1.44779074  0.72024665  5534.988
-    ## z_gid[1,2]      0.8799238272 6.405990e-01 -0.07377090  1.94146871  6759.336
-    ## z_gid[2,1]      0.0224737115 8.187314e-01 -1.31600614  1.31604934  6740.092
-    ## z_gid[2,2]      0.1879983246 8.397929e-01 -1.16661050  1.51914699  7396.915
-    ## z_gid[3,1]      0.0877611107 8.366521e-01 -1.22796484  1.41853183  7068.142
-    ## z_gid[3,2]     -0.2162475595 8.356463e-01 -1.54427002  1.10087963  7873.680
-    ## z_gid[4,1]     -0.1767723693 8.540995e-01 -1.52169285  1.21183592  7743.868
-    ## z_gid[4,2]      0.0320169815 8.659360e-01 -1.35359096  1.42439302  8753.578
-    ## z_gid[5,1]      0.0629664016 9.069772e-01 -1.37295414  1.53795243  7957.728
-    ## z_gid[5,2]     -0.2813709195 8.784980e-01 -1.65900622  1.13747153  8836.166
-    ## z_gid[6,1]     -0.4784050801 8.909007e-01 -1.84748414  0.98746234  9345.641
-    ## z_gid[6,2]     -0.2498512684 8.972891e-01 -1.66335835  1.24172610  8612.034
-    ## a[1]            0.6343798339 6.113937e-01 -0.44520276  1.50821158  5322.970
-    ## a[2]            0.5005337005 3.797561e-01 -0.12536826  1.02939232  4546.048
-    ## a[3]           -0.5552227300 2.988635e-01 -0.93659408 -0.06148745  3707.308
-    ## a[4]           -0.6033041937 3.053423e-01 -0.98031960 -0.07972485  3757.611
-    ## a[5]           -0.9403626414 3.946598e-01 -1.39078381 -0.21373328  3599.763
-    ## a[6]           -1.9663899079 8.657580e-01 -2.85246320 -0.23309760  3333.940
-    ## sigma_gid[1]    1.0694484126 6.514914e-01  0.37233132  2.27454512  5439.159
-    ## sigma_gid[2]    0.4711706119 5.090147e-01  0.02621323  1.40785904  6159.808
-    ## sigma_gid[3]    0.3661963975 4.394050e-01  0.02002510  1.17405941  4938.234
-    ## sigma_gid[4]    0.3448240681 4.272239e-01  0.01636506  1.11670508  4988.365
-    ## sigma_gid[5]    0.4530747065 5.106763e-01  0.02828401  1.39621320  5114.216
-    ## sigma_gid[6]    0.9187814315 9.147411e-01  0.04230436  2.66821543  4110.046
-    ## L_Rho_gid[1,1]  1.0000000000 0.000000e+00  1.00000000  1.00000000       NaN
-    ## L_Rho_gid[1,2]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[1,3]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[1,4]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[1,5]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[1,6]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[2,1]  0.0258180384 3.313850e-01 -0.50407672  0.55807268 13201.391
-    ## L_Rho_gid[2,2]  0.9399749075 7.730571e-02  0.78505320  0.99968079  4529.133
-    ## L_Rho_gid[2,3]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[2,4]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[2,5]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[2,6]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[3,1] -0.0317761345 3.274449e-01 -0.55765784  0.49768150 12991.276
-    ## L_Rho_gid[3,2] -0.0079449741 3.370862e-01 -0.54501445  0.52923239 12961.689
-    ## L_Rho_gid[3,3]  0.8751275812 1.107020e-01  0.65844372  0.99189824  4420.903
-    ## L_Rho_gid[3,4]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[3,5]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[3,6]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[4,1]  0.0104235442 3.291740e-01 -0.51741597  0.53513183 12378.916
-    ## L_Rho_gid[4,2] -0.0010796283 3.339468e-01 -0.54126827  0.53596718 13089.502
-    ## L_Rho_gid[4,3]  0.0001449503 3.353597e-01 -0.53448470  0.53391332 13637.555
-    ## L_Rho_gid[4,4]  0.8059514390 1.342585e-01  0.55518414  0.97146872  4596.314
-    ## L_Rho_gid[4,5]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[4,6]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[5,1] -0.0529840857 3.272238e-01 -0.56601137  0.47781555 12891.562
-    ## L_Rho_gid[5,2] -0.0088297560 3.377991e-01 -0.54689209  0.53883994 13858.243
-    ## L_Rho_gid[5,3]  0.0122996109 3.345206e-01 -0.52915274  0.55064765 12633.459
-    ## L_Rho_gid[5,4] -0.0065854233 3.340136e-01 -0.54623780  0.52634430 11644.328
-    ## L_Rho_gid[5,5]  0.7265309053 1.564195e-01  0.43588614  0.93807657  3752.124
-    ## L_Rho_gid[5,6]  0.0000000000 0.000000e+00  0.00000000  0.00000000       NaN
-    ## L_Rho_gid[6,1] -0.0133845325 3.308914e-01 -0.54505043  0.52808004 11926.007
-    ## L_Rho_gid[6,2] -0.0072875977 3.384150e-01 -0.55201184  0.53429062 11578.211
-    ## L_Rho_gid[6,3]  0.0005992988 3.344911e-01 -0.52921544  0.54302858 11740.622
-    ## L_Rho_gid[6,4]  0.0200401353 3.321169e-01 -0.52107967  0.55212757 11981.996
-    ## L_Rho_gid[6,5]  0.0031513630 3.395259e-01 -0.54201010  0.54765971  8910.980
-    ## L_Rho_gid[6,6]  0.6393053535 1.709560e-01  0.33825081  0.88990009  4392.804
-    ## Rho_gid[1,1]    1.0000000000 0.000000e+00  1.00000000  1.00000000       NaN
-    ## Rho_gid[1,2]    0.0258180384 3.313850e-01 -0.50407672  0.55807268 13201.391
-    ## Rho_gid[1,3]   -0.0317761345 3.274449e-01 -0.55765784  0.49768150 12991.276
-    ## Rho_gid[1,4]    0.0104235442 3.291740e-01 -0.51741597  0.53513183 12378.916
-    ## Rho_gid[1,5]   -0.0529840857 3.272238e-01 -0.56601137  0.47781555 12891.562
-    ## Rho_gid[1,6]   -0.0133845325 3.308914e-01 -0.54505043  0.52808004 11926.007
-    ## Rho_gid[2,1]    0.0258180384 3.313850e-01 -0.50407672  0.55807268 13201.391
-    ## Rho_gid[2,2]    1.0000000000 9.110375e-17  1.00000000  1.00000000  9270.939
-    ## Rho_gid[2,3]   -0.0079386460 3.360064e-01 -0.54441957  0.53251659 12030.621
-    ## Rho_gid[2,4]   -0.0002492702 3.335448e-01 -0.54139668  0.53672252 11251.110
-    ## Rho_gid[2,5]   -0.0110764977 3.372920e-01 -0.54923767  0.53127799 11650.175
-    ## Rho_gid[2,6]   -0.0069875495 3.372420e-01 -0.54858590  0.53331686 10174.109
-    ## Rho_gid[3,1]   -0.0317761345 3.274449e-01 -0.55765784  0.49768150 12991.276
-    ## Rho_gid[3,2]   -0.0079386460 3.360064e-01 -0.54441957  0.53251659 12030.621
-    ## Rho_gid[3,3]    1.0000000000 8.105033e-17  1.00000000  1.00000000 10030.624
-    ## Rho_gid[3,4]    0.0014588821 3.359112e-01 -0.53866468  0.53872065  9400.187
-    ## Rho_gid[3,5]    0.0141789487 3.373201e-01 -0.52795451  0.55290822  8514.045
-    ## Rho_gid[3,6]    0.0066278204 3.355449e-01 -0.52444749  0.55127246  8955.328
-    ## Rho_gid[4,1]    0.0104235442 3.291740e-01 -0.51741597  0.53513183 12378.916
-    ## Rho_gid[4,2]   -0.0002492702 3.335448e-01 -0.54139668  0.53672252 11251.110
-    ## Rho_gid[4,3]    0.0014588821 3.359112e-01 -0.53866468  0.53872065  9400.187
-    ## Rho_gid[4,4]    1.0000000000 8.515916e-17  1.00000000  1.00000000  2702.407
-    ## Rho_gid[4,5]   -0.0011480560 3.361464e-01 -0.54363873  0.54162413  8410.536
-    ## Rho_gid[4,6]    0.0190988258 3.373279e-01 -0.53684524  0.55217112  7954.630
-    ## Rho_gid[5,1]   -0.0529840857 3.272238e-01 -0.56601137  0.47781555 12891.562
-    ## Rho_gid[5,2]   -0.0110764977 3.372920e-01 -0.54923767  0.53127799 11650.175
-    ## Rho_gid[5,3]    0.0141789487 3.373201e-01 -0.52795451  0.55290822  8514.045
-    ## Rho_gid[5,4]   -0.0011480560 3.361464e-01 -0.54363873  0.54162413  8410.536
-    ## Rho_gid[5,5]    1.0000000000 7.550710e-17  1.00000000  1.00000000  7822.665
-    ## Rho_gid[5,6]    0.0063887853 3.410431e-01 -0.54563374  0.55114323  6516.822
-    ## Rho_gid[6,1]   -0.0133845325 3.308914e-01 -0.54505043  0.52808004 11926.007
-    ## Rho_gid[6,2]   -0.0069875495 3.372420e-01 -0.54858590  0.53331686 10174.109
-    ## Rho_gid[6,3]    0.0066278204 3.355449e-01 -0.52444749  0.55127246  8955.328
-    ## Rho_gid[6,4]    0.0190988258 3.373279e-01 -0.53684524  0.55217112  7954.630
-    ## Rho_gid[6,5]    0.0063887853 3.410431e-01 -0.54563374  0.55114323  6516.822
-    ## Rho_gid[6,6]    1.0000000000 6.903397e-17  1.00000000  1.00000000  8040.090
-    ## beta[1,1]      -0.1366712143 6.107010e-01 -1.01150104  0.94040814  5356.550
-    ## beta[1,2]       0.0361888016 3.746751e-01 -0.48503721  0.65518324  4454.203
-    ## beta[1,3]      -0.0055677158 2.936354e-01 -0.46699455  0.39275779  3695.658
-    ## beta[1,4]      -0.0841116640 3.063664e-01 -0.61480834  0.27337434  3643.335
-    ## beta[1,5]      -0.0596776016 3.850512e-01 -0.75244868  0.41019526  3708.753
-    ## beta[1,6]      -0.7457111043 9.037927e-01 -2.56867078  0.11588785  3433.550
-    ## beta[2,1]       0.8241942238 6.529016e-01 -0.05926817  1.99104780  5171.124
-    ## beta[2,2]       0.1308264101 4.199020e-01 -0.38415440  0.89073851  4816.913
-    ## beta[2,3]      -0.0880984994 3.020814e-01 -0.61211699  0.28405811  3646.499
-    ## beta[2,4]      -0.0332266737 3.012007e-01 -0.55026424  0.35623876  3756.479
-    ## beta[2,5]      -0.1883911312 4.015199e-01 -0.93387716  0.23264598  3557.259
-    ## beta[2,6]      -0.6178505668 8.699101e-01 -2.38746368  0.22969122  3387.614
+    ##                        mean           sd        5.5%        94.5%     n_eff
+    ## z_gid[1,1]     -0.295565495 6.771158e-01 -1.48531219  0.680342428  5715.292
+    ## z_gid[1,2]      0.862080429 6.486196e-01 -0.11279755  1.955147003  6882.982
+    ## z_gid[2,1]      0.023190890 8.326993e-01 -1.32249210  1.354325316  7117.979
+    ## z_gid[2,2]      0.178679474 8.538510e-01 -1.19681277  1.515686461  7831.397
+    ## z_gid[3,1]      0.061940930 8.258059e-01 -1.22188812  1.401866075  7706.940
+    ## z_gid[3,2]     -0.220097247 8.248640e-01 -1.52715731  1.106542622  8397.166
+    ## z_gid[4,1]     -0.158184587 8.637607e-01 -1.53190031  1.224795437  8995.884
+    ## z_gid[4,2]      0.034294020 8.548122e-01 -1.29852682  1.416804790  9340.468
+    ## z_gid[5,1]      0.045622293 9.116311e-01 -1.37670650  1.543692280  8964.916
+    ## z_gid[5,2]     -0.303245220 8.678542e-01 -1.68677184  1.083293495  9899.200
+    ## z_gid[6,1]     -0.486279403 8.979823e-01 -1.85733720  1.015668231  9988.916
+    ## z_gid[6,2]     -0.264249082 9.045782e-01 -1.67396113  1.198306390 11137.487
+    ## a[1]            0.646213675 6.142468e-01 -0.42403014  1.541766241  5711.085
+    ## a[2]            0.501287185 3.851968e-01 -0.14393539  1.040313515  4628.255
+    ## a[3]           -0.546163387 3.118475e-01 -0.94070281 -0.003603234  4221.517
+    ## a[4]           -0.612901754 3.022738e-01 -0.97646240 -0.117286015  4414.493
+    ## a[5]           -0.938032716 3.979787e-01 -1.38612322 -0.228015379  3710.160
+    ## a[6]           -1.963972054 8.612965e-01 -2.84298198 -0.235771663  3627.918
+    ## sigma_gid[1]    1.084294628 6.596917e-01  0.37212003  2.332846359  7486.022
+    ## sigma_gid[2]    0.468170257 5.012827e-01  0.02628507  1.396373919  6942.974
+    ## sigma_gid[3]    0.372075766 4.503848e-01  0.01878166  1.207703744  5522.776
+    ## sigma_gid[4]    0.340238028 4.255359e-01  0.01596875  1.127478491  5368.032
+    ## sigma_gid[5]    0.451890249 5.097253e-01  0.02707268  1.372713572  4462.143
+    ## sigma_gid[6]    0.924511142 9.236773e-01  0.04428986  2.691555159  4331.532
+    ## L_Rho_gid[1,1]  1.000000000 0.000000e+00  1.00000000  1.000000000       NaN
+    ## L_Rho_gid[1,2]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[1,3]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[1,4]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[1,5]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[1,6]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[2,1]  0.027275224 3.325112e-01 -0.51629088  0.562394987 16756.730
+    ## L_Rho_gid[2,2]  0.939292764 8.020684e-02  0.77442041  0.999678142  3807.673
+    ## L_Rho_gid[2,3]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[2,4]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[2,5]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[2,6]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[3,1] -0.038689366 3.297615e-01 -0.56000331  0.493188357 15052.455
+    ## L_Rho_gid[3,2] -0.004279909 3.377576e-01 -0.55186383  0.539717469 14556.448
+    ## L_Rho_gid[3,3]  0.873681101 1.112063e-01  0.65536562  0.991627384  4111.318
+    ## L_Rho_gid[3,4]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[3,5]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[3,6]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[4,1]  0.017215757 3.280345e-01 -0.50985776  0.544116772 14008.221
+    ## L_Rho_gid[4,2]  0.004092572 3.345061e-01 -0.53082270  0.548050252 15622.063
+    ## L_Rho_gid[4,3] -0.004110186 3.379984e-01 -0.54691990  0.539450838 15577.217
+    ## L_Rho_gid[4,4]  0.805011276 1.338586e-01  0.55856784  0.969795856  4172.860
+    ## L_Rho_gid[4,5]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[4,6]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[5,1] -0.052077688 3.310675e-01 -0.57552413  0.489427286 15634.889
+    ## L_Rho_gid[5,2] -0.011069682 3.318053e-01 -0.54134531  0.516432961 14831.295
+    ## L_Rho_gid[5,3]  0.013192023 3.404992e-01 -0.53812803  0.557735435 16509.188
+    ## L_Rho_gid[5,4] -0.005708018 3.308158e-01 -0.53852125  0.527397272 14336.906
+    ## L_Rho_gid[5,5]  0.726834569 1.537462e-01  0.45135241  0.936101957  3931.317
+    ## L_Rho_gid[5,6]  0.000000000 0.000000e+00  0.00000000  0.000000000       NaN
+    ## L_Rho_gid[6,1] -0.009440298 3.290773e-01 -0.53211201  0.521619761 12355.309
+    ## L_Rho_gid[6,2] -0.011160354 3.389911e-01 -0.54768306  0.537142946 12474.720
+    ## L_Rho_gid[6,3]  0.002703931 3.353169e-01 -0.53997796  0.537912336 13313.522
+    ## L_Rho_gid[6,4]  0.011093348 3.352601e-01 -0.52968359  0.551351157 13065.630
+    ## L_Rho_gid[6,5]  0.008799761 3.379281e-01 -0.54167817  0.552233775 12656.880
+    ## L_Rho_gid[6,6]  0.638488709 1.724264e-01  0.33702228  0.888328404  4382.575
+    ## Rho_gid[1,1]    1.000000000 0.000000e+00  1.00000000  1.000000000       NaN
+    ## Rho_gid[1,2]    0.027275224 3.325112e-01 -0.51629088  0.562394987 16756.730
+    ## Rho_gid[1,3]   -0.038689366 3.297615e-01 -0.56000331  0.493188357 15052.455
+    ## Rho_gid[1,4]    0.017215757 3.280345e-01 -0.50985776  0.544116772 14008.221
+    ## Rho_gid[1,5]   -0.052077688 3.310675e-01 -0.57552413  0.489427286 15634.889
+    ## Rho_gid[1,6]   -0.009440298 3.290773e-01 -0.53211201  0.521619761 12355.309
+    ## Rho_gid[2,1]    0.027275224 3.325112e-01 -0.51629088  0.562394987 16756.730
+    ## Rho_gid[2,2]    1.000000000 9.075806e-17  1.00000000  1.000000000 10071.390
+    ## Rho_gid[2,3]   -0.005895462 3.383161e-01 -0.55357190  0.542188633 11483.829
+    ## Rho_gid[2,4]    0.003357517 3.335883e-01 -0.53417067  0.541846305 12905.274
+    ## Rho_gid[2,5]   -0.010332885 3.327771e-01 -0.54066397  0.524401775 12053.791
+    ## Rho_gid[2,6]   -0.014267852 3.388800e-01 -0.55264768  0.534838016 10225.131
+    ## Rho_gid[3,1]   -0.038689366 3.297615e-01 -0.56000331  0.493188357 15052.455
+    ## Rho_gid[3,2]   -0.005895462 3.383161e-01 -0.55357190  0.542188633 11483.829
+    ## Rho_gid[3,3]    1.000000000 7.983976e-17  1.00000000  1.000000000  8657.340
+    ## Rho_gid[3,4]   -0.005411849 3.406024e-01 -0.55135806  0.539579640 10516.166
+    ## Rho_gid[3,5]    0.014580715 3.402899e-01 -0.53861445  0.555775850 10293.760
+    ## Rho_gid[3,6]    0.007144715 3.390748e-01 -0.54798203  0.554682610  9273.977
+    ## Rho_gid[4,1]    0.017215757 3.280345e-01 -0.50985776  0.544116772 14008.221
+    ## Rho_gid[4,2]    0.003357517 3.335883e-01 -0.53417067  0.541846305 12905.274
+    ## Rho_gid[4,3]   -0.005411849 3.406024e-01 -0.55135806  0.539579640 10516.166
+    ## Rho_gid[4,4]    1.000000000 8.544818e-17  1.00000000  1.000000000  2402.110
+    ## Rho_gid[4,5]   -0.006943815 3.324914e-01 -0.54207833  0.530568225  8410.322
+    ## Rho_gid[4,6]    0.015621093 3.400384e-01 -0.53637160  0.557108051  8053.704
+    ## Rho_gid[5,1]   -0.052077688 3.310675e-01 -0.57552413  0.489427286 15634.889
+    ## Rho_gid[5,2]   -0.010332885 3.327771e-01 -0.54066397  0.524401775 12053.791
+    ## Rho_gid[5,3]    0.014580715 3.402899e-01 -0.53861445  0.555775850 10293.760
+    ## Rho_gid[5,4]   -0.006943815 3.324914e-01 -0.54207833  0.530568225  8410.322
+    ## Rho_gid[5,5]    1.000000000 7.551527e-17  1.00000000  1.000000000  2540.740
+    ## Rho_gid[5,6]    0.016152214 3.389267e-01 -0.53912770  0.549540832  7102.297
+    ## Rho_gid[6,1]   -0.009440298 3.290773e-01 -0.53211201  0.521619761 12355.309
+    ## Rho_gid[6,2]   -0.014267852 3.388800e-01 -0.55264768  0.534838016 10225.131
+    ## Rho_gid[6,3]    0.007144715 3.390748e-01 -0.54798203  0.554682610  9273.977
+    ## Rho_gid[6,4]    0.015621093 3.400384e-01 -0.53637160  0.557108051  8053.704
+    ## Rho_gid[6,5]    0.016152214 3.389267e-01 -0.53912770  0.549540832  7102.297
+    ## Rho_gid[6,6]    1.000000000 6.707773e-17  1.00000000  1.000000000  9053.776
+    ## beta[1,1]      -0.148286222 6.137138e-01 -1.04740648  0.916148723  5710.250
+    ## beta[1,2]       0.034566661 3.802529e-01 -0.51339059  0.663810229  4591.424
+    ## beta[1,3]      -0.015702318 3.053832e-01 -0.54072212  0.398824324  4214.809
+    ## beta[1,4]      -0.074634957 3.026632e-01 -0.58450424  0.271377954  4316.557
+    ## beta[1,5]      -0.061984027 3.882259e-01 -0.75357629  0.405322587  3887.368
+    ## beta[1,6]      -0.749957152 8.986312e-01 -2.54121555  0.113083948  3634.476
+    ## beta[2,1]       0.814291623 6.552472e-01 -0.09985051  1.973441971  5691.411
+    ## beta[2,2]       0.127093262 4.271344e-01 -0.39451386  0.883413510  5007.075
+    ## beta[2,3]      -0.097331731 3.150513e-01 -0.65786288  0.282942877  4109.760
+    ## beta[2,4]      -0.023863572 2.991618e-01 -0.50822881  0.349295173  4424.055
+    ## beta[2,5]      -0.191294857 4.020061e-01 -0.94079351  0.236425766  3669.148
+    ## beta[2,6]      -0.617722534 8.624075e-01 -2.34920916  0.229290511  3716.160
     ##                    Rhat4
-    ## z_gid[1,1]     1.0007448
-    ## z_gid[1,2]     1.0000817
-    ## z_gid[2,1]     1.0004742
-    ## z_gid[2,2]     1.0004408
-    ## z_gid[3,1]     1.0000788
-    ## z_gid[3,2]     1.0004239
-    ## z_gid[4,1]     0.9999759
-    ## z_gid[4,2]     0.9999712
-    ## z_gid[5,1]     0.9998109
-    ## z_gid[5,2]     0.9998667
-    ## z_gid[6,1]     0.9997238
-    ## z_gid[6,2]     0.9998701
-    ## a[1]           1.0007113
-    ## a[2]           1.0007519
-    ## a[3]           1.0009879
-    ## a[4]           0.9999201
-    ## a[5]           1.0001599
-    ## a[6]           1.0009209
-    ## sigma_gid[1]   1.0005940
-    ## sigma_gid[2]   1.0006310
-    ## sigma_gid[3]   0.9998230
-    ## sigma_gid[4]   1.0014771
-    ## sigma_gid[5]   1.0000562
-    ## sigma_gid[6]   1.0009573
+    ## z_gid[1,1]     1.0000155
+    ## z_gid[1,2]     0.9998204
+    ## z_gid[2,1]     1.0006643
+    ## z_gid[2,2]     1.0002842
+    ## z_gid[3,1]     0.9999816
+    ## z_gid[3,2]     0.9998281
+    ## z_gid[4,1]     1.0001045
+    ## z_gid[4,2]     1.0001772
+    ## z_gid[5,1]     1.0003868
+    ## z_gid[5,2]     1.0002785
+    ## z_gid[6,1]     0.9999198
+    ## z_gid[6,2]     0.9998407
+    ## a[1]           0.9999138
+    ## a[2]           1.0009240
+    ## a[3]           1.0006242
+    ## a[4]           1.0002175
+    ## a[5]           1.0002635
+    ## a[6]           1.0001335
+    ## sigma_gid[1]   0.9999337
+    ## sigma_gid[2]   1.0002595
+    ## sigma_gid[3]   1.0005218
+    ## sigma_gid[4]   0.9999545
+    ## sigma_gid[5]   1.0005187
+    ## sigma_gid[6]   1.0002575
     ## L_Rho_gid[1,1]       NaN
     ## L_Rho_gid[1,2]       NaN
     ## L_Rho_gid[1,3]       NaN
     ## L_Rho_gid[1,4]       NaN
     ## L_Rho_gid[1,5]       NaN
     ## L_Rho_gid[1,6]       NaN
-    ## L_Rho_gid[2,1] 0.9998009
-    ## L_Rho_gid[2,2] 1.0004285
+    ## L_Rho_gid[2,1] 0.9998759
+    ## L_Rho_gid[2,2] 1.0008223
     ## L_Rho_gid[2,3]       NaN
     ## L_Rho_gid[2,4]       NaN
     ## L_Rho_gid[2,5]       NaN
     ## L_Rho_gid[2,6]       NaN
-    ## L_Rho_gid[3,1] 0.9999993
-    ## L_Rho_gid[3,2] 0.9998359
-    ## L_Rho_gid[3,3] 1.0004368
+    ## L_Rho_gid[3,1] 0.9997690
+    ## L_Rho_gid[3,2] 0.9997331
+    ## L_Rho_gid[3,3] 1.0006266
     ## L_Rho_gid[3,4]       NaN
     ## L_Rho_gid[3,5]       NaN
     ## L_Rho_gid[3,6]       NaN
-    ## L_Rho_gid[4,1] 1.0000767
-    ## L_Rho_gid[4,2] 0.9998601
-    ## L_Rho_gid[4,3] 0.9998826
-    ## L_Rho_gid[4,4] 1.0004294
+    ## L_Rho_gid[4,1] 0.9998459
+    ## L_Rho_gid[4,2] 0.9999035
+    ## L_Rho_gid[4,3] 0.9997554
+    ## L_Rho_gid[4,4] 1.0002580
     ## L_Rho_gid[4,5]       NaN
     ## L_Rho_gid[4,6]       NaN
-    ## L_Rho_gid[5,1] 0.9997999
-    ## L_Rho_gid[5,2] 0.9999435
-    ## L_Rho_gid[5,3] 1.0000695
-    ## L_Rho_gid[5,4] 0.9999051
-    ## L_Rho_gid[5,5] 1.0006810
+    ## L_Rho_gid[5,1] 0.9997796
+    ## L_Rho_gid[5,2] 0.9999372
+    ## L_Rho_gid[5,3] 0.9997705
+    ## L_Rho_gid[5,4] 0.9999782
+    ## L_Rho_gid[5,5] 1.0008249
     ## L_Rho_gid[5,6]       NaN
-    ## L_Rho_gid[6,1] 0.9999653
-    ## L_Rho_gid[6,2] 0.9996474
-    ## L_Rho_gid[6,3] 0.9996688
-    ## L_Rho_gid[6,4] 0.9998997
-    ## L_Rho_gid[6,5] 0.9999446
-    ## L_Rho_gid[6,6] 1.0011070
+    ## L_Rho_gid[6,1] 0.9998022
+    ## L_Rho_gid[6,2] 0.9998658
+    ## L_Rho_gid[6,3] 0.9998788
+    ## L_Rho_gid[6,4] 0.9999294
+    ## L_Rho_gid[6,5] 0.9997294
+    ## L_Rho_gid[6,6] 1.0012314
     ## Rho_gid[1,1]         NaN
-    ## Rho_gid[1,2]   0.9998009
-    ## Rho_gid[1,3]   0.9999993
-    ## Rho_gid[1,4]   1.0000767
-    ## Rho_gid[1,5]   0.9997999
-    ## Rho_gid[1,6]   0.9999653
-    ## Rho_gid[2,1]   0.9998009
+    ## Rho_gid[1,2]   0.9998759
+    ## Rho_gid[1,3]   0.9997690
+    ## Rho_gid[1,4]   0.9998459
+    ## Rho_gid[1,5]   0.9997796
+    ## Rho_gid[1,6]   0.9998022
+    ## Rho_gid[2,1]   0.9998759
     ## Rho_gid[2,2]   0.9995999
-    ## Rho_gid[2,3]   0.9998938
-    ## Rho_gid[2,4]   0.9999833
-    ## Rho_gid[2,5]   1.0001518
-    ## Rho_gid[2,6]   0.9998453
-    ## Rho_gid[3,1]   0.9999993
-    ## Rho_gid[3,2]   0.9998938
+    ## Rho_gid[2,3]   0.9997933
+    ## Rho_gid[2,4]   0.9998032
+    ## Rho_gid[2,5]   0.9999717
+    ## Rho_gid[2,6]   0.9998392
+    ## Rho_gid[3,1]   0.9997690
+    ## Rho_gid[3,2]   0.9997933
     ## Rho_gid[3,3]   0.9995999
-    ## Rho_gid[3,4]   0.9997699
-    ## Rho_gid[3,5]   1.0004003
-    ## Rho_gid[3,6]   0.9997216
-    ## Rho_gid[4,1]   1.0000767
-    ## Rho_gid[4,2]   0.9999833
-    ## Rho_gid[4,3]   0.9997699
+    ## Rho_gid[3,4]   0.9997538
+    ## Rho_gid[3,5]   0.9999152
+    ## Rho_gid[3,6]   1.0001021
+    ## Rho_gid[4,1]   0.9998459
+    ## Rho_gid[4,2]   0.9998032
+    ## Rho_gid[4,3]   0.9997538
     ## Rho_gid[4,4]   0.9995999
-    ## Rho_gid[4,5]   1.0000207
-    ## Rho_gid[4,6]   1.0002552
-    ## Rho_gid[5,1]   0.9997999
-    ## Rho_gid[5,2]   1.0001518
-    ## Rho_gid[5,3]   1.0004003
-    ## Rho_gid[5,4]   1.0000207
+    ## Rho_gid[4,5]   1.0000991
+    ## Rho_gid[4,6]   0.9996733
+    ## Rho_gid[5,1]   0.9997796
+    ## Rho_gid[5,2]   0.9999717
+    ## Rho_gid[5,3]   0.9999152
+    ## Rho_gid[5,4]   1.0000991
     ## Rho_gid[5,5]   0.9995999
-    ## Rho_gid[5,6]   0.9999004
-    ## Rho_gid[6,1]   0.9999653
-    ## Rho_gid[6,2]   0.9998453
-    ## Rho_gid[6,3]   0.9997216
-    ## Rho_gid[6,4]   1.0002552
-    ## Rho_gid[6,5]   0.9999004
+    ## Rho_gid[5,6]   1.0004836
+    ## Rho_gid[6,1]   0.9998022
+    ## Rho_gid[6,2]   0.9998392
+    ## Rho_gid[6,3]   1.0001021
+    ## Rho_gid[6,4]   0.9996733
+    ## Rho_gid[6,5]   1.0004836
     ## Rho_gid[6,6]   0.9995999
-    ## beta[1,1]      1.0007224
-    ## beta[1,2]      1.0008347
-    ## beta[1,3]      1.0011107
-    ## beta[1,4]      0.9999318
-    ## beta[1,5]      1.0001812
-    ## beta[1,6]      1.0009198
-    ## beta[2,1]      1.0006087
-    ## beta[2,2]      1.0007249
-    ## beta[2,3]      1.0010186
-    ## beta[2,4]      0.9997923
-    ## beta[2,5]      1.0002183
-    ## beta[2,6]      1.0009437
+    ## beta[1,1]      0.9999006
+    ## beta[1,2]      1.0011356
+    ## beta[1,3]      1.0008206
+    ## beta[1,4]      1.0000214
+    ## beta[1,5]      1.0002491
+    ## beta[1,6]      1.0001444
+    ## beta[2,1]      0.9999039
+    ## beta[2,2]      1.0008792
+    ## beta[2,3]      1.0005842
+    ## beta[2,4]      1.0003888
+    ## beta[2,5]      1.0004296
+    ## beta[2,6]      1.0002740
 
   - compare
 
@@ -1590,19 +1208,20 @@ precis(mpractice13M3.noncentered,depth=3)
 compare(m11.8.ulam,m.practice13M3.a,mpractice13M3.centered,mpractice13M3.noncentered)
 ```
 
-    ##                                WAIC        SE       dWAIC        dSE    pWAIC
-    ## mpractice13M3.noncentered  86.78844  3.949986  0.00000000         NA 5.039300
-    ## mpractice13M3.centered     86.84038  3.878811  0.05194066  0.1494616 5.069909
-    ## m.practice13M3.a           88.73234  3.623472  1.94390053  1.1417933 5.789056
-    ## m11.8.ulam                108.61610 15.611787 21.82766118 15.6205883 9.484722
+    ##                                WAIC        SE      dWAIC       dSE    pWAIC
+    ## mpractice13M3.noncentered  86.95241  3.885793  0.0000000        NA 5.109592
+    ## mpractice13M3.centered     87.49391  3.978872  0.5415085  0.472490 5.420424
+    ## m.practice13M3.a           88.73234  3.623472  1.7799305  1.128228 5.789056
+    ## m11.8.ulam                108.61610 15.611787 21.6636911 15.579122 9.484722
     ##                                 weight
-    ## mpractice13M3.noncentered 4.250388e-01
-    ## mpractice13M3.centered    4.141425e-01
-    ## m.practice13M3.a          1.608111e-01
-    ## m11.8.ulam                7.737704e-06
+    ## mpractice13M3.noncentered 4.600887e-01
+    ## mpractice13M3.centered    3.509575e-01
+    ## m.practice13M3.a          1.889447e-01
+    ## m11.8.ulam                9.091402e-06
 
   - n\_eff “n\_eff is a crude estimate of the number of independent sam-
-    ples you managed to get” (book, pg 287). Smaller is better?
+    ples you managed to get” (book, pg 287). Higher is better (by Julin,
+    March 16, 2020)
 
 <!-- end list -->
 
@@ -1615,7 +1234,7 @@ plot( neff_c , neff_nc , xlab="centered (default)" ,
 abline(a=0,b=1,lty=2)
 ```
 
-![](Chap14_2_HW_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+![](Chap14_2_HW_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
 
 # sessionInfo()
 
