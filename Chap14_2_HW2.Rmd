@@ -149,6 +149,154 @@ precis(m14.1,depth=3)
 ```
 # the end of varying slope test
 
+# new problems (March 20, 2020)
+# 1. 1. Review last weeks material.
+# 2. Update last weeks problems if necessary.  Can you fit non-centered models?  Are you using multivariate normal distributions where appropriate?
+
+# 3. Rongkui's Instrumental Variable problem (see earlier email)
+# read data
+```{r}
+Nightbreak_R.Han_data<-read_csv(file.path("..","Nightbreak_02_08_20_Rclub.csv"))
+summary(Nightbreak_R.Han_data)
+str(Nightbreak_R.Han_data)
+table(Nightbreak_R.Han_data$Treatment)
+Nightbreak_R.Han_data %>% View()
+```
+
+# create Repdocution column
+```{r}
+Nightbreak_R.Han_data <- Nightbreak_R.Han_data %>% mutate(Reproduction=ifelse(Score<3,0,1)) # 0 = vegetative growth, 1 = reproductive growth
+# indexing 
+Nightbreak_R.Han_data.index <- Nightbreak_R.Han_data %>% mutate(trt_i=as.integer(as.factor(Treatment))) # 1=Control, 2=Control_NoCurtain, 3=NightBreak
+Nightbreak_R.Han_data.index <- Nightbreak_R.Han_data.index %>% 
+  mutate(
+  loc1_i=ifelse(loc1=="A",0,1),
+  loc2_i=ifelse(loc2=="A",0,1),
+  loc3_i=ifelse(loc3=="A",0,1),
+  loc4_i=ifelse(loc4=="A",0,1),
+  loc5_i=ifelse(loc5=="A",0,1)) %>% # 0=A,1=P 
+  dplyr::select(Reproduction, contains("_i"))
+
+```
+
+# trt*loc interaction model
+```{r}
+m.RH.Q4.a <- ulam(alist(
+  Reproduction ~ dbinom(1,p),
+                  logit(p) <- a[trt_i] + b1*loc1_i + b2*loc2_i + b3*loc3_i + b4*loc4_i + b5*loc5_i + c1[trt_i]*loc1_i + c2[trt_i]*loc2_i +c3[trt_i]*loc3_i + c4[trt_i]*loc4_i + c5[trt_i]*loc5_i,
+                  a[trt_i]  ~ dnorm(0,1),
+                  b1 ~ dnorm(0, 1),
+                  b2 ~ dnorm(0, 1),
+                  b3 ~ dnorm(0, 1),
+                  b4 ~ dnorm(0, 1),
+                  b5 ~ dnorm(0, 1),
+                  c1[trt_i] ~ dnorm(0,1),
+                  c2[trt_i] ~ dnorm(0,1),
+                  c3[trt_i] ~ dnorm(0,1),
+                  c4[trt_i] ~ dnorm(0,1),
+                  c5[trt_i] ~ dnorm(0,1)),
+            data=Nightbreak_R.Han_data.index,
+            chains=4,
+            cores=2,
+            iter=1000,
+            log_lik = TRUE)
+  
+plot(m.RH.Q4.a, depth=2)
+```
+
+
+# 4. Attached are data from an experiment measuring hypocotyl length in ~ 180 natural arabidopsis accessions grown in high and low red:far-red light.  We want to know if there are differences in accessions in their length in high R:FR ("H") and in their response to low R:FR("L").  Also we want to obtain an estimate for hypocotyl length for each accession in high and low R:FR for downstream GWAS analysis.
+
+# Relevant variables:
+* length -- hypocotyl length
+* line -- unique ID for each accession (you could also use nativename)
+* light -- indicator for high or low RFR
+* exp -- two independent experiments were done
+* plate -- this is an incomplete block design with a subset (10? 12?) of accessions on each plate.
+Let's try a variety of increasingly complex models:
+* reading data
+```{r}
+At.hyp.dat <- read_csv("hyp.lengths.both.experiments.labels.csv")
+str(At.hyp.dat)
+# format dat for exp
+At.hyp.dat2 <- At.hyp.dat %>% mutate(expid=ifelse(exp=="A",0,1))
+# format dat for plate
+At.hyp.dat2 %>% group_by(plate,exp,light,line) %>% summarize(n())
+At.hyp.dat2 <- At.hyp.dat2 %>% mutate(plateid = as.integer(as.factor(plate)))
+# format for light
+At.hyp.dat2 <- At.hyp.dat2 %>% mutate(lightid=ifelse(light=="H",0,1))
+
+```
+
+*1. No pooling
+```{r}
+At.hyp.dat2.s <- At.hyp.dat2 %>% dplyr::select(length,line,lightid,expid,plateid)
+str(At.hyp.dat2.s)
+mAt.hyp.nopooling <- ulam(
+    alist(
+        length ~ normal( mu , sigma ),
+        mu <- a[line] + b[line]*lightid  + c[line]*expid + d[line]*plateid,
+        a[line] ~ normal(0,1),
+        b[line] ~ normal(0,1),
+        c[line] ~ normal(0,1),
+        d[line] ~ normal(0,1),
+        sigma ~ exponential(1),
+    ) , data=At.hyp.dat2.s , chains=4 , cores=2,iter=2000,log_lik=TRUE)
+plot(mAt.hyp.nopooling, depth=2)
+```
+
+
+2.  Partial pooling of intercepts and slopes for line and intercepts for plate and experiment, but treat each variable separately (no multivariate component).  you might also consider adding an experiment slope effect
+```{r}
+mAt.hyp.nopooling <- ulam(
+    alist(
+        length ~ normal( mu , sigma ),
+        mu <- a_line[line] + b_line[line]*light + c_line[line]*exp,
+        c(a_cafe,b_cafe)[cafe] ~ multi_normal( c(a,b) , Rho , sigma_cafe ),
+        a ~ normal(5,2),
+        b ~ normal(-1,0.5),
+        sigma_cafe ~ exponential(1),
+        sigma ~ exponential(1),
+        Rho ~ lkj_corr(2)
+    ) , data=At.hyp.dat2 , chains=4 , cores=2,iter=2000,log_lik=TRUE)
+```
+
+
+3. As 2, but use a multivariate normal model for the line slope and intercept effects
+```{r}
+mAt.hyp.nopooling <- ulam(
+    alist(
+        length ~ normal( mu , sigma ),
+        mu <- a_line[line] + b_line[line]*light + c_line[line]*exp,
+        c(a_line,b_line,c_line)[line] ~ multi_normal( c(a,b,c) , Rho , sigma_line ),
+        a ~ normal(0,1),
+        b ~ normal(0,1),
+        c ~ normal(0,1)
+        sigma_line ~ exponential(1),
+        sigma ~ exponential(1),
+        Rho ~ lkj_corr(2)
+    ) , data=At.hyp.dat2 , chains=4 , cores=2,iter=2000,log_lik=TRUE)
+
+```
+
+4. As 3, but non-centered
+```{r}
+
+```
+
+Evaluate and compare the models.  Is there evidence of line, treatment, and line X treatment effects?  How does the magnitude of the experiment and plate effects compare to the line effects?
+
+
+
+
+
+
+
+
+
+
+
+
 # problems
 ## 13M3. Re-estimate the varying slopes model for the UCBadmit data, now using a non-centered parameterization. Compare the efficiency of the forms of the model, using n_eff. Which is better? Which chain sampled faster?
 
