@@ -1,0 +1,312 @@
+---
+title: "Chap14_2_HW"
+author: "Kazu"
+date: "3/13/2020"
+output:
+  github_document:
+    pandoc_args: --webtex
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
+library(rethinking)
+library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
+```
+
+# test (my rstan had errors so I checked rstan with simple sample from book)
+# multilevel tadpoles
+```{r}
+data(reedfrogs)
+d <- reedfrogs
+str(d)
+d
+# make the tank cluster variable
+d$tank <- 1:nrow(d)
+dat <- list(
+    S = d$surv,
+    N = d$density,
+    tank = d$tank )
+
+```
+
+* varying intercepts model (= simplelst kind of varying effects) 
+
+$$
+Si \sim Bionial(N_i,p_i) \\
+logit(p_i) \sim \alpha_{TANK[i]} \\
+\alpha_j \sim Normal(0,1.5),\ for\ j=1..48 \\
+$$
+
+```{r}
+m13.1 <- ulam(
+    alist(
+        S ~ dbinom( N , p ),
+        logit(p) <- a[tank],
+        a[tank] ~ dnorm( 0 , 1.5 )
+), data=dat, chains=4, log_lik=TRUE ,cores=2) # cores=2 added by Kazu
+precis( m13.1 , depth=2 )
+
+```
+
+# the end of test1
+
+# varying slope test (varying slope version of practice 13M3, (eg. m.practice13M3.b) had error, so I cheched varying slope codes from book)
+## 14.1.1. Simulate the population. 
+```{r R code 14.1}
+a <- 3.5
+b <- (-1)
+sigma_a <- 1
+sigma_b <- 0.5
+rho <- (-0.7)
+# average morning wait time
+# average difference afternoon wait time
+# std dev in intercepts
+# std dev in slopes
+# correlation between intercepts and slopes
+```
+
+```{r}
+Mu <- c( a , b )
+```
+
+```{r}
+cov_ab <- sigma_a*sigma_b*rho
+Sigma <- matrix( c(sigma_a^2,cov_ab,cov_ab,sigma_b^2) , ncol=2 )
+```
+
+```{r}
+ matrix( c(1,2,3,4) , nrow=2 , ncol=2 )
+```
+
+```{r}
+sigmas <- c(sigma_a,sigma_b) # standard deviations
+Rho <- matrix( c(1,rho,rho,1) , nrow=2 ) # correlation matrix
+# now matrix multiply to get covariance matrix
+Sigma <- diag(sigmas) %*% Rho %*% diag(sigmas)
+```
+
+```{r}
+ N_cafes <- 20
+```
+
+```{r}
+library(MASS)
+set.seed(5) # used to replicate example
+vary_effects <- mvrnorm( N_cafes , Mu , Sigma )
+```
+
+```{r}
+a_cafe <- vary_effects[,1]
+b_cafe <- vary_effects[,2]
+```
+
+```{r}
+plot( a_cafe , b_cafe , col=rangi2 ,
+    xlab="intercepts (a_cafe)" , ylab="slopes (b_cafe)" )
+# overlay population distribution
+library(ellipse)
+for ( l in c(0.1,0.3,0.5,0.8,0.99) )
+    lines(ellipse(Sigma,centre=Mu,level=l),col=col.alpha("black",0.2))
+```
+
+# 14.1.2. Simulate observations.
+```{r}
+set.seed(22)
+N_visits <- 10
+afternoon <- rep(0:1,N_visits*N_cafes/2)
+cafe_id <- rep( 1:N_cafes , each=N_visits )
+mu <- a_cafe[cafe_id] + b_cafe[cafe_id]*afternoon
+sigma <- 0.5  # std dev within cafes
+wait <- rnorm( N_visits*N_cafes , mu , sigma )
+d <- data.frame( cafe=cafe_id , afternoon=afternoon , wait=wait )
+```
+
+# 14.1.3. The varying slopes model.
+```{r}
+R <- rlkjcorr( 1e4 , K=2 , eta=2 )
+dens( R[,1,2] , xlab="correlation" )
+```
+
+```{r}
+m14.1 <- ulam(
+    alist(
+        wait ~ normal( mu , sigma ),
+        mu <- a_cafe[cafe] + b_cafe[cafe]*afternoon,
+        c(a_cafe,b_cafe)[cafe] ~ multi_normal( c(a,b) , Rho , sigma_cafe ),
+        a ~ normal(5,2),
+        b ~ normal(-1,0.5),
+        sigma_cafe ~ exponential(1),
+        sigma ~ exponential(1),
+        Rho ~ lkj_corr(2)
+    ) , data=d , chains=4 , cores=2,iter=2000,log_lik=TRUE)
+# What is lkj_corr?
+?rlkjcorr
+?rmultinom # for multi_ormal, correct?
+precis(m14.1,depth=3)
+
+```
+# the end of varying slope test
+
+# new problems (March 20, 2020)
+# 1. 1. Review last weeks material.
+# 2. Update last weeks problems if necessary.  Can you fit non-centered models?  Are you using multivariate normal distributions where appropriate?
+
+# 4. Attached are data from an experiment measuring hypocotyl length in ~ 180 natural arabidopsis accessions grown in high and low red:far-red light.  We want to know if there are differences in accessions in their length in high R:FR ("H") and in their response to low R:FR("L").  Also we want to obtain an estimate for hypocotyl length for each accession in high and low R:FR for downstream GWAS analysis.
+
+# Relevant variables:
+* length -- hypocotyl length
+* line -- unique ID for each accession (you could also use nativename)
+* light -- indicator for high or low RFR
+* exp -- two independent experiments were done
+* plate -- this is an incomplete block design with a subset (10? 12?) of accessions on each plate.
+Let's try a variety of increasingly complex models:
+* reading data
+```{r}
+At.hyp.dat <- read_csv("hyp.lengths.both.experiments.labels.csv")
+str(At.hyp.dat)
+# format dat for exp
+At.hyp.dat2 <- At.hyp.dat %>% mutate(expnid=ifelse(exp=="A",0L,1L))
+# format for light (non index)
+At.hyp.dat2 <- At.hyp.dat2 %>% mutate(lightnid=ifelse(light=="H",0L,1L))
+# format for line
+At.hyp.dat2 <- At.hyp.dat2 %>% mutate(lineid=as.integer(as.factor(line)))
+# format dat for plate
+At.hyp.dat2 %>% group_by(plate,exp,light,line) %>% summarize(n())
+At.hyp.dat2 <- At.hyp.dat2 %>% mutate(plateid = as.integer(as.factor(plate)))
+```
+
+1. No pooling
+```{r}
+At.hyp.dat2.s <- At.hyp.dat2 %>% dplyr::select(length,lineid,lightnid,expnid,plateid)
+str(At.hyp.dat2.s)
+# only line and lightnid
+mAt.hyp.nopooling1 <- ulam(
+    alist(
+        length ~ dnorm( mu , sigma ),
+        mu <- a[lineid] + b[lineid]*lightnid, 
+        a[lineid] ~ dnorm(0,1),
+        b[lineid] ~ dnorm(0,1),        
+        sigma ~ dexp(1)
+    ) , data=At.hyp.dat2.s , chains=4 , cores=2,iter=2000,log_lik=TRUE)
+```
+
+1. scaled normalized length
+* Note: scaled -> mu chould be centered at zero?
+
+```{r}
+At.hyp.dat2.s <- At.hyp.dat2.s %>% mutate(lengthscaled = scale(length))
+str(At.hyp.dat2.s)
+mAt.hyp.nopooling1.scaled <- ulam(
+    alist(
+        lengthscaled ~ dnorm( mu , sigma ),
+        mu <- a[lineid] + b[lineid]*lightnid, 
+        a[lineid] ~ dnorm(0,1),
+        b[lineid] ~ dnorm(0,1),        
+        sigma ~ dexp(1)
+    ) , data=At.hyp.dat2.s , chains=4 , cores=2,iter=2000,log_lik=TRUE)
+
+```
+
+# exp and plate (pending)
+```{r eval=FALSE}
+mAt.hyp.nopooling <- ulam(
+    alist(
+        length ~ dnorm( mu , sigma ),
+        mu <- a[lineid] + b[lineid]*lightnid,   + c[line]*expnid, #+ d[line]*plateid,
+        a[lineid] ~ dnorm(0,1),
+        b[lineid] ~ dnorm(0,1),
+        c[lineid] ~ dnorm(0,1),
+        d[lineid] ~ dnorm(0,1),
+        sigma ~ dexp(1)
+    ) , data=At.hyp.dat2.s , chains=4 , cores=2,iter=2000,log_lik=TRUE)
+plot(mAt.hyp.nopooling1, depth=2)
+```
+
+2.  Partial pooling of intercepts and slopes for line and intercepts for plate and experiment, but treat each variable separately (no multivariate component).  you might also consider adding an experiment slope effect
+
+* try differnt a_bar and a_sigma (see Julin's schript).
+* 
+```{r}
+mAt.hyp.partialpooling <- ulam(
+    alist(
+        length ~ dnorm( mu , sigma ),
+        mu <- a[lineid] + b[lineid]*lightnid, 
+        a[lineid] ~ dnorm(a_bar,a_sigma),
+        b[lineid] ~ dnorm(0,1),  
+        a_bar ~ dnorm(0,0.25),
+        a_sigma ~ dexp(1),
+        sigma ~ dexp(1)
+    ) , data=At.hyp.dat2.s , chains=4 , cores=2,iter=5000,log_lik=TRUE)
+```
+
+
+3. As 2, but use a multivariate normal model for the line slope and intercept effects
+```{r}
+mAt.hyp.multi <- ulam(
+    alist(
+        length ~ normal( mu , sigma ),
+        mu <- a_line[lineid] + b_line[lineid]*lightnid ,
+        c(a_line,b_line)[lineid] ~ multi_normal( c(a,b) , Rho , sigma_line ),
+        a ~ normal(5,2),
+        b ~ normal(-1,0.5),
+        sigma_line ~ dexp(1),
+        sigma ~ dexp(1),
+        Rho ~ lkj_corr(2)
+    ) , data=At.hyp.dat2.s , chains=4 , cores=2,iter=4000,log_lik=TRUE)
+
+```
+
+* check Rho 
+```{r}
+Rho
+```
+
+* Check correlation sun length and response (seeing correlation between )
+```{r}
+# plot raw data
+At.hyp.dat2.summary <- At.hyp.dat2 %>% group_by(lineid,light) %>% summarize(length.mean=mean(length)) %>% spread(key="light",value="length.mean") %>% mutate(response=L-H) 
+p1 <- At.hyp.dat2.summary %>% ggplot(aes(x=H,y=response)) + geom_point()
+p1 + labs(title="mean raw data for each line")
+# extract posterior means of partially pooled estimates
+post <- extract.samples(mAt.hyp.multi) # m14.1 instead of m13.1?
+post$a_line
+a_line <- apply( post$a_line , 2 , mean )
+b_line <- apply( post$b_line , 2 , mean )
+# post.summary <- 
+#   tibble(a_line=a_line,b_line=b_line,lineid=At.hyp.dat2.summary$lineid,light=At.hyp.dat2$light) %>% group_by(lineid,light) %>% summarize(length.mean=mean(length))
+#p2 <- At.hyp.dat2.summary %>% ungroup() %>% mutate(H.pred=a_line,response.pred=b_line)  %>% ggplot(aes(x=H,y=response)) + geom_point() + geom_point(aes(x=H.pred,y=response.pred),color="blue")
+#p2 
+
+p3 <- At.hyp.dat2.summary %>% ungroup() %>% mutate(H.pred=a_line,response.pred=b_line) %>% 
+  ggplot() + geom_point(aes(x=H,y=response)) +
+geom_segment(mapping=aes(x=H, y=response, xend=H.pred, yend=response.pred), arrow=arrow(length = unit(0.1, "inches")), size=1, color="blue") 
+p3 + labs(title="mAt.hyp.multi")
+```
+
+* add 
+
+
+4. As 3, but non-centered
+```{r}
+
+```
+
+Evaluate and compare the models.  Is there evidence of line, treatment, and line X treatment effects?  How does the magnitude of the experiment and plate effects compare to the line effects?
+
+
+
+
+
+
+
+
+
+
+
+# sessionInfo()
+```{r}
+sessionInfo()
+```
+
