@@ -1,5 +1,5 @@
 ---
-title: "Chap14_2_HW"
+title: "Chap14_2_HW3"
 author: "Kazu"
 date: "3/13/2020"
 output:
@@ -238,11 +238,19 @@ mAt.hyp.partialpooling <- ulam(
         a_bar ~ dnorm(0,0.25),
         a_sigma ~ dexp(1),
         sigma ~ dexp(1)
-    ) , data=At.hyp.dat2.s , chains=4 , cores=2,iter=5000,log_lik=TRUE)
+    ) , data=At.hyp.dat2.s , chains=4 , cores=2,iter=4000,log_lik=TRUE)
 ```
 
 
 3. As 2, but use a multivariate normal model for the line slope and intercept effects
+* raw dta mean and sd
+```{r}
+At.hyp.dat2 %>% group_by(lineid,light) %>% summarize(length.mean=mean(length)) %>% spread(key="light",value="length.mean") %>% mutate(response=L-H) %>% ungroup()  %>% summarize(H.mean=mean(H,na.rm = TRUE),H.sd=sd(H,na.rm = TRUE),response.mean=mean(response,na.rm = TRUE),response.sd=sd(response,na.rm = TRUE),num=n())
+```
+
+* unrelative values with raw data
+$$ a \sim Normal(5,2) \\ b \sim Normal(-1,0.5) \\ $$
+
 ```{r}
 mAt.hyp.multi <- ulam(
     alist(
@@ -254,7 +262,7 @@ mAt.hyp.multi <- ulam(
         sigma_line ~ dexp(1),
         sigma ~ dexp(1),
         Rho ~ lkj_corr(2)
-    ) , data=At.hyp.dat2.s , chains=4 , cores=2,iter=4000,log_lik=TRUE)
+    ) , data=At.hyp.dat2.s , chains=4 , cores=2,iter=3000,log_lik=TRUE)
 
 ```
 
@@ -263,6 +271,26 @@ mAt.hyp.multi <- ulam(
 Rho
 ```
 
+* using values with raw data
+$$ a \sim Normal(3.4,1) \\ b \sim Normal(1,0.6) \\ $$
+
+```{r}
+mAt.hyp.multi2 <- ulam(
+    alist(
+        length ~ normal( mu , sigma ),
+        mu <- a_line[lineid] + b_line[lineid]*lightnid ,
+        c(a_line,b_line)[lineid] ~ multi_normal( c(a,b) , Rho , sigma_line ),
+        a ~ normal(3.4,1),
+        b ~ normal(1,0.6),
+        sigma_line ~ dexp(1),
+        sigma ~ dexp(1),
+        Rho ~ lkj_corr(2)
+    ) , data=At.hyp.dat2.s , chains=4 , cores=2,iter=3000,log_lik=TRUE)
+
+```
+
+
+
 * Check correlation sun length and response (seeing correlation between )
 ```{r}
 # plot raw data
@@ -270,15 +298,11 @@ At.hyp.dat2.summary <- At.hyp.dat2 %>% group_by(lineid,light) %>% summarize(leng
 p1 <- At.hyp.dat2.summary %>% ggplot(aes(x=H,y=response)) + geom_point()
 p1 + labs(title="mean raw data for each line")
 # extract posterior means of partially pooled estimates
-post <- extract.samples(mAt.hyp.multi) # m14.1 instead of m13.1?
-post$a_line
+post <- extract.samples(mAt.hyp.multi) 
+post$a_line %>% head()
 a_line <- apply( post$a_line , 2 , mean )
 b_line <- apply( post$b_line , 2 , mean )
-# post.summary <- 
-#   tibble(a_line=a_line,b_line=b_line,lineid=At.hyp.dat2.summary$lineid,light=At.hyp.dat2$light) %>% group_by(lineid,light) %>% summarize(length.mean=mean(length))
-#p2 <- At.hyp.dat2.summary %>% ungroup() %>% mutate(H.pred=a_line,response.pred=b_line)  %>% ggplot(aes(x=H,y=response)) + geom_point() + geom_point(aes(x=H.pred,y=response.pred),color="blue")
-#p2 
-
+# 
 p3 <- At.hyp.dat2.summary %>% ungroup() %>% mutate(H.pred=a_line,response.pred=b_line) %>% 
   ggplot() + geom_point(aes(x=H,y=response)) +
 geom_segment(mapping=aes(x=H, y=response, xend=H.pred, yend=response.pred), arrow=arrow(length = unit(0.1, "inches")), size=1, color="blue") 
