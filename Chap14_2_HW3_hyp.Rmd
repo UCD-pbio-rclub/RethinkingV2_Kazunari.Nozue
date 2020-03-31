@@ -249,7 +249,8 @@ At.hyp.dat2 %>% group_by(lineid,light) %>% summarize(length.mean=mean(length)) %
 ```
 
 * unrelative values with raw data
-$$ a \sim Normal(5,2) \\ b \sim Normal(-1,0.5) \\ $$
+$$ a \sim Normal(1,1) \\ b \sim Normal(0,0.5) \\ $$
+
 
 ```{r}
 mAt.hyp.multi <- ulam(
@@ -257,8 +258,8 @@ mAt.hyp.multi <- ulam(
         length ~ normal( mu , sigma ),
         mu <- a_line[lineid] + b_line[lineid]*lightnid ,
         c(a_line,b_line)[lineid] ~ multi_normal( c(a,b) , Rho , sigma_line ),
-        a ~ normal(5,2),
-        b ~ normal(-1,0.5),
+        a ~ normal(1,1),
+        b ~ normal(0,0.5),
         sigma_line ~ dexp(1),
         sigma ~ dexp(1),
         Rho ~ lkj_corr(2)
@@ -294,8 +295,15 @@ mAt.hyp.multi2 <- ulam(
 * Check correlation sun length and response (seeing correlation between )
 ```{r}
 # plot raw data
-At.hyp.dat2.summary <- At.hyp.dat2 %>% group_by(lineid,light) %>% summarize(length.mean=mean(length)) %>% spread(key="light",value="length.mean") %>% mutate(response=L-H) 
-p1 <- At.hyp.dat2.summary %>% ggplot(aes(x=H,y=response)) + geom_point()
+At.hyp.dat2.summary1 <- At.hyp.dat2 %>% group_by(lineid,light) %>% summarize(length.mean=mean(length)) %>% spread(key="light",value="length.mean") %>% mutate(response=L-H) 
+At.hyp.dat2.summary2 <- At.hyp.dat2 %>% group_by(lineid,light) %>% summarize(num=n()) %>% spread(key="light",value="num") %>% rename(num.H=H,num.L=L)
+
+At.hyp.dat2.summary <- At.hyp.dat2.summary1 %>% left_join(At.hyp.dat2.summary2,by="lineid")
+
+# 
+At.hyp.dat2.summary
+
+p1 <- At.hyp.dat2.summary %>% ggplot(aes(x=H,y=response)) + geom_point(aes(size=num.H))
 p1 + labs(title="mean raw data for each line")
 # extract posterior means of partially pooled estimates
 post <- extract.samples(mAt.hyp.multi) 
@@ -304,9 +312,20 @@ a_line <- apply( post$a_line , 2 , mean )
 b_line <- apply( post$b_line , 2 , mean )
 # 
 p3 <- At.hyp.dat2.summary %>% ungroup() %>% mutate(H.pred=a_line,response.pred=b_line) %>% 
-  ggplot() + geom_point(aes(x=H,y=response)) +
+  ggplot() + geom_point(aes(x=H,y=response,size=num.H),alpha=0.3) + geom_point(aes(x=H.pred,y=response.pred,size=num.L),shape=21) +
 geom_segment(mapping=aes(x=H, y=response, xend=H.pred, yend=response.pred), arrow=arrow(length = unit(0.1, "inches")), size=1, color="blue") 
 p3 + labs(title="mAt.hyp.multi")
+# raw data mean + sd as prior
+post2 <- extract.samples(mAt.hyp.multi2) 
+a_line2 <- apply( post2$a_line , 2 , mean )
+b_line2 <- apply( post2$b_line , 2 , mean )
+
+p4 <- At.hyp.dat2.summary %>% ungroup() %>% mutate(H.pred2=a_line2,response.pred2=b_line2) %>% 
+  ggplot() + geom_point(aes(x=H,y=response,size=num.H),alpha=0.3) + geom_point(aes(x=H.pred2,y=response.pred2,size=num.L),shape=21) +
+geom_segment(mapping=aes(x=H, y=response, xend=H.pred2, yend=response.pred2), arrow=arrow(length = unit(0.1, "inches")), size=1, color="blue") 
+
+p4 + labs(title="mAt.hyp.multi2")
+
 ```
 
 * add 
