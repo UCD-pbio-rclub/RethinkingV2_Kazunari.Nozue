@@ -1,0 +1,189 @@
+---
+title: "Chap14_3"
+author: "Kazu"
+date: "4/1/2020"
+output: 
+  html_document: 
+    keep_md: yes
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
+library(rethinking)
+library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
+```
+
+# 14.4. Social relations as correlated varying effects
+```{r}
+data(KosterLeckie) # Gift exchange data
+?KosterLeckie
+kl_dyads
+kl_households
+```
+
+```{r R code 14.30}
+kl_data <- list(
+    N = nrow(kl_dyads),
+    N_households = max(kl_dyads$hidB),
+    did = kl_dyads$did,
+    hidA = kl_dyads$hidA,
+    hidB = kl_dyads$hidB,
+    giftsAB = kl_dyads$giftsAB,
+    giftsBA = kl_dyads$giftsBA
+)
+m14.4 <- ulam(
+    alist(
+        giftsAB ~ poisson( lambdaAB ),
+        giftsBA ~ poisson( lambdaBA ),
+        log(lambdaAB) <- a + gr[hidA,1] + gr[hidB,2] + d[did,1] ,
+        log(lambdaBA) <- a + gr[hidB,1] + gr[hidA,2] + d[did,2] ,
+        a ~ normal(0,1),
+       ## gr matrix of varying effects
+       vector[2]:gr[N_households] ~ multi_normal(0,Rho_gr,sigma_gr),
+    Rho_gr ~ lkj_corr(4),
+    sigma_gr ~ exponential(1),
+   ## dyad effects
+    transpars> matrix[N,2]:d <-
+            compose_noncentered( rep_vector(sigma_d,2) , L_Rho_d , z ),
+    matrix[2,N]:z ~ normal( 0 , 1 ),
+    cholesky_factor_corr[2]:L_Rho_d ~ lkj_corr_cholesky( 8 ),
+    sigma_d ~ exponential(1),
+   ## compute correlation matrix for dyads
+    gq> matrix[2,2]:Rho_d <<- Chol_to_Corr( L_Rho_d )
+), data=kl_data , chains=4 , cores=4 , iter=2000 )
+
+```
+
+# HW (April 3, 2020). PDF3
+
+```{r}
+data(bangladesh) # Contraceptive use data from 1934 Bangladeshi women.
+```
+
+```{r R code 13.39}
+d <- bangladesh # right?
+ sort(unique(d$district))
+```
+* District 54 is absent. So district isn’t yet a good index variable, because it’s not contiguous. 
+
+* indexing district
+```{r R code 13.40}
+ d$district_id <- as.integer(as.factor(d$district))
+sort(unique(d$district_id))
+```
+* Now there are 60 values, contiguous integers 1 to 60. (from book)
+
+Revisit 13H1 using the data.
+* predicting use.contraception
+* raw data analysis
+```{r}
+# check raw data
+d <- d %>% mutate(use.contraception =as.character(use.contraception))
+d  %>% ggplot(aes(x=district_id,fill=use.contraception)) + geom_bar(position="fill") + scale_y_continuous(labels = scales::percent)
+# 
+d.summary1 <- d %>% group_by(district_id) %>% summarise(num.all=n())
+
+d.summary2 <- d %>% group_by(district_id) %>% count(use.contraception) %>% filter(use.contraception==1) %>% rename(num.use=n)
+d.summary <- d.summary1 %>% left_join(d.summary2,by="district_id") 
+d.summary %>% View
+d %>% filter(district_id %in% c(11,49)) # zero
+d.summary$use.contraception[is.na(d.summary$use.contraception)] <- 0
+d.summary$use.contraception[is.na(d.summary$num.use)] <- 0
+# calculate rate use
+d.summary <- d.summary %>% mutate(rate.use = num.use/num.all)
+# add living children
+d.summary3 <- d %>% group_by(district_id) %>% summarize(living.children.mean=mean(living.children))
+# urban rate
+d.summary4 <- d %>% group_by(district_id) %>% count(urban) %>% spread(key="urban",value="n") %>% mutate(urban=replace_na(`1`,0))
+# combine all
+d.summary <- d.summary %>% left_join(d.summary3, by="district_id") %>% left_join(d.summary4 %>% dplyr::select(district_id,urban), by="district_id") %>% dplyr::select(district_id, num.all,num.use,rate.use,living.children.mean,urban) %>% mutate(urban.rate=urban/num.all)
+# plot
+d.summary %>% ggplot(aes(x=urban.rate,y=rate.use)) +geom_point(aes(size=living.children.mean))
+d.summary %>% ggplot(aes(x=living.children.mean,y=rate.use)) +geom_point(aes(size=urban.rate))
+```
+
+# model1
+```{r}
+d1 <- with(d, 
+          list(use=as.integer(use.contraception), d_id=district_id, urban=urban))
+str(d1)
+
+m.Bangladish1 <- ulam(
+    alist(
+        use ~ dbinom(1, p),
+  logit(p) <- a[d_id] + b[d_id]*urban,
+  a[d_id] ~ dnorm(a_bar,sigma_a),
+  b[d_id] ~ dnorm(b_bar,sigma_b),
+  a_bar ~ dnorm(0,1),
+  b_bar ~ dnorm(0,1),
+  c(sigma_a, sigma_b) ~ dexp(1)), data=d1 , chains=4 , cores=2 , iter=1000 )
+
+precis(m.Bangladish1,depth=2)
+```
+
+* correlation of intercept and slope. plot the varying effect estimates for both the intercepts and slopes, by district.
+```{r}
+# extract posterior means of partially pooled estimates
+post <- extract.samples(m.Bangladish1) 
+post$a %>% head()
+a <- apply( post$a , 2 , mean )
+b <- apply( post$b , 2 , mean )
+# plot
+tibble(a=a,b=b) %>% ggplot() + geom_point(aes(x=a,y=b))  
+
+```
+*KN: There are correlation
+
+* Plotting predicted proportion of women using contraception, in each district, with urban women on one axis and rural on the other, might also help.
+```{r}
+
+```
+
+
+# pdf2.
+* Now consider the predictor variables age.centered and living.children, also contained in data(bangladesh). Suppose that age influences contraceptive use (changing attitudes) and number of children (older people have had more time to have kids). Number of children may also directly influence contraceptive use. 
+* Draw a DAG that reflects these hypothetical relationships. 
+```{r}
+library(dagitty)
+dagpdf2 <- dagitty(" dag {
+  age -> use
+  age -> n_child
+  n_child -> use
+}")
+coordinates(dagpdf2) <- list(
+  x=c(use=3, age=2, n_child=2),
+  y=c(use=2, age=1, n_child=3))
+drawdag(dagpdf2) 
+```
+*Then build models needed to evaluate the DAG. You will need at least two models. Retain district and urban, as in Problem 1. What do you conclude about the causal influence of age and children?
+```{r}
+d2 <- with(d, 
+          list(use=as.integer(use.contraception), d_id=district_id, urban=urban,age=living.children,children=living.children))
+str(d2)
+
+```
+# model m.Bangladish2.1 with urban and children
+```{r}
+
+```
+
+
+# model m.Bangladish2.2 wit hurban, children, and age
+```{r}
+
+```
+
+# compare two models
+```{r}
+
+```
+
+
+
+# pdf3. Modify any models from Problem 2 that contained that children variable and model the variable now as a monotonic ordered category, like education from the week we did ordered categories. Education in that example had 8 categories. Chil- dren here will have fewer (no one in the sample had 8 children). So modify the code appropriately. What do you conclude about the causal influence of each additional child on use of contraception?
+```{r}
+
+```
+
