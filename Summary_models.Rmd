@@ -3,6 +3,8 @@ title: "Summary of models"
 output:
   github_document:
     pandoc_args: --webtex
+editor_options: 
+  chunk_output_type: console
 ---
 
 # prep

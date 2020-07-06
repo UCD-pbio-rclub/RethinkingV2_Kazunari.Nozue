@@ -56,6 +56,12 @@ m14.4 <- ulam(
 
 ```
 
+#
+```{r}
+precis( m14.4 , depth=3 , pars=c("Rho_gr","sigma_gr") )
+```
+
+
 # HW (April 3, 2020). PDF3
 
 ```{r}
@@ -164,6 +170,9 @@ d2 <- with(d,
 str(d2)
 
 ```
+* MO: Needs to be standardized?
+** MO: What is the differences between scale and standardize? Look standardize() 
+
 # model m.Bangladish2.1 with urban and children
 ```{r}
 
@@ -182,8 +191,12 @@ str(d2)
 
 
 
-# pdf3. Modify any models from Problem 2 that contained that children variable and model the variable now as a monotonic ordered category, like education from the week we did ordered categories. Education in that example had 8 categories. Chil- dren here will have fewer (no one in the sample had 8 children). So modify the code appropriately. What do you conclude about the causal influence of each additional child on use of contraception?
+# pdf3. Modify any models from Problem 2 that contained that children variable and model the variable now as a monotonic ordered category, like education from the week we did ordered categories. Education in that example had 8 categories. Children here will have fewer (no one in the sample had 8 children). So modify the code appropriately. What do you conclude about the causal influence of each additional child on use of contraception?
 ```{r}
 
+```
+
+```{r}
+sessionInfo()
 ```
 

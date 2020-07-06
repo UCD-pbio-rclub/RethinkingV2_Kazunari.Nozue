@@ -1,0 +1,110 @@
+---
+title: "Chap14_5_July7_2020"
+author: "Kazu"
+date: "7/5/2020"
+output: 
+  html_document: 
+    keep_md: yes
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
+```
+
+# 1) Load the data as follows:
+```{r}
+library(tidyverse)
+library(rethinking)
+library(ape)
+library(ade4)
+data("carni70")
+tre <- read.tree(text=carni70$tre)
+d <- carni70$tab
+?carni70
+# "This data set describes the phylogeny of 70 carnivora as reported by Diniz-Filho and Torres (2002). It also gives the geographic range size and body size corresponding to these 70 species."
+```
+
+# 2) Note that the species name given in "rownames(d)" and in "tre$tip.label" do not match.  Fix that (e.g. using str_replace() )
+```{r}
+rownames(d) # "_"
+tre$tip.label # "."  
+tre$tip.label %in% str_replace(rownames(d),"_","\\.") # all "TRUE"
+# copied from R code 14.47
+spp_obs <- str_replace(rownames(d), pattern="_", replacement = ".")
+tree_trimmed <- keep.tip( tre, spp_obs )
+
+```
+
+# 3) Should either range or size be transformed?
+```{r}
+d %>% ggplot(aes(x=size)) + geom_histogram()
+d %>% ggplot(aes(x=range)) + geom_histogram()
+# When I need to think about tranformation?
+
+# correlation between size and range?
+d %>% ggplot(aes(x=log(size),y=log(range))) + geom_point()
+             
+# I do not know. Anyway standardize? (see R code 14.48)
+dat_list <- list(
+    N_spp = nrow(d),
+    logsize = standardize(log(d$size)),
+    logrange = standardize(log(d$range)),
+    Imat = diag( nrow(d) )
+)
+
+# R code 14.49
+Rbm <- corBrownian( phy=tree_trimmed )
+V <- vcv(Rbm) # warning
+Dmat <- cophenetic( tree_trimmed )
+plot( Dmat , V , xlab="phylogenetic distance" , ylab="covariance" )
+```
+
+# 4) Does size predict range?  Evaluate this question without and with accounting for phylogenetic relationships.
+
+# copy and modified from R code 14.50
+```{r}
+# put species in right order
+dat_list$V <- V[ spp_obs , spp_obs ]
+# convert to correlation matrix
+dat_list$R <- dat_list$V / max(V)
+# add scaled and reordered distance matrix
+dat_list$Dmat <- Dmat[ spp_obs , spp_obs ] / max(Dmat)
+
+# Brownian motion model
+m14.9.mod <- ulam(
+    alist(
+        logrange ~ multi_normal( mu , SIGMA ),
+        mu <- a + b*logsize,
+        matrix[N_spp,N_spp]: SIGMA <- R * sigma_sq,
+        a ~ normal( 0 , 1 ),
+        b ~ normal( 0 , 0.5 ),
+        sigma_sq ~ exponential( 1 )
+    ), data=dat_list , chains=4 , cores=4)
+precis( m14.9.mod )
+```
+
+# Copy and modified R coe 14.51
+```{r R code 14.51}
+# add scaled and reordered distance matrix
+dat_list$Dmat <- Dmat[ spp_obs , spp_obs ] / max(Dmat)
+m14.10.mod <- ulam(
+    alist(
+        logrange ~ multi_normal( mu , SIGMA ),
+        mu <- a + b*logsize,
+        matrix[N_spp,N_spp]: SIGMA <- cov_GPL2( Dmat , etasq , rhosq , 0.01 ),
+        a ~ normal(0,1),
+        b ~ normal(0,0.5),
+        etasq ~ exponential(1),
+        rhosq ~ exponential(1)
+    ), data=dat_list , chains=4 , cores=4 )
+precis( m14.10.mod )
+```
+* Since b is positive and slighly higher (0.39 or 0.36) in both models, log size matters.
+
+# 5) Discuss your findings.
+```{r}
+
+```
+

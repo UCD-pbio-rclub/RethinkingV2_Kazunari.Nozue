@@ -126,6 +126,7 @@ points( 1:28+xo , p_mu , pch=c(1,1,16,16) )
 
 # 14.3. Instrumental variables and front doors
 ## 14.3.1. Instrumental variables. 
+* Education example
 ```{r R code 14.23}
  set.seed(73)
 N <- 500
