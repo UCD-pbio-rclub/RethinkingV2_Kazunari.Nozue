@@ -1,0 +1,170 @@
+---
+title: "Chap15_July13_July20_2020"
+author: "Kazu"
+date: "7/5/2020"
+output: 
+  html_document: 
+    keep_md: yes
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=TRUE,cache = FALSE)
+library(rethinking)
+library(lme4);library(lmerTest);library(ggplot2);library(reshape2);library(tidyverse);library(readr)
+```
+
+# Practice (July 20)
+PDF #1 and 2 https://github.com/rmcelreath/statrethinking_winter2019/blob/master/homework/week10.pdf
+* 1. Consider the relationship between brain volume (brain) and bodymass(body) in the data(Primates301). These values are presented as single values for each species. However, there is always a range of sizes in a species, and some of these measurements are taken from very small samples. So these values are measured with some unknown error.
+We don’t have the raw measurements to work with—that would be best. But we can imagine what might happen if we had them. Suppose error is proportional to the measurement. This makes sense, because larger animals have larger variation. As a consequence, the uncertainty is not uniform across the values and this could mean trouble.
+Let’s make up some standard errors for these measurements, to see what might happen. Load the data and scale the the measurements so the maximum is 1 in both cases:
+```{r}
+data(Primates301)
+d <- Primates301
+cc <- complete.cases( d$brain , d$body )
+B <- d$brain[cc]
+M <- d$body[cc]
+B <- B / max(B)
+M <- M / max(M)
+```
+* Now I’ll make up some standard errors for B and M, assuming error is 10% of the measurement.
+```{r}
+Bse <- B*0.1
+Mse <- M*0.1
+```
+* Let’s model these variables with this relationship:
+* Bi ∼ Log-Normal(μi, σ)
+* μi =α+βlogMi 1
+
+* This says that brain volume is a log-normal variable, and the mean on the log scale is given by μ. What this model implies is that the expected value of B is:
+* E(Bi|Mi) = exp(α)Mβi
+* So this is a standard allometric scaling relationship—incredibly common in biology.
+* Ignoring measurement error, the corresponding ulam model is:
+```{r}
+dat_list <- list(
+    B = B,
+M=M)
+m1.1 <- ulam(
+    alist(
+        B ~ dlnorm( mu , sigma ),
+        mu <- a + b*log(M),
+        a ~ normal(0,1),
+        b ~ normal(0,1),
+        sigma ~ exponential(1)
+    ) , data=dat_list,chains=4,cores=2,iter=2000)
+```
+* Your job is to add the measurement errors to this model. Use the divorce/marriage example in the chapter as a guide. It might help to initialize the unobserved true values of B and M using the observed values, by adding a list like this to ulam:
+```{r}
+ start=list( M_true=dat_list$M , B_true=dat_list$B,log_lik = T)
+```
+
+# Answer (Kazu)
+```{r}
+# dlist <- list(
+#     D_obs = standardize( d$Divorce ),
+#     D_sd = d$Divorce.SE / sd( d$Divorce ),
+#     M_obs = standardize( d$Marriage ),
+#     M_sd = d$Marriage.SE / sd( d$Marriage ),
+#     A = standardize( d$MedianAgeMarriage ),
+#     N = nrow(d)
+# )
+# 
+# m15.2 <- ulam(
+#     alist(
+#         D_obs ~ dnorm( D_true , D_sd ),
+#         vector[N]:D_true ~ dnorm( mu , sigma ),
+#         mu <- a + bA*A + bM*M_true[i],
+#         M_obs ~ dnorm( M_true , M_sd ),
+#         vector[N]:M_true ~ dnorm( 0 , 1 ),
+#         a ~ dnorm(0,0.2),
+#         bA ~ dnorm(0,0.5),
+#         bM ~ dnorm(0,0.5),
+#         sigma ~ dexp( 1 )
+#     ) , data=dlist , chains=4 , cores=4 )
+dat_list$M_sd <- Mse/sd(dat_list$M)
+dat_list$B_sd <- Bse/sd(dat_list$B)
+dat_list$N <- sum(cc)
+
+m1.2 <- ulam(
+    alist(
+        B_obs ~ dnorm(B_true,B_sd),
+        vector[N]:B_true ~ dlnorm( mu , sigma ),
+        mu <- a + b*log(M_true[i]),
+        M_obs ~dnorm(M_true,M_sd),
+        vector[N]:M_true ~ dnorm(0,1),
+        a ~ normal(0,1),
+        b ~ normal(0,1),
+        sigma ~ exponential(1)
+    ) , data=dat_list,
+    start=list( M_true=dat_list$M , B_true=dat_list$B ),
+    chains=4,cores=2,iter=5000)
+# "log_lik = T" gave me " no parameter log_lik; sampling not done"
+```
+
+* Why following does not work?
+```{r}
+dat_list2 <- list(
+  M_true=dat_list$M, 
+  B_true=dat_list$B,
+  M_sd = Mse/sd(dat_list$M),
+  B_sd = Bse/sd(dat_list$B),
+  N = sum(cc)
+  )
+m1.3 <- ulam(
+    alist(
+        B_obs ~ dnorm(B_true,B_sd),
+        vector[N]:B_true ~ dlnorm( mu , sigma ),
+        mu <- a + b*log(M_true[i]),
+        M_obs ~dnorm(M_true,M_sd),
+        vector[N]:M_true ~ dnorm(0,1),
+        a ~ normal(0,1),
+        b ~ normal(0,1),
+        sigma ~ exponential(1)
+    ) , data=dat_list2,
+    chains=4,cores=2,iter=5000)
+# "log_lik = T" gave me " no parameter log_lik; sampling not done"
+```
+
+
+* Compare the inference of the measurement error model to those of m1.1 above. Has anything changed? Why or why not?
+```{r}
+precis( m1.1 , depth=3 )
+precis( m1.2 , depth=3 )
+compare(m1.1,m1.2)
+```
+
+
+
+# 2. Now consider missing values—this data set is lousy with them. You can ignore measurement error in this problem. Let’s get a quick idea of the missing values by counting them in each variable:
+```{r}
+library(rethinking)
+data(Primates301)
+d <- Primates301
+colSums( is.na(d) )
+```
+
+* We’ll continue to focus on just brain and body, to stave off insanity. Consider only those species with measured body masses:
+```{r}
+cc <- complete.cases( d$body )
+M <- d$body[cc]
+M <- M / max(M)
+B <- d$brain[cc]
+B <- B / max( B , na.rm=TRUE )
+```
+
+* You should end up with 238 species and 56 missing brain values among them. First, consider whether there is a pattern to the missing values. Does it look like missing values are associated with particular values of body mass? Draw a DAG that represents how missingness works in this case. Which type (MCAR, MAR, MNAR)
+is this?
+Second, impute missing values for brain size. It might help to initialize the 56
+imputed variables to a valid value:
+```{r}
+ start=list( B_impute=rep(0.5,56) )
+```
+
+* This just helps the chain get started.
+* Compare the inferences to an analysis that drops all the missing values. Has any-
+thing changed? Why or why not? Hint: Consider the density of data in the ranges where there are missing values. You might want to plot the imputed brain sizes to- gether with the observed values.
+
+# optional 15H4
+

@@ -108,3 +108,9 @@ precis( m14.10.mod )
 
 ```
 
+# note
+```{r}
+# Megan alighned size and range, heatmap and phylogeny
+
+```
+
