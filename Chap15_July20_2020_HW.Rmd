@@ -1,7 +1,7 @@
 ---
-title: "Chap15_July13_July20_2020"
+title: "Chap15_July20_2020_HW"
 author: "Kazu"
-date: "7/5/2020"
+date: "7/20/2020"
 output: 
   html_document: 
     keep_md: yes
@@ -103,7 +103,7 @@ m1.2 <- ulam(
 # "log_lik = T" gave me " no parameter log_lik; sampling not done"
 ```
 
-* Why following does not work?
+* Why following is not used?
 ```{r}
 dat_list2 <- list(
   M_true=dat_list$M, 
@@ -130,11 +130,18 @@ m1.3 <- ulam(
 
 * Compare the inference of the measurement error model to those of m1.1 above. Has anything changed? Why or why not?
 ```{r}
-precis( m1.1 , depth=3 )
-precis( m1.2 , depth=3 )
-compare(m1.1,m1.2)
+precis( m1.1 )
+```
+```{r}
+precis( m1.2 )
+```
+```{r}
+precis( m1.3 )
 ```
 
+```{r}
+compare(m1.1,m1.2) # "log_lik = T" did not work in m1.2 , os I am not able to use compare()
+```
 
 
 # 2. Now consider missing values—this data set is lousy with them. You can ignore measurement error in this problem. Let’s get a quick idea of the missing values by counting them in each variable:
@@ -156,6 +163,11 @@ B <- B / max( B , na.rm=TRUE )
 
 * You should end up with 238 species and 56 missing brain values among them. First, consider whether there is a pattern to the missing values. Does it look like missing values are associated with particular values of body mass? Draw a DAG that represents how missingness works in this case. Which type (MCAR, MAR, MNAR)
 is this?
+```{r}
+
+```
+
+
 Second, impute missing values for brain size. It might help to initialize the 56
 imputed variables to a valid value:
 ```{r}
